@@ -11,7 +11,6 @@ public abstract class AbstractSortedMapIndex<T_ValueType extends Comparable<T_Va
 
 	protected SortedMap<T_ValueType, Constraint<T_ValueType>> constraints;
 
-
 	protected AbstractSortedMapIndex() {
 		this(null);
 	}

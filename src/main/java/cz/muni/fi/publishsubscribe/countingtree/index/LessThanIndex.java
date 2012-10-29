@@ -11,8 +11,6 @@ public class LessThanIndex<T_ValueType extends Comparable<T_ValueType>> extends 
 	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
 		List<Constraint<T_ValueType>> constraintList = new ArrayList<Constraint<T_ValueType>>(this.constraints.headMap(attributeValue).values());
 
-		Index i = new LessThanIndex<Long>();
-
 		return constraintList;
 	}
 }
