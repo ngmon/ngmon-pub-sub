@@ -17,7 +17,7 @@ public class Constraint<T_ConstraintType> {
 		return attributeName;
 	}
 
-	public AttributeValue getAttributeValue() {
+	public AttributeValue<T_ConstraintType> getAttributeValue() {
 		return attributeValue;
 	}
 

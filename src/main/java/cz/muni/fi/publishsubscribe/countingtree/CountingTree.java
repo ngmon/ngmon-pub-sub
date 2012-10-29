@@ -12,7 +12,7 @@ public class CountingTree {
 
 	private Long subscriptionCounter = 1L;
 	private List<Predicate> predicates = new ArrayList<Predicate>();
-	private EqualityIndex indexTable = null;
+	private EqualityMatcher matcher = null;
 
 	public Long subscribe(Predicate predicate) {
 		this.predicates.add(predicate);
@@ -34,9 +34,9 @@ public class CountingTree {
 
 	public void createIndexTable() {
 		if (predicates != null && !predicates.isEmpty()) {
-			indexTable = new EqualityIndex(predicates);
+			matcher = new EqualityMatcher(predicates);
 		} else {
-			indexTable = null;
+			matcher = null;
 		}
 	}
 
@@ -55,7 +55,7 @@ public class CountingTree {
 
 	public List<Predicate> match(Event event) {
 
-		if (indexTable == null) {
+		if (matcher == null) {
 			return new ArrayList<Predicate>();
 		}
 		
@@ -67,7 +67,7 @@ public class CountingTree {
 		Set<Predicate> matched = new HashSet<Predicate>();
 
 		// first get the filters associated to the matching constraints
-		List<Filter> matchingFilters = indexTable.getMatchingFilters(event);
+		List<Filter> matchingFilters = matcher.getMatchingFilters(event);
 		
 		for (Filter filter : matchingFilters) {
 			Predicate predicate = filter.getPredicate();

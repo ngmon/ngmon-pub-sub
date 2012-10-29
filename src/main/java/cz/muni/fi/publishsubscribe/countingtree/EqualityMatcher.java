@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EqualityIndex {
+public class EqualityMatcher {
 
 	// private HashMap<String, TableConstraint> attributeNamesMap = new
 	// HashMap<String, TableConstraint>();
@@ -12,7 +12,7 @@ public class EqualityIndex {
 	/** Map from attribute name to equality index */
 	private HashMap<String, HashMap<AttributeValue, TableConstraint>> equalityMaps = new HashMap<String, HashMap<AttributeValue, TableConstraint>>();
 
-	public EqualityIndex(List<Predicate> predicates) {
+	public EqualityMatcher(List<Predicate> predicates) {
 		for (Predicate subscription : predicates) {
 
 			List<Filter> predicate = subscription.getFilters();
