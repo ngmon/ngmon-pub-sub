@@ -5,7 +5,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GreaterThanOrEqualsIndex<T_ValueType> extends AbstractSortedMapIndex<T_ValueType> {
+public class GreaterThanOrEqualsIndex<T_ValueType extends Comparable<T_ValueType>> extends AbstractSortedMapIndex<T_ValueType> {
 
 	@Override
 	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
