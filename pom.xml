@@ -4,7 +4,7 @@
 	<groupId>cz.muni.fi.publish-subscibe</groupId>
 	<artifactId>counting-tree</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Counting tree</name>
+	<attributeName>Counting tree</attributeName>
 
 	<dependencies>
 		<dependency>

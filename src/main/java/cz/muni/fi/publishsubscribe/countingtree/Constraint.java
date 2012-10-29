@@ -1,20 +1,20 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class Constraint {
+public class Constraint<T_ConstraintType> {
 
-	private String name;
-	private AttributeValue attributeValue;
+	private String attributeName;
 	private Operator operator;
+	private AttributeValue<T_ConstraintType> attributeValue;
 
-	public Constraint(String name, AttributeValue attributeValue,
+	public Constraint(String attributeName, AttributeValue<T_ConstraintType> attributeValue,
 	                  Operator operator) {
-		this.name = name;
+		this.attributeName = attributeName;
 		this.attributeValue = attributeValue;
 		this.operator = operator;
 	}
 
-	public String getName() {
-		return name;
+	public String getAttributeName() {
+		return attributeName;
 	}
 
 	public AttributeValue getAttributeValue() {
@@ -32,7 +32,7 @@ public class Constraint {
 
 		Constraint that = (Constraint) o;
 
-		if (!name.equals(that.name)) return false;
+		if (!attributeName.equals(that.attributeName)) return false;
 		if (operator != that.operator) return false;
 		if (!attributeValue.equals(that.attributeValue)) return false;
 
@@ -41,7 +41,7 @@ public class Constraint {
 
 	@Override
 	public int hashCode() {
-		int result = name.hashCode();
+		int result = attributeName.hashCode();
 		result = 31 * result + attributeValue.hashCode();
 		result = 31 * result + operator.hashCode();
 		return result;

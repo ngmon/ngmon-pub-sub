@@ -1,60 +1,40 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class AttributeValue {
+public class AttributeValue<T_ValueType> {
 
-	private AttributeValueType type;
+	private final Class<T_ValueType> type;
+	private final T_ValueType value;
 
-	private Comparable<?> comparable;
-	private String string;
+	public AttributeValue(T_ValueType value, Class<T_ValueType> type) {
+		this.value = value;
+		this.type = type;
+	}
 
-	public AttributeValueType getType() {
+	public T_ValueType getValue() {
+		return value;
+	}
+
+	public Class<T_ValueType> getType() {
 		return type;
 	}
 
-	public Comparable<?> getComparable() {
-		return comparable;
-	}
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-	public String getString() {
-		return string;
-	}
-	
-	public AttributeValue(Comparable<?> comparable) {
-		this.type = AttributeValueType.NUMBER;
-		this.comparable = comparable;
-	}
-	
-	public AttributeValue(String string) {
-		this.type = AttributeValueType.STRING;
-		this.string = string;
+		AttributeValue that = (AttributeValue) o;
+
+		if (!type.equals(that.type)) return false;
+		if (value != null ? !value.equals(that.value) : that.value != null) return false;
+
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		// TODO - value must be present after the object is constructed
-		if (type.equals(AttributeValueType.NUMBER))
-			return comparable.hashCode();
-		else
-			return string.hashCode();
+		int result = type.hashCode();
+		result = 31 * result + (value != null ? value.hashCode() : 0);
+		return result;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AttributeValue other = (AttributeValue) obj;
-
-		// TODO - all values must be entered
-		if (type.equals(AttributeValueType.NUMBER))
-			return comparable.equals(other.getComparable());
-		else
-			return string.equals(other.getString());
-	}
-
-
-
 }

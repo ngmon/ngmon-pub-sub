@@ -13,8 +13,8 @@ public class Main {
 		// create the tree, add some predicates...
 		CountingTree countingTree = new CountingTree();
 
-		Constraint apacheServer = new Constraint("application",
-				new AttributeValue("Apache Server"), Operator.EQUALS);
+		Constraint apacheServer = new Constraint<String>("application",
+				new AttributeValue<String>("Apache Server", String.class), Operator.EQUALS);
 		/*-
 		Constraint processId = new Constraint("processId", new AttributeValue(
 				4219), Operator.EQUALS);*/
@@ -42,12 +42,12 @@ public class Main {
 		// create some events
 		Event event1 = new Event();
 		event1.addAttribute(new EventAttribute("application",
-				new AttributeValue("PostgreSQL")));
+				new AttributeValue<String>("PostgreSQL", String.class)));
 
 		// create some events
 		Event event2 = new Event();
 		event2.addAttribute(new EventAttribute("application",
-				new AttributeValue("Apache Server")));
+				new AttributeValue<String>("Apache Server", String.class)));
 
 		// and match them
 		@SuppressWarnings("unused")

@@ -22,7 +22,7 @@ public class EqualityIndex {
 				for (Constraint constraint : constraints) {
 
 					Operator operator = constraint.getOperator();
-					String attributeName = constraint.getName();
+					String attributeName = constraint.getAttributeName();
 					AttributeValue value = constraint.getAttributeValue();
 					switch (operator) {
 					case EQUALS: {
@@ -58,14 +58,14 @@ public class EqualityIndex {
 		List<EventAttribute> attributes = event.getAttributes();
 		for (EventAttribute attribute : attributes) {
 			String attributeName = attribute.getName();
-			AttributeValue attributeValue = attribute.getValue();
+			AttributeValue attributeValueValue = attribute.getValue();
 			// get the branch corresponding to the attribute name
 
 			// search the equality matches
 			HashMap<AttributeValue, TableConstraint> index = equalityMaps
 					.get(attributeName);
 			if (index != null) {
-				TableConstraint tableConstraint = index.get(attributeValue);
+				TableConstraint tableConstraint = index.get(attributeValueValue);
 				if (tableConstraint != null) {
 					filters.addAll(tableConstraint.getFilters());
 				}

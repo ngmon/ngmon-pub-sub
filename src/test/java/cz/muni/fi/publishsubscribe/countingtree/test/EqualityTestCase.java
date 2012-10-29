@@ -33,10 +33,12 @@ public class EqualityTestCase {
 		tree = new CountingTree();
 
 		// Apache, 1000
-		Constraint apacheConstraint = new Constraint(APPLICATION_ATTR,
-				new AttributeValue(APACHE_SERVER), Operator.EQUALS);
-		Constraint processId1000Constraint = new Constraint(PROCESS_ID_ATTR,
-				new AttributeValue(1000), Operator.EQUALS);
+		Constraint apacheConstraint = new Constraint<String>(APPLICATION_ATTR,
+				new AttributeValue<String>(APACHE_SERVER, String.class),
+				Operator.EQUALS);
+
+		Constraint processId1000Constraint = new Constraint<Long>(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(1000L, Long.class), Operator.EQUALS);
 		Filter apache1000Filter = new Filter();
 		apache1000Filter.addConstraint(apacheConstraint);
 		apache1000Filter.addConstraint(processId1000Constraint);
@@ -69,8 +71,8 @@ public class EqualityTestCase {
 		tree.subscribe(processId1000Predicate);
 
 		// Process ID = 2000
-		Constraint processId2000Constraint = new Constraint(PROCESS_ID_ATTR,
-				new AttributeValue(2000), Operator.EQUALS);
+		Constraint processId2000Constraint = new Constraint<Long>(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(2000L, Long.class), Operator.EQUALS);
 		Filter processId2000Filter = new Filter();
 		processId2000Filter.addConstraint(processId2000Constraint);
 		processId2000Predicate = new Predicate();
@@ -79,10 +81,10 @@ public class EqualityTestCase {
 		tree.subscribe(processId2000Predicate);
 
 		// PostgreSQL, 3000
-		Constraint postgreSqlConstraint = new Constraint(APPLICATION_ATTR,
-				new AttributeValue(POSTGRE_SQL), Operator.EQUALS);
-		Constraint processId3000Constraint = new Constraint(PROCESS_ID_ATTR,
-				new AttributeValue(3000), Operator.EQUALS);
+		Constraint postgreSqlConstraint = new Constraint<String>(APPLICATION_ATTR,
+				new AttributeValue<String>(POSTGRE_SQL, String.class), Operator.EQUALS);
+		Constraint processId3000Constraint = new Constraint<Long>(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(3000L, Long.class), Operator.EQUALS);
 		Filter postgreSql3000Filter = new Filter();
 		postgreSql3000Filter.addConstraint(postgreSqlConstraint);
 		postgreSql3000Filter.addConstraint(processId3000Constraint);
@@ -117,10 +119,10 @@ public class EqualityTestCase {
 	public void testNoMatchingSubscribers() {
 		Event event = new Event();
 		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
-				new AttributeValue("foo")));
+				new AttributeValue<String>("foo", String.class)));
 		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
-				new AttributeValue(1234)));
-		event.addAttribute(new EventAttribute("severity", new AttributeValue(1)));
+				new AttributeValue<Long>(1234L, Long.class)));
+		event.addAttribute(new EventAttribute("severity", new AttributeValue<Long>(1L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
@@ -130,9 +132,9 @@ public class EqualityTestCase {
 	public void testApacheEvent() {
 		Event event = new Event();
 		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
-				new AttributeValue(APACHE_SERVER)));
+				new AttributeValue<String>(APACHE_SERVER, String.class)));
 		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
-				new AttributeValue(1234)));
+				new AttributeValue<Long>(1234L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
@@ -145,9 +147,9 @@ public class EqualityTestCase {
 	public void testApache1000Event() {
 		Event event = new Event();
 		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
-				new AttributeValue(APACHE_SERVER)));
+				new AttributeValue<String>(APACHE_SERVER, String.class)));
 		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
-				new AttributeValue(1000)));
+				new AttributeValue<Long>(1000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(5, predicates.size());
@@ -162,9 +164,9 @@ public class EqualityTestCase {
 	public void testApache2000Event() {
 		Event event = new Event();
 		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
-				new AttributeValue(APACHE_SERVER)));
+				new AttributeValue<String>(APACHE_SERVER, String.class)));
 		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
-				new AttributeValue(2000)));
+				new AttributeValue<Long>(2000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(4, predicates.size());
@@ -178,9 +180,9 @@ public class EqualityTestCase {
 	public void testPostgreSqlEvent() {
 		Event event = new Event();
 		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
-				new AttributeValue(POSTGRE_SQL)));
+				new AttributeValue<String>(POSTGRE_SQL, String.class)));
 		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
-				new AttributeValue(2000)));
+				new AttributeValue<Long>(2000L, Long.class)));
 		
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
@@ -193,7 +195,7 @@ public class EqualityTestCase {
 	public void testProcessId1000Event() {
 		Event event = new Event();
 		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
-				new AttributeValue(1000)));
+				new AttributeValue<Long>(1000L, Long.class)));
 		
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
