@@ -4,46 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cz.muni.fi.publishsubscribe.countingtree.Event.EventAttribute;
-
-public class IndexTable {
-
-	/** A constraint in the "middle" of the forwarding table */
-	private static class TableConstraint {
-
-		private Operator operator;
-		private AttributeValue value;
-		private List<Filter> filters = new ArrayList<Filter>();
-
-		public Operator getOperator() {
-			return operator;
-		}
-
-		public AttributeValue getValue() {
-			return value;
-		}
-
-		public List<Filter> getFilters() {
-			return filters;
-		}
-
-		public void addFilter(Filter filter) {
-			this.filters.add(filter);
-		}
-
-		public TableConstraint(Operator operator, AttributeValue value) {
-			this.operator = operator;
-			this.value = value;
-		}
-
-		public TableConstraint(Operator operator,
-				AttributeValue value, Filter filter) {
-			this.operator = operator;
-			this.value = value;
-			this.filters.add(filter);
-		}
-
-	}
+public class EqualityIndex {
 
 	// private HashMap<String, TableConstraint> attributeNamesMap = new
 	// HashMap<String, TableConstraint>();
@@ -51,7 +12,7 @@ public class IndexTable {
 	/** Map from attribute name to equality index */
 	private HashMap<String, HashMap<AttributeValue, TableConstraint>> equalityMaps = new HashMap<String, HashMap<AttributeValue, TableConstraint>>();
 
-	public IndexTable(List<Subscription> subscriptions) {
+	public EqualityIndex(List<Subscription> subscriptions) {
 		for (Subscription subscription : subscriptions) {
 
 			List<Filter> predicate = subscription.getPredicate();

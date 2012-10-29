@@ -1,16 +1,13 @@
 package cz.muni.fi.publishsubscribe.countingtree.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import cz.muni.fi.publishsubscribe.countingtree.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import cz.muni.fi.publishsubscribe.countingtree.Operator;
-import cz.muni.fi.publishsubscribe.countingtree.Event.EventAttribute;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class EqualityTestCase {
 

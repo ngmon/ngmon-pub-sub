@@ -2,8 +2,6 @@ package cz.muni.fi.publishsubscribe.countingtree;
 
 import java.util.List;
 
-import cz.muni.fi.publishsubscribe.countingtree.Event.EventAttribute;
-
 public class Main {
 
 	/**

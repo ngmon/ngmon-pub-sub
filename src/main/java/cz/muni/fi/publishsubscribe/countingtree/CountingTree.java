@@ -12,7 +12,7 @@ public class CountingTree {
 
 	private Long subscriptionCounter = 1L;
 	private List<Subscription> subscriptions = new ArrayList<Subscription>();
-	private IndexTable indexTable = null;
+	private EqualityIndex indexTable = null;
 
 	public Long subscribe(Subscription subscription) {
 		this.subscriptions.add(subscription);
@@ -34,7 +34,7 @@ public class CountingTree {
 
 	public void createIndexTable() {
 		if (subscriptions != null && !subscriptions.isEmpty()) {
-			indexTable = new IndexTable(subscriptions);
+			indexTable = new EqualityIndex(subscriptions);
 		} else {
 			indexTable = null;
 		}

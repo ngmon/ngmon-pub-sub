@@ -2,10 +2,6 @@ package cz.muni.fi.publishsubscribe.countingtree;
 
 public class AttributeValue {
 
-	public enum AttributeValueType {
-		NUMBER, STRING
-	}
-
 	private AttributeValueType type;
 
 	private Comparable<?> comparable;
