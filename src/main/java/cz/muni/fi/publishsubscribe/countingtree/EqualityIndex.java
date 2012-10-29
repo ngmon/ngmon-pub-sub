@@ -12,10 +12,10 @@ public class EqualityIndex {
 	/** Map from attribute name to equality index */
 	private HashMap<String, HashMap<AttributeValue, TableConstraint>> equalityMaps = new HashMap<String, HashMap<AttributeValue, TableConstraint>>();
 
-	public EqualityIndex(List<Subscription> subscriptions) {
-		for (Subscription subscription : subscriptions) {
+	public EqualityIndex(List<Predicate> predicates) {
+		for (Predicate subscription : predicates) {
 
-			List<Filter> predicate = subscription.getPredicate();
+			List<Filter> predicate = subscription.getFilters();
 			for (Filter filter : predicate) {
 
 				List<Constraint> constraints = filter.getConstraints();

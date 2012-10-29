@@ -47,14 +47,14 @@ public class AttributeValue {
 		if (getClass() != obj.getClass())
 			return false;
 		AttributeValue other = (AttributeValue) obj;
-		
+
 		// TODO - all values must be entered
 		if (type.equals(AttributeValueType.NUMBER))
 			return comparable.equals(other.getComparable());
 		else
 			return string.equals(other.getString());
 	}
-	
-	
+
+
 
 }

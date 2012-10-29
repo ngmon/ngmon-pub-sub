@@ -8,10 +8,10 @@ public class Filter {
 	private List<Constraint> constraints = new ArrayList<Constraint>();
 
 	/**
-	 * Associated Subscription (Two Subscriptions shouldn't share the same
+	 * Associated Predicate (Two Subscriptions shouldn't share the same
 	 * Filter)
 	 */
-	private Subscription subscription;
+	private Predicate predicate;
 
 	public void addConstraint(Constraint constraint) {
 		this.constraints.add(constraint);
@@ -21,12 +21,12 @@ public class Filter {
 		return constraints;
 	}
 
-	public Subscription getSubscription() {
-		return subscription;
+	public Predicate getPredicate() {
+		return predicate;
 	}
 
-	public void setSubscription(Subscription subscription) {
-		this.subscription = subscription;
+	public void setPredicate(Predicate predicate) {
+		this.predicate = predicate;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class Filter {
 		Filter filter = (Filter) o;
 
 		if (!constraints.equals(filter.constraints)) return false;
-		if (!subscription.equals(filter.subscription)) return false;
+		if (!predicate.equals(filter.predicate)) return false;
 
 		return true;
 	}
@@ -45,7 +45,7 @@ public class Filter {
 	@Override
 	public int hashCode() {
 		int result = constraints.hashCode();
-		result = 31 * result + subscription.hashCode();
+		result = 31 * result + predicate.hashCode();
 		return result;
 	}
 }

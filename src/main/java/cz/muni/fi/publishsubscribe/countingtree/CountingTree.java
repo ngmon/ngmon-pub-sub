@@ -11,16 +11,16 @@ import java.util.Set;
 public class CountingTree {
 
 	private Long subscriptionCounter = 1L;
-	private List<Subscription> subscriptions = new ArrayList<Subscription>();
+	private List<Predicate> predicates = new ArrayList<Predicate>();
 	private EqualityIndex indexTable = null;
 
-	public Long subscribe(Subscription subscription) {
-		this.subscriptions.add(subscription);
+	public Long subscribe(Predicate predicate) {
+		this.predicates.add(predicate);
 
 		// TODO - fwd table
 
 		/*-
-		List<Filter> filters = subscription.getPredicate();
+		List<Filter> filters = predicate.getFilters();
 		for (Filter filter : filters) {
 			List<Constraint> constraints = filter.getConstraints();
 			for (Constraint constraint : constraints) {
@@ -28,23 +28,23 @@ public class CountingTree {
 			}
 		}*/
 
-		subscription.setId(subscriptionCounter);
+		predicate.setId(subscriptionCounter);
 		return subscriptionCounter++;
 	}
 
 	public void createIndexTable() {
-		if (subscriptions != null && !subscriptions.isEmpty()) {
-			indexTable = new EqualityIndex(subscriptions);
+		if (predicates != null && !predicates.isEmpty()) {
+			indexTable = new EqualityIndex(predicates);
 		} else {
 			indexTable = null;
 		}
 	}
 
 	private boolean unsubscribe(Long subscriptionId) {
-		Iterator<Subscription> iterator = subscriptions.iterator();
+		Iterator<Predicate> iterator = predicates.iterator();
 		while (iterator.hasNext()) {
-			Subscription subscription = iterator.next();
-			if (subscriptionId.equals(subscription.getId())) {
+			Predicate predicate = iterator.next();
+			if (subscriptionId.equals(predicate.getId())) {
 				iterator.remove();
 				return true;
 			}
@@ -53,38 +53,38 @@ public class CountingTree {
 		return false;
 	}
 
-	public List<Subscription> match(Event event) {
+	public List<Predicate> match(Event event) {
 
 		if (indexTable == null) {
-			return new ArrayList<Subscription>();
+			return new ArrayList<Predicate>();
 		}
 		
-		List<Subscription> subscriptions = new ArrayList<Subscription>();
+		List<Predicate> predicates = new ArrayList<Predicate>();
 		
-		int subscriptionCount = this.subscriptions.size();
+		int subscriptionCount = this.predicates.size();
 		
 		Map<Filter, Integer> counters = new HashMap<Filter, Integer>();
-		Set<Subscription> matched = new HashSet<Subscription>();
+		Set<Predicate> matched = new HashSet<Predicate>();
 
 		// first get the filters associated to the matching constraints
 		List<Filter> matchingFilters = indexTable.getMatchingFilters(event);
 		
 		for (Filter filter : matchingFilters) {
-			Subscription subscription = filter.getSubscription();
-			if (!matched.contains(subscription)) {
+			Predicate predicate = filter.getPredicate();
+			if (!matched.contains(predicate)) {
 				Integer count = counters.get(filter);
 				if (count == null)
 					count = 0;
 				counters.put(filter, ++count);
 				if (count.equals(filter.getConstraints().size())) {
-					subscriptions.add(subscription);
-					matched.add(subscription);
+					predicates.add(predicate);
+					matched.add(predicate);
 					if (matched.size() == subscriptionCount)
 						break;
 				}
 			}
 		}
 
-		return subscriptions;
+		return predicates;
 	}
 }

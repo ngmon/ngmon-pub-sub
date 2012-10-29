@@ -3,13 +3,13 @@ package cz.muni.fi.publishsubscribe.countingtree;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Subscription {
+public class Predicate {
 
 	private Long id;
-	private List<Filter> predicate = new ArrayList<Filter>();
+	private List<Filter> filters = new ArrayList<Filter>();
 
-	public List<Filter> getPredicate() {
-		return predicate;
+	public List<Filter> getFilters() {
+		return filters;
 	}
 
 	public Long getId() {
@@ -21,8 +21,8 @@ public class Subscription {
 	}
 
 	public void addFilter(Filter filter) {
-		this.predicate.add(filter);
-		filter.setSubscription(this);
+		this.filters.add(filter);
+		filter.setPredicate(this);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class Subscription {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		Subscription that = (Subscription) o;
+		Predicate that = (Predicate) o;
 
 		if (!id.equals(that.id)) return false;
 

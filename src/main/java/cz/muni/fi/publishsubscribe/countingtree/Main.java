@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
 
-		// create the tree, add some subscriptions...
+		// create the tree, add some predicates...
 		CountingTree countingTree = new CountingTree();
 
 		Constraint apacheServer = new Constraint("application",
@@ -25,17 +25,17 @@ public class Main {
 		Filter apacheFilter2 = new Filter();
 		apacheFilter2.addConstraint(apacheServer);
 
-		Subscription apacheSubscription = new Subscription();
-		apacheSubscription.addFilter(apacheFilter);
+		Predicate apachePredicate = new Predicate();
+		apachePredicate.addFilter(apacheFilter);
 
 		/* Long apacheSubscriptionId = */countingTree
-				.subscribe(apacheSubscription);
+				.subscribe(apachePredicate);
 
-		Subscription apacheSubscription2 = new Subscription();
-		apacheSubscription2.addFilter(apacheFilter2);
+		Predicate apachePredicate2 = new Predicate();
+		apachePredicate2.addFilter(apacheFilter2);
 
 		/* Long apacheSubscriptionId2 = */countingTree
-				.subscribe(apacheSubscription2);
+				.subscribe(apachePredicate2);
 
 		countingTree.createIndexTable();
 
@@ -51,9 +51,9 @@ public class Main {
 
 		// and match them
 		@SuppressWarnings("unused")
-		List<Subscription> subscriptions = countingTree.match(event1);
+		List<Predicate> predicates = countingTree.match(event1);
 
-		subscriptions = countingTree.match(event2);
+		predicates = countingTree.match(event2);
 	}
 
 }
