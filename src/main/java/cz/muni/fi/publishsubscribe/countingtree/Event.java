@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Event {
 
-	private List<EventAttribute> attributes = new ArrayList<EventAttribute>();
+	private List<Attribute> attributes = new ArrayList<Attribute>();
 
-	public void addAttribute(EventAttribute attribute) {
+	public void addAttribute(Attribute attribute) {
 		this.attributes.add(attribute);
 	}
 
-	public List<EventAttribute> getAttributes() {
+	public List<Attribute> getAttributes() {
 		return attributes;
 	}
 

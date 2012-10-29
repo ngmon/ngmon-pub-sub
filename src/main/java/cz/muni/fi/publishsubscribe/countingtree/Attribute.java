@@ -1,10 +1,12 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class EventAttribute {
+public class Attribute {
+
 		private String name;
+
 		private AttributeValue value;
 
-		public EventAttribute(String name, AttributeValue value) {
+		public Attribute(String name, AttributeValue value) {
 			this.name = name;
 			this.value = value;
 		}

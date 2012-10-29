@@ -41,12 +41,12 @@ public class Main {
 
 		// create some events
 		Event event1 = new Event();
-		event1.addAttribute(new EventAttribute("application",
+		event1.addAttribute(new Attribute("application",
 				new AttributeValue<String>("PostgreSQL", String.class)));
 
 		// create some events
 		Event event2 = new Event();
-		event2.addAttribute(new EventAttribute("application",
+		event2.addAttribute(new Attribute("application",
 				new AttributeValue<String>("Apache Server", String.class)));
 
 		// and match them

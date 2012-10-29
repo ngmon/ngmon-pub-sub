@@ -118,11 +118,11 @@ public class EqualityTestCase {
 	@Test
 	public void testNoMatchingSubscribers() {
 		Event event = new Event();
-		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
 				new AttributeValue<String>("foo", String.class)));
-		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
 				new AttributeValue<Long>(1234L, Long.class)));
-		event.addAttribute(new EventAttribute("severity", new AttributeValue<Long>(1L, Long.class)));
+		event.addAttribute(new Attribute("severity", new AttributeValue<Long>(1L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
@@ -131,9 +131,9 @@ public class EqualityTestCase {
 	@Test
 	public void testApacheEvent() {
 		Event event = new Event();
-		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
 				new AttributeValue<String>(APACHE_SERVER, String.class)));
-		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
 				new AttributeValue<Long>(1234L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
@@ -146,9 +146,9 @@ public class EqualityTestCase {
 	@Test
 	public void testApache1000Event() {
 		Event event = new Event();
-		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
 				new AttributeValue<String>(APACHE_SERVER, String.class)));
-		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
 				new AttributeValue<Long>(1000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
@@ -163,9 +163,9 @@ public class EqualityTestCase {
 	@Test
 	public void testApache2000Event() {
 		Event event = new Event();
-		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
 				new AttributeValue<String>(APACHE_SERVER, String.class)));
-		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
 				new AttributeValue<Long>(2000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
@@ -179,9 +179,9 @@ public class EqualityTestCase {
 	@Test
 	public void testPostgreSqlEvent() {
 		Event event = new Event();
-		event.addAttribute(new EventAttribute(APPLICATION_ATTR,
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
 				new AttributeValue<String>(POSTGRE_SQL, String.class)));
-		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
 				new AttributeValue<Long>(2000L, Long.class)));
 		
 		List<Predicate> predicates = tree.match(event);
@@ -194,7 +194,7 @@ public class EqualityTestCase {
 	@Test
 	public void testProcessId1000Event() {
 		Event event = new Event();
-		event.addAttribute(new EventAttribute(PROCESS_ID_ATTR,
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
 				new AttributeValue<Long>(1000L, Long.class)));
 		
 		List<Predicate> predicates = tree.match(event);

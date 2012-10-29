@@ -55,17 +55,17 @@ public class EqualityIndex {
 
 		// search matching constraints for each event attribute
 
-		List<EventAttribute> attributes = event.getAttributes();
-		for (EventAttribute attribute : attributes) {
+		List<Attribute> attributes = event.getAttributes();
+		for (Attribute attribute : attributes) {
 			String attributeName = attribute.getName();
-			AttributeValue attributeValueValue = attribute.getValue();
+			AttributeValue attributeValue = attribute.getValue();
 			// get the branch corresponding to the attribute name
 
 			// search the equality matches
 			HashMap<AttributeValue, TableConstraint> index = equalityMaps
 					.get(attributeName);
 			if (index != null) {
-				TableConstraint tableConstraint = index.get(attributeValueValue);
+				TableConstraint tableConstraint = index.get(attributeValue);
 				if (tableConstraint != null) {
 					filters.addAll(tableConstraint.getFilters());
 				}
