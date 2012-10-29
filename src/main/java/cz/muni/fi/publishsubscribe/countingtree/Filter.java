@@ -30,36 +30,22 @@ public class Filter {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((constraints == null) ? 0 : constraints.hashCode());
-		result = prime * result
-				+ ((subscription == null) ? 0 : subscription.hashCode());
-		return result;
-	}
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Filter other = (Filter) obj;
-		if (constraints == null) {
-			if (other.constraints != null)
-				return false;
-		} else if (!constraints.equals(other.constraints))
-			return false;
-		if (subscription == null) {
-			if (other.subscription != null)
-				return false;
-		} else if (!subscription.equals(other.subscription))
-			return false;
+		Filter filter = (Filter) o;
+
+		if (!constraints.equals(filter.constraints)) return false;
+		if (!subscription.equals(filter.subscription)) return false;
+
 		return true;
 	}
 
+	@Override
+	public int hashCode() {
+		int result = constraints.hashCode();
+		result = 31 * result + subscription.hashCode();
+		return result;
+	}
 }

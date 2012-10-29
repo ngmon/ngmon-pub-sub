@@ -5,17 +5,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import cz.muni.fi.publishsubscribe.countingtree.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
-import cz.muni.fi.publishsubscribe.countingtree.Constraint;
-import cz.muni.fi.publishsubscribe.countingtree.ConstraintOperator;
-import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
-import cz.muni.fi.publishsubscribe.countingtree.Event;
+import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Event.EventAttribute;
-import cz.muni.fi.publishsubscribe.countingtree.Filter;
-import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 public class EqualityTestCase {
 
@@ -42,9 +37,9 @@ public class EqualityTestCase {
 
 		// Apache, 1000
 		Constraint apacheConstraint = new Constraint(APPLICATION_ATTR,
-				new AttributeValue(APACHE_SERVER), ConstraintOperator.EQUALS);
+				new AttributeValue(APACHE_SERVER), Operator.EQUALS);
 		Constraint processId1000Constraint = new Constraint(PROCESS_ID_ATTR,
-				new AttributeValue(1000), ConstraintOperator.EQUALS);
+				new AttributeValue(1000), Operator.EQUALS);
 		Filter apache1000Filter = new Filter();
 		apache1000Filter.addConstraint(apacheConstraint);
 		apache1000Filter.addConstraint(processId1000Constraint);
@@ -78,7 +73,7 @@ public class EqualityTestCase {
 
 		// Process ID = 2000
 		Constraint processId2000Constraint = new Constraint(PROCESS_ID_ATTR,
-				new AttributeValue(2000), ConstraintOperator.EQUALS);
+				new AttributeValue(2000), Operator.EQUALS);
 		Filter processId2000Filter = new Filter();
 		processId2000Filter.addConstraint(processId2000Constraint);
 		processId2000Subscription = new Subscription();
@@ -88,9 +83,9 @@ public class EqualityTestCase {
 
 		// PostgreSQL, 3000
 		Constraint postgreSqlConstraint = new Constraint(APPLICATION_ATTR,
-				new AttributeValue(POSTGRE_SQL), ConstraintOperator.EQUALS);
+				new AttributeValue(POSTGRE_SQL), Operator.EQUALS);
 		Constraint processId3000Constraint = new Constraint(PROCESS_ID_ATTR,
-				new AttributeValue(3000), ConstraintOperator.EQUALS);
+				new AttributeValue(3000), Operator.EQUALS);
 		Filter postgreSql3000Filter = new Filter();
 		postgreSql3000Filter.addConstraint(postgreSqlConstraint);
 		postgreSql3000Filter.addConstraint(processId3000Constraint);

@@ -11,11 +11,11 @@ public class IndexTable {
 	/** A constraint in the "middle" of the forwarding table */
 	private static class TableConstraint {
 
-		private ConstraintOperator operator;
+		private Operator operator;
 		private AttributeValue value;
 		private List<Filter> filters = new ArrayList<Filter>();
 
-		public ConstraintOperator getOperator() {
+		public Operator getOperator() {
 			return operator;
 		}
 
@@ -31,12 +31,12 @@ public class IndexTable {
 			this.filters.add(filter);
 		}
 
-		public TableConstraint(ConstraintOperator operator, AttributeValue value) {
+		public TableConstraint(Operator operator, AttributeValue value) {
 			this.operator = operator;
 			this.value = value;
 		}
 
-		public TableConstraint(ConstraintOperator operator,
+		public TableConstraint(Operator operator,
 				AttributeValue value, Filter filter) {
 			this.operator = operator;
 			this.value = value;
@@ -60,9 +60,9 @@ public class IndexTable {
 				List<Constraint> constraints = filter.getConstraints();
 				for (Constraint constraint : constraints) {
 
-					ConstraintOperator operator = constraint.getOperator();
+					Operator operator = constraint.getOperator();
 					String attributeName = constraint.getName();
-					AttributeValue value = constraint.getValue();
+					AttributeValue value = constraint.getAttributeValue();
 					switch (operator) {
 					case EQUALS: {
 						// get the index for the attribute name

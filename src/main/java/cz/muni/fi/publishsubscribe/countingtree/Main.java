@@ -16,10 +16,10 @@ public class Main {
 		CountingTree countingTree = new CountingTree();
 
 		Constraint apacheServer = new Constraint("application",
-				new AttributeValue("Apache Server"), ConstraintOperator.EQUALS);
+				new AttributeValue("Apache Server"), Operator.EQUALS);
 		/*-
 		Constraint processId = new Constraint("processId", new AttributeValue(
-				4219), ConstraintOperator.EQUALS);*/
+				4219), Operator.EQUALS);*/
 
 		Filter apacheFilter = new Filter();
 		apacheFilter.addConstraint(apacheServer);
