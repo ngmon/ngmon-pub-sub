@@ -1,33 +1,49 @@
 package cz.muni.fi.publishsubscribe.countingtree.matcher;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
-import cz.muni.fi.publishsubscribe.countingtree.index.OperationIndex;
+import cz.muni.fi.publishsubscribe.countingtree.Operator;
+import cz.muni.fi.publishsubscribe.countingtree.index.Index;
 
-import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-public abstract class AbstractMatcher<T_ValueType> implements ConstraintMatcher<T_ValueType>  {
+public abstract class AbstractMatcher<T_ValueType> implements Index<T_ValueType> {
 
-	private final List<OperationIndex<T_ValueType>> operationIndexes;
+	private final Map<Operator, Index<T_ValueType>> operatorIndexes;
 
 	public AbstractMatcher() {
-		this.operationIndexes = new ArrayList<OperationIndex<T_ValueType>>(3);
+		this.operatorIndexes = new EnumMap<Operator, Index<T_ValueType>>(Operator.class);
 	}
 
 	@Override
 	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
 		List<Constraint<T_ValueType>> constraints = new LinkedList<Constraint<T_ValueType>>();
 
-		for (OperationIndex<T_ValueType> operationIndex : operationIndexes) {
-			constraints.addAll(operationIndex.getConstraints(attributeValue));
+		for (Index<T_ValueType> operatorIndex : this.operatorIndexes.values()) {
+			constraints.addAll(operatorIndex.getConstraints(attributeValue));
 		}
 
 		return constraints;
 	}
 
-	public boolean addOperationIndex(OperationIndex<T_ValueType> operationIndex) {
+	@Override
+	public boolean addConstraint(Constraint<T_ValueType> constraint) {
 
-		return this.operationIndexes.add(operationIndex);
+		return this.operatorIndexes.get(constraint.getOperator()).addConstraint(constraint);
 	}
+
+	protected boolean addOperationIndex(Operator operator, Index<T_ValueType> operatorIndex) {
+
+		if (this.operatorIndexes.containsKey(operator)) {
+			return false;
+		}
+
+		this.operatorIndexes.put(operator, operatorIndex);
+
+		return true;
+	}
+
+
 }

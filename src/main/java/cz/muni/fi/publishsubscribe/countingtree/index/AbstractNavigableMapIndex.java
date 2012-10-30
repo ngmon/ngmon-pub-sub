@@ -4,7 +4,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
 import java.util.*;
 
-public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<T_ValueType>> implements OperationIndex<T_ValueType> {
+public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<T_ValueType>> implements Index<T_ValueType> {
 
 	protected NavigableMap<T_ValueType, Constraint<T_ValueType>> constraints;
 
