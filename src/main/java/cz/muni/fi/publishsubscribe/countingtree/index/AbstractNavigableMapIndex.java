@@ -2,20 +2,17 @@ package cz.muni.fi.publishsubscribe.countingtree.index;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
-public abstract class AbstractSortedMapIndex<T_ValueType extends Comparable<T_ValueType>> implements Index<T_ValueType> {
+public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<T_ValueType>> implements OperationIndex<T_ValueType> {
 
-	protected SortedMap<T_ValueType, Constraint<T_ValueType>> constraints;
+	protected NavigableMap<T_ValueType, Constraint<T_ValueType>> constraints;
 
-	protected AbstractSortedMapIndex() {
+	protected AbstractNavigableMapIndex() {
 		this(null);
 	}
 
-	protected AbstractSortedMapIndex(Comparator<T_ValueType> comparator) {
+	protected AbstractNavigableMapIndex(Comparator<T_ValueType> comparator) {
 		this.constraints =  new TreeMap<T_ValueType, Constraint<T_ValueType>>(comparator);
 	}
 

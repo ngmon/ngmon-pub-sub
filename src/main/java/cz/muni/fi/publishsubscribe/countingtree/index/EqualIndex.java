@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EqualityIndex<T_ValueType> implements Index<T_ValueType> {
+public class EqualIndex<T_ValueType> implements OperationIndex<T_ValueType> {
 
 	protected Map<T_ValueType, Constraint<T_ValueType>> constraints = new HashMap<T_ValueType, Constraint<T_ValueType>>();
 
