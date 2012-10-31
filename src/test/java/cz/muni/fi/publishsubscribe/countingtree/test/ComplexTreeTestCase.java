@@ -127,4 +127,98 @@ public class ComplexTreeTestCase {
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicate04));
 	}
+	
+	@Test
+	public void testApache1000Event() {
+		Event event = new Event();
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
+				new AttributeValue<String>(APACHE_SERVER, String.class)));
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(1000L, Long.class)));
+
+		List<Predicate> predicates = tree.match(event);
+		assertEquals(1, predicates.size());
+		assertTrue(predicates.contains(predicate04));
+	}
+	
+	@Test
+	public void testApache999Event() {
+		Event event = new Event();
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
+				new AttributeValue<String>(APACHE_SERVER, String.class)));
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(999L, Long.class)));
+
+		List<Predicate> predicates = tree.match(event);
+		assertEquals(2, predicates.size());
+		assertTrue(predicates.contains(predicate01));
+		assertTrue(predicates.contains(predicate04));
+	}
+	
+	@Test
+	public void testFoo2000Event() {
+		Event event = new Event();
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
+				new AttributeValue<String>("foo", String.class)));
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(2000L, Long.class)));
+
+		List<Predicate> predicates = tree.match(event);
+		assertEquals(0, predicates.size());
+	}
+	
+	@Test
+	public void testFoo3000Event() {
+		Event event = new Event();
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
+				new AttributeValue<String>("foo", String.class)));
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(3000L, Long.class)));
+
+		List<Predicate> predicates = tree.match(event);
+		assertEquals(1, predicates.size());
+		assertTrue(predicates.contains(predicate03));
+	}
+	
+	@Test
+	public void postgreSql3000Event() {
+		Event event = new Event();
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
+				new AttributeValue<String>(POSTGRE_SQL, String.class)));
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(3000L, Long.class)));
+
+		List<Predicate> predicates = tree.match(event);
+		assertEquals(3, predicates.size());
+		assertTrue(predicates.contains(predicate02));
+		assertTrue(predicates.contains(predicate03));
+		assertTrue(predicates.contains(predicate04));
+	}
+	
+	@Test
+	public void postgreSql1000Event() {
+		Event event = new Event();
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
+				new AttributeValue<String>(POSTGRE_SQL, String.class)));
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(1000L, Long.class)));
+
+		List<Predicate> predicates = tree.match(event);
+		assertEquals(1, predicates.size());
+		assertTrue(predicates.contains(predicate02));
+	}
+	
+	@Test
+	public void testApache3000Event() {
+		Event event = new Event();
+		event.addAttribute(new Attribute(APPLICATION_ATTR,
+				new AttributeValue<String>(APACHE_SERVER, String.class)));
+		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
+				new AttributeValue<Long>(3000L, Long.class)));
+
+		List<Predicate> predicates = tree.match(event);
+		assertEquals(2, predicates.size());
+		assertTrue(predicates.contains(predicate03));
+		assertTrue(predicates.contains(predicate04));
+	}
 }
