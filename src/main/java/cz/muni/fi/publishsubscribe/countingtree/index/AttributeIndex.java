@@ -5,6 +5,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.index.type.TypeIndex;
 import cz.muni.fi.publishsubscribe.countingtree.index.type.TypeIndexFactory;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,10 @@ public class AttributeIndex {
 	public <T_ValueType> List<Constraint<T_ValueType>> getConstraints(String attributeName, AttributeValue<T_ValueType> attributeValue) {
 
 		TypeIndex<T_ValueType> typeIndex = (TypeIndex<T_ValueType>) this.attributes.get(attributeName);
+
+		if (typeIndex == null) {
+			return Collections.emptyList();
+		}
 
 		return typeIndex.getConstraints(attributeValue.getValue());
 	}

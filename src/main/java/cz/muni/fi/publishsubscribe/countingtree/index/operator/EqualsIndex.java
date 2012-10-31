@@ -2,10 +2,7 @@ package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EqualsIndex<T_ValueType> implements OperatorIndex<T_ValueType> {
 
@@ -26,10 +23,16 @@ public class EqualsIndex<T_ValueType> implements OperatorIndex<T_ValueType> {
 	// Returning only single Constraint!!
 	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
 
-		List<Constraint<T_ValueType>> constraint = new ArrayList<Constraint<T_ValueType>>(1);
+		Constraint<T_ValueType> constraint = this.constraints.get(attributeValue);
 
-		constraint.add(this.constraints.get(attributeValue));
+		if (constraint == null) {
+			return Collections.emptyList();
+		}
 
-		return constraint;
+		List<Constraint<T_ValueType>> constraintList = new ArrayList<Constraint<T_ValueType>>();
+
+		constraintList.add(constraint);
+
+		return constraintList;
 	}
 }
