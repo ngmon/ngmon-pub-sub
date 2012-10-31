@@ -8,9 +8,42 @@ public class Constraint<T_ConstraintType> {
 
 	public Constraint(String attributeName, AttributeValue<T_ConstraintType> attributeValue,
 	                  Operator operator) {
+
 		this.attributeName = attributeName;
 		this.attributeValue = attributeValue;
 		this.operator = operator;
+
+		if (!this.allowedOperatorForType(operator, attributeValue.getType())) {
+			throw new IllegalArgumentException(String.format("Unsupported Operator: %s for Class: %s", operator.toString(), attributeValue.getType()));
+		}
+	}
+
+	private boolean allowedOperatorForType(Operator operator, Class type) {
+
+		// TODO implement better
+
+		if (type.equals(String.class)) {
+
+			switch (operator) {
+				case EQUALS: return true;
+				default: return false;
+			}
+
+		} else if (type.equals(Long.class)) {
+
+			switch (operator) {
+				case EQUALS: return true;
+				case LESS_THAN: return true;
+				case LESS_THAN_OR_EQUAL_TO: return true;
+				case GREATER_THAN: return true;
+				case GREATER_THAN_OR_EQUAL_TO: return true;
+				default: return false;
+			}
+
+		} else {
+			return false;
+		}
+
 	}
 
 	public String getAttributeName() {
