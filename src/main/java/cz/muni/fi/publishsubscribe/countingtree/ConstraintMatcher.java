@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EqualityMatcher {
+public class ConstraintMatcher {
 
 	// private HashMap<String, TableConstraint> attributeNamesMap = new
 	// HashMap<String, TableConstraint>();
@@ -12,13 +12,13 @@ public class EqualityMatcher {
 	/** Map from attribute name to equality index */
 	private HashMap<String, HashMap<AttributeValue, TableConstraint>> equalityMaps = new HashMap<String, HashMap<AttributeValue, TableConstraint>>();
 
-	public EqualityMatcher(List<Predicate> predicates) {
+	public ConstraintMatcher(List<Predicate> predicates) {
 		for (Predicate subscription : predicates) {
 
 			List<Filter> predicate = subscription.getFilters();
 			for (Filter filter : predicate) {
 
-				List<Constraint> constraints = filter.getConstraints();
+				List<Constraint<?>> constraints = filter.getConstraints();
 				for (Constraint constraint : constraints) {
 
 					Operator operator = constraint.getOperator();

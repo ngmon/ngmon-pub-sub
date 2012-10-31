@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Predicate {
 
-	private Long id;
+	private long id;
 	private List<Filter> filters = new ArrayList<Filter>();
 
 	public List<Filter> getFilters() {
@@ -30,15 +30,15 @@ public class Predicate {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		Predicate that = (Predicate) o;
+		Predicate predicate = (Predicate) o;
 
-		if (!id.equals(that.id)) return false;
+		if (id != predicate.id) return false;
 
 		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		return id.hashCode();
+		return (int) (id ^ (id >>> 32));
 	}
 }

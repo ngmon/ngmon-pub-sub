@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class AttributeIndex {
 
-	private Map<String, TypeIndex<?>> attributes = new HashMap<String, TypeIndex<?>>(10);
+	private final Map<String, TypeIndex<?>> attributes = new HashMap<String, TypeIndex<?>>(10);
 
 	public <T_ValueType> boolean addConstraint(Constraint<T_ValueType> constraint) {
 

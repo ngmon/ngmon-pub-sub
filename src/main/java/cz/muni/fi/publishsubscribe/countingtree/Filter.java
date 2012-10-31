@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Filter {
 
-	private List<Constraint> constraints = new ArrayList<Constraint>();
+	private List<Constraint<?>> constraints = new ArrayList<Constraint<?>>();
 
 	/**
 	 * Associated Predicate (Two Subscriptions shouldn't share the same
@@ -17,7 +17,7 @@ public class Filter {
 		this.constraints.add(constraint);
 	}
 
-	public List<Constraint> getConstraints() {
+	public List<Constraint<?>> getConstraints() {
 		return constraints;
 	}
 

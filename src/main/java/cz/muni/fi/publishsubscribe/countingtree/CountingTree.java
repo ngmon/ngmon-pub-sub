@@ -12,7 +12,7 @@ public class CountingTree {
 
 	private Long subscriptionCounter = 1L;
 	private List<Predicate> predicates = new ArrayList<Predicate>();
-	private EqualityMatcher matcher = null;
+	private ConstraintMatcher matcher = null;
 
 	public Long subscribe(Predicate predicate) {
 		this.predicates.add(predicate);
@@ -34,7 +34,7 @@ public class CountingTree {
 
 	public void createIndexTable() {
 		if (predicates != null && !predicates.isEmpty()) {
-			matcher = new EqualityMatcher(predicates);
+			matcher = new ConstraintMatcher(predicates);
 		} else {
 			matcher = null;
 		}
