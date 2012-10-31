@@ -1,27 +1,27 @@
-package cz.muni.fi.publishsubscribe.countingtree.matcher;
+package cz.muni.fi.publishsubscribe.countingtree.index.type;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
-import cz.muni.fi.publishsubscribe.countingtree.index.Index;
+import cz.muni.fi.publishsubscribe.countingtree.index.operator.OperatorIndex;
 
 import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractMatcher<T_ValueType> implements Index<T_ValueType> {
+public abstract class AbstractTypeIndex<T_ValueType> implements TypeIndex<T_ValueType> {
 
-	private final Map<Operator, Index<T_ValueType>> operatorIndexes;
+	private final Map<Operator, OperatorIndex<T_ValueType>> operatorIndexes;
 
-	public AbstractMatcher() {
-		this.operatorIndexes = new EnumMap<Operator, Index<T_ValueType>>(Operator.class);
+	public AbstractTypeIndex() {
+		this.operatorIndexes = new EnumMap<Operator, OperatorIndex<T_ValueType>>(Operator.class);
 	}
 
 	@Override
 	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
 		List<Constraint<T_ValueType>> constraints = new LinkedList<Constraint<T_ValueType>>();
 
-		for (Index<T_ValueType> operatorIndex : this.operatorIndexes.values()) {
+		for (OperatorIndex<T_ValueType> operatorIndex : this.operatorIndexes.values()) {
 			constraints.addAll(operatorIndex.getConstraints(attributeValue));
 		}
 
@@ -34,7 +34,7 @@ public abstract class AbstractMatcher<T_ValueType> implements Index<T_ValueType>
 		return this.operatorIndexes.get(constraint.getOperator()).addConstraint(constraint);
 	}
 
-	protected boolean addOperationIndex(Operator operator, Index<T_ValueType> operatorIndex) {
+	public final boolean addOperatorIndex(Operator operator, OperatorIndex<T_ValueType> operatorIndex) {
 
 		if (this.operatorIndexes.containsKey(operator)) {
 			return false;

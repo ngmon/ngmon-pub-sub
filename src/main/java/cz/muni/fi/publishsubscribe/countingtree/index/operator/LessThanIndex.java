@@ -1,4 +1,4 @@
-package cz.muni.fi.publishsubscribe.countingtree.index;
+package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 

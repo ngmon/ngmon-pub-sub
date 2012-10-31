@@ -1,4 +1,4 @@
-package cz.muni.fi.publishsubscribe.countingtree.index;
+package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EqualsIndex<T_ValueType> implements Index<T_ValueType> {
+public class EqualsIndex<T_ValueType> implements OperatorIndex<T_ValueType> {
 
 	protected Map<T_ValueType, Constraint<T_ValueType>> constraints = new HashMap<T_ValueType, Constraint<T_ValueType>>();
 

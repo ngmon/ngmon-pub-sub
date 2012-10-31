@@ -1,10 +1,13 @@
-package cz.muni.fi.publishsubscribe.countingtree.index;
+package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
-public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<T_ValueType>> implements Index<T_ValueType> {
+public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<T_ValueType>> implements OperatorIndex<T_ValueType> {
 
 	protected NavigableMap<T_ValueType, Constraint<T_ValueType>> constraints;
 
