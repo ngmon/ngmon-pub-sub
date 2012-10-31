@@ -10,6 +10,6 @@ public class LessThanOrEqualToIndex<T_ValueType extends Comparable<T_ValueType>>
 	@Override
 	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
 
-		return new ArrayList<Constraint<T_ValueType>>(this.constraints.headMap(attributeValue, true).values());
+		return new ArrayList<Constraint<T_ValueType>>(this.constraints.tailMap(attributeValue, true).values());
 	}
 }
