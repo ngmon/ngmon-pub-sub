@@ -9,7 +9,7 @@ public class Filter {
 
 	private List<Constraint<?>> constraints = new ArrayList<Constraint<?>>();
 
-	public void addConstraint(Constraint constraint) {
+	public void addConstraint(Constraint<?> constraint) {
 		this.constraints.add(constraint);
 	}
 

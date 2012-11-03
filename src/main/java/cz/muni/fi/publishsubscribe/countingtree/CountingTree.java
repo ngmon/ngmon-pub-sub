@@ -70,6 +70,7 @@ public class CountingTree {
 		List<Filter> matchingFilters = matcher.getMatchingFilters(event);
 
 		for (Filter filter : matchingFilters) {
+			// TODO - the size of matchedPredicates is always 1 now 
 			List<Predicate> matchedPredicates = matcher.getPredicates(filter);
 			for (Predicate matchedPredicate : matchedPredicates) {
 				if (!matched.contains(matchedPredicate)) {
