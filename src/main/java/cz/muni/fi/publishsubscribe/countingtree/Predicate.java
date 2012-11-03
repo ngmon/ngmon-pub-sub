@@ -22,7 +22,6 @@ public class Predicate {
 
 	public void addFilter(Filter filter) {
 		this.filters.add(filter);
-		filter.setPredicate(this);
 	}
 
 	@Override

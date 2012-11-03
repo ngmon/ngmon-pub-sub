@@ -58,29 +58,31 @@ public class CountingTree {
 		if (matcher == null) {
 			return new ArrayList<Predicate>();
 		}
-		
+
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		
+
 		int subscriptionCount = this.predicates.size();
-		
+
 		Map<Filter, Integer> counters = new HashMap<Filter, Integer>();
 		Set<Predicate> matched = new HashSet<Predicate>();
 
 		// first get the filters associated to the matching constraints
 		List<Filter> matchingFilters = matcher.getMatchingFilters(event);
-		
+
 		for (Filter filter : matchingFilters) {
-			Predicate predicate = filter.getPredicate();
-			if (!matched.contains(predicate)) {
-				Integer count = counters.get(filter);
-				if (count == null)
-					count = 0;
-				counters.put(filter, ++count);
-				if (count.equals(filter.getConstraints().size())) {
-					predicates.add(predicate);
-					matched.add(predicate);
-					if (matched.size() == subscriptionCount)
-						break;
+			List<Predicate> matchedPredicates = matcher.getPredicates(filter);
+			for (Predicate matchedPredicate : matchedPredicates) {
+				if (!matched.contains(matchedPredicate)) {
+					Integer count = counters.get(filter);
+					if (count == null)
+						count = 0;
+					counters.put(filter, ++count);
+					if (count.equals(filter.getConstraints().size())) {
+						predicates.add(matchedPredicate);
+						matched.add(matchedPredicate);
+						if (matched.size() == subscriptionCount)
+							break;
+					}
 				}
 			}
 		}

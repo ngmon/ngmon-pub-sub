@@ -9,6 +9,7 @@ public class FilterMatcher {
 	private AttributeIndex attributeIndex = new AttributeIndex();
 
 	private Map<Constraint<?>, Set<Filter>> reverseLookup = new HashMap<>();
+	private Map<Filter, Set<Predicate>> filterPredicateLookup = new HashMap<>();
 
 	public FilterMatcher(List<Predicate> predicates) {
 		for (Predicate predicate : predicates) {
@@ -16,6 +17,14 @@ public class FilterMatcher {
 			List<Filter> filters = predicate.getFilters();
 
 			for (Filter filter : filters) {
+				
+				if (this.filterPredicateLookup.containsKey(filter)) {
+					this.filterPredicateLookup.get(filter).add(predicate);
+				} else {
+					Set<Predicate> predicateHashSet = new HashSet<>();
+					predicateHashSet.add(predicate);
+					this.filterPredicateLookup.put(filter, predicateHashSet);
+				}
 
 				List<Constraint<?>> constraints = filter.getConstraints();
 				for (Constraint<?> constraint : constraints) {
@@ -66,5 +75,17 @@ public class FilterMatcher {
 		}
 
 		return filters;
+	}
+	
+	public List<Predicate> getPredicates(Filter filter) {
+		List<Predicate> predicates = new ArrayList<>();
+		
+		Set<Predicate> foundPredicates = this.filterPredicateLookup.get(filter);
+		
+		if (foundPredicates != null) {
+			predicates.addAll(foundPredicates);
+		}
+		
+		return predicates;
 	}
 }
