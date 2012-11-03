@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Filter {
 
-	private Long id;
+	private long id;
 
 	private List<Constraint<?>> constraints = new ArrayList<Constraint<?>>();
 
@@ -27,7 +27,7 @@ public class Filter {
 		Filter filter = (Filter) o;
 
 		//if (!constraints.equals(filter.constraints))
-		if (!id.equals(filter.id))
+		if (id != filter.id)
 			return false;
 
 		return true;
@@ -38,7 +38,7 @@ public class Filter {
 		//int result = constraints.hashCode();
 		//return result;
 		
-		return id.hashCode();
+		return (int) (id ^ (id >>> 32));
 	}
 
 	public Long getId() {
