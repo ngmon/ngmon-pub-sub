@@ -12,11 +12,15 @@ public class FilterMatcher {
 	private Map<Filter, Set<Predicate>> filterPredicateLookup = new HashMap<>();
 
 	public FilterMatcher(List<Predicate> predicates) {
+		Long id = 0L;
+		
 		for (Predicate predicate : predicates) {
 
 			List<Filter> filters = predicate.getFilters();
 
 			for (Filter filter : filters) {
+				
+				filter.setId(id++);
 				
 				if (this.filterPredicateLookup.containsKey(filter)) {
 					this.filterPredicateLookup.get(filter).add(predicate);
