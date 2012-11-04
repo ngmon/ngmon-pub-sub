@@ -1,6 +1,6 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class AttributeValue<T_ValueType> {
+public class AttributeValue<T_ValueType extends Comparable<?>> {
 
 	private final Class<T_ValueType> type;
 	private final T_ValueType value;

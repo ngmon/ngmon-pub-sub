@@ -4,7 +4,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
 import java.util.*;
 
-public class EqualsIndex<T_ValueType> implements OperatorIndex<T_ValueType> {
+public class EqualsIndex<T_ValueType extends Comparable<?>> implements OperatorIndex<T_ValueType> {
 
 	protected Map<T_ValueType, Constraint<T_ValueType>> constraints = new HashMap<T_ValueType, Constraint<T_ValueType>>();
 

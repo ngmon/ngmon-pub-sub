@@ -1,21 +1,13 @@
 package cz.muni.fi.publishsubscribe.countingtree.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
+import cz.muni.fi.publishsubscribe.countingtree.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import cz.muni.fi.publishsubscribe.countingtree.Attribute;
-import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
-import cz.muni.fi.publishsubscribe.countingtree.Constraint;
-import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
-import cz.muni.fi.publishsubscribe.countingtree.Event;
-import cz.muni.fi.publishsubscribe.countingtree.Filter;
-import cz.muni.fi.publishsubscribe.countingtree.Operator;
-import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ComplexTreeTestCase {
 
@@ -37,12 +29,12 @@ public class ComplexTreeTestCase {
 		tree = new CountingTree();
 
 		// Apache, processId < 1000
-		Constraint<?> apacheConstraint = new Constraint<String>(
-				APPLICATION_ATTR, new AttributeValue<String>(APACHE_SERVER,
+		Constraint<String> apacheConstraint = new Constraint<>(
+				APPLICATION_ATTR, new AttributeValue<>(APACHE_SERVER,
 						String.class), Operator.EQUALS);
 
-		Constraint<?> pIdLessThan1000 = new Constraint<Long>(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(1000L, Long.class), Operator.LESS_THAN);
+		Constraint<Long> pIdLessThan1000 = new Constraint<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(1000L, Long.class), Operator.LESS_THAN);
 
 		Filter filter01 = new Filter();
 		filter01.addConstraint(apacheConstraint);
@@ -54,12 +46,12 @@ public class ComplexTreeTestCase {
 		tree.subscribe(predicate01);
 
 		// PostgreSQL, processId >= 1000
-		Constraint<?> postgreSqlConstraint = new Constraint<String>(
-				APPLICATION_ATTR, new AttributeValue<String>(POSTGRE_SQL,
+		Constraint<?> postgreSqlConstraint = new Constraint<>(
+				APPLICATION_ATTR, new AttributeValue<>(POSTGRE_SQL,
 						String.class), Operator.EQUALS);
 
-		Constraint<?> pIdGreaterThanOrEqual1000 = new Constraint<Long>(
-				PROCESS_ID_ATTR, new AttributeValue<Long>(1000L, Long.class),
+		Constraint<?> pIdGreaterThanOrEqual1000 = new Constraint<>(
+				PROCESS_ID_ATTR, new AttributeValue<>(1000L, Long.class),
 				Operator.GREATER_THAN_OR_EQUAL_TO);
 
 		Filter filter02 = new Filter();
@@ -72,8 +64,8 @@ public class ComplexTreeTestCase {
 		tree.subscribe(predicate02);
 
 		// processId > 2000
-		Constraint<?> pIdGreaterThan2000 = new Constraint<Long>(
-				PROCESS_ID_ATTR, new AttributeValue<Long>(2000L, Long.class),
+		Constraint<?> pIdGreaterThan2000 = new Constraint<>(
+				PROCESS_ID_ATTR, new AttributeValue<>(2000L, Long.class),
 				Operator.GREATER_THAN);
 
 		Filter filter03 = new Filter();
@@ -88,8 +80,8 @@ public class ComplexTreeTestCase {
 		Filter apacheFilter = new Filter();
 		apacheFilter.addConstraint(apacheConstraint);
 
-		Constraint<?> pIdGreaterThanOrEqual2000 = new Constraint<Long>(
-				PROCESS_ID_ATTR, new AttributeValue<Long>(2000L, Long.class),
+		Constraint<?> pIdGreaterThanOrEqual2000 = new Constraint<>(
+				PROCESS_ID_ATTR, new AttributeValue<>(2000L, Long.class),
 				Operator.GREATER_THAN_OR_EQUAL_TO);
 
 		Filter filter04 = new Filter();
@@ -108,8 +100,8 @@ public class ComplexTreeTestCase {
 	@Test
 	public void testNoMatchingSubscribers() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>("foo", String.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>("foo", String.class)));
 		
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
@@ -118,10 +110,10 @@ public class ComplexTreeTestCase {
 	@Test
 	public void testApacheEvent() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>(APACHE_SERVER, String.class)));
-		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(1234L, Long.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>(APACHE_SERVER, String.class)));
+		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(1234L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
@@ -131,10 +123,10 @@ public class ComplexTreeTestCase {
 	@Test
 	public void testApache1000Event() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>(APACHE_SERVER, String.class)));
-		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(1000L, Long.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>(APACHE_SERVER, String.class)));
+		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(1000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
@@ -144,10 +136,10 @@ public class ComplexTreeTestCase {
 	@Test
 	public void testApache999Event() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>(APACHE_SERVER, String.class)));
-		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(999L, Long.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>(APACHE_SERVER, String.class)));
+		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(999L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
@@ -158,10 +150,10 @@ public class ComplexTreeTestCase {
 	@Test
 	public void testFoo2000Event() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>("foo", String.class)));
-		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(2000L, Long.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>("foo", String.class)));
+		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(2000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
@@ -170,10 +162,10 @@ public class ComplexTreeTestCase {
 	@Test
 	public void testFoo3000Event() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>("foo", String.class)));
-		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(3000L, Long.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>("foo", String.class)));
+		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(3000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
@@ -183,10 +175,10 @@ public class ComplexTreeTestCase {
 	@Test
 	public void postgreSql3000Event() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>(POSTGRE_SQL, String.class)));
-		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(3000L, Long.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>(POSTGRE_SQL, String.class)));
+		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(3000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
@@ -198,10 +190,10 @@ public class ComplexTreeTestCase {
 	@Test
 	public void postgreSql1000Event() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>(POSTGRE_SQL, String.class)));
-		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(1000L, Long.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>(POSTGRE_SQL, String.class)));
+		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(1000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
@@ -211,10 +203,10 @@ public class ComplexTreeTestCase {
 	@Test
 	public void testApache3000Event() {
 		Event event = new Event();
-		event.addAttribute(new Attribute(APPLICATION_ATTR,
-				new AttributeValue<String>(APACHE_SERVER, String.class)));
-		event.addAttribute(new Attribute(PROCESS_ID_ATTR,
-				new AttributeValue<Long>(3000L, Long.class)));
+		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+				new AttributeValue<>(APACHE_SERVER, String.class)));
+		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(3000L, Long.class)));
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(2, predicates.size());

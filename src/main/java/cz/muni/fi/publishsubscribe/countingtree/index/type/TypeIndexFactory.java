@@ -2,12 +2,12 @@ package cz.muni.fi.publishsubscribe.countingtree.index.type;
 
 public class TypeIndexFactory {
 
-	public static <T_ValueType> TypeIndex<T_ValueType> getTypeIndex(Class<T_ValueType> type) {
+	public static TypeIndex<? extends Comparable<?>> getTypeIndex(Class<? extends Comparable<?>> type) {
 
 		if (type == String.class) {
-			return (TypeIndex<T_ValueType>) new StringIndex();
+			return new StringIndex();
 		} else if (type == Long.class) {
-			return (TypeIndex<T_ValueType>) new LongIndex();
+			return new StringIndex();
 		} else {
 			throw new IllegalArgumentException(String.format("Index for type %s is not supported", type.getClass().getName()));
 		}

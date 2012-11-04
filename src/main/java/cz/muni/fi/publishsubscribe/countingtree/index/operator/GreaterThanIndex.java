@@ -10,6 +10,6 @@ public class GreaterThanIndex<T_ValueType extends Comparable<T_ValueType>> exten
 	@Override
 	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
 
-		return new ArrayList<Constraint<T_ValueType>>(this.constraints.headMap(attributeValue, false).values());
+		return new ArrayList<>(this.constraints.headMap(attributeValue, false).values());
 	}
 }

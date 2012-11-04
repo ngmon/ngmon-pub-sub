@@ -6,7 +6,7 @@ import java.util.List;
 public class Predicate {
 
 	private long id;
-	private List<Filter> filters = new ArrayList<Filter>();
+	private List<Filter> filters = new ArrayList<>();
 
 	public List<Filter> getFilters() {
 		return filters;

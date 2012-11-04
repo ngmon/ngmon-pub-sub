@@ -8,7 +8,7 @@ public class FilterMatcher {
 
 	private AttributeIndex attributeIndex = new AttributeIndex();
 
-	private Map<Constraint<?>, Set<Filter>> reverseLookup = new HashMap<>();
+	private Map<Constraint<Comparable<?>>, Set<Filter>> reverseLookup = new HashMap<>();
 	private Map<Filter, Set<Predicate>> filterPredicateLookup = new HashMap<>();
 
 	public FilterMatcher(List<Predicate> predicates) {
@@ -30,8 +30,8 @@ public class FilterMatcher {
 					this.filterPredicateLookup.put(filter, predicateHashSet);
 				}
 
-				List<Constraint<?>> constraints = filter.getConstraints();
-				for (Constraint<?> constraint : constraints) {
+				List<Constraint<Comparable<?>>> constraints = filter.getConstraints();
+				for (Constraint<Comparable<?>> constraint : constraints) {
 
 					this.attributeIndex.addConstraint(constraint);
 
@@ -51,13 +51,13 @@ public class FilterMatcher {
 	}
 
 
-	public List<Constraint<?>> getMatchingConstraints(Event event) {
-		List<Constraint<?>> constraints = new ArrayList<>();
+	public List<Constraint<Comparable<?>>> getMatchingConstraints(Event event) {
+		List<Constraint<Comparable<?>>> constraints = new ArrayList<>();
 
-		List<Attribute<?>> attributes = event.getAttributes();
+		List<Attribute<Comparable<?>>> attributes = event.getAttributes();
 
-		for (Attribute<?> attribute : attributes) {
-			List<Constraint<?>> foundConstraints = this.attributeIndex.getConstraints(attribute.getName(), attribute.getValue());
+		for (Attribute<Comparable<?>> attribute : attributes) {
+			List<Constraint<Comparable<?>>> foundConstraints = this.attributeIndex.getConstraints(attribute.getName(), attribute.getValue());
 
 			constraints.addAll(foundConstraints);
 		}
@@ -68,7 +68,7 @@ public class FilterMatcher {
 	public List<Filter> getMatchingFilters(Event event) {
 		List<Filter> filters = new ArrayList<>();
 
-		for (Constraint<?> c : this.getMatchingConstraints(event)) {
+		for (Constraint<Comparable<?>> c : this.getMatchingConstraints(event)) {
 
 			Set<Filter> foundFilters = this.reverseLookup.get(c);
 

@@ -16,7 +16,7 @@ public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<T
 	}
 
 	protected AbstractNavigableMapIndex(Comparator<T_ValueType> comparator) {
-		this.constraints =  new TreeMap<T_ValueType, Constraint<T_ValueType>>(comparator);
+		this.constraints =  new TreeMap<>(comparator);
 	}
 
 	public boolean addConstraint(Constraint<T_ValueType> constraint) {

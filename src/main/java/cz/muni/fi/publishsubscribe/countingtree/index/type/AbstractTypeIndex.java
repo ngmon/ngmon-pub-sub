@@ -9,17 +9,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractTypeIndex<T_ValueType> implements TypeIndex<T_ValueType> {
+public abstract class AbstractTypeIndex<T_ValueType extends Comparable<?>> implements TypeIndex<T_ValueType> {
 
 	private final Map<Operator, OperatorIndex<T_ValueType>> operatorIndexes;
 
 	public AbstractTypeIndex() {
-		this.operatorIndexes = new EnumMap<Operator, OperatorIndex<T_ValueType>>(Operator.class);
+		this.operatorIndexes = new EnumMap<>(Operator.class);
 	}
 
 	@Override
 	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
-		List<Constraint<T_ValueType>> constraints = new LinkedList<Constraint<T_ValueType>>();
+		List<Constraint<T_ValueType>> constraints = new LinkedList<>();
 
 		for (OperatorIndex<T_ValueType> operatorIndex : this.operatorIndexes.values()) {
 			constraints.addAll(operatorIndex.getConstraints(attributeValue));
