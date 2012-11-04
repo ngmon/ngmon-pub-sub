@@ -8,7 +8,7 @@ import java.util.List;
 public class GreaterThanIndex<T_ValueType extends Comparable<T_ValueType>> extends AbstractNavigableMapIndex<T_ValueType> {
 
 	@Override
-	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
+	public List<Constraint> getConstraints(Comparable<?> attributeValue) {
 
 		return new ArrayList<>(this.constraints.headMap(attributeValue, false).values());
 	}

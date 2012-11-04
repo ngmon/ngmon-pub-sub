@@ -1,20 +1,21 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class AttributeValue<T_ValueType extends Comparable<?>> {
+public class AttributeValue {
 
-	private final Class<T_ValueType> type;
-	private final T_ValueType value;
+	private final Comparable<?> value;
+	private final Class<? extends Comparable<?>> type;
 
-	public AttributeValue(T_ValueType value, Class<T_ValueType> type) {
+
+	public <T1 extends Comparable<?>> AttributeValue(T1 value, Class<T1> type) {
 		this.value = value;
 		this.type = type;
 	}
 
-	public T_ValueType getValue() {
+	public Comparable<?> getValue() {
 		return value;
 	}
 
-	public Class<T_ValueType> getType() {
+	public Class<? extends Comparable<?>> getType() {
 		return type;
 	}
 

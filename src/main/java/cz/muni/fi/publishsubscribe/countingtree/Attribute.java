@@ -1,12 +1,12 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class Attribute<T_ValueType extends Comparable<?>> {
+public class Attribute {
 
 		private String name;
 
-		private AttributeValue<T_ValueType> value;
+		private AttributeValue value;
 
-		public Attribute(String name, AttributeValue<T_ValueType> value) {
+		public Attribute(String name, AttributeValue value) {
 			this.name = name;
 			this.value = value;
 		}
@@ -15,7 +15,7 @@ public class Attribute<T_ValueType extends Comparable<?>> {
 			return name;
 		}
 
-		public AttributeValue<T_ValueType> getValue() {
+		public AttributeValue getValue() {
 			return value;
 		}
 

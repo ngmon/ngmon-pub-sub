@@ -9,17 +9,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractTypeIndex<T_ValueType extends Comparable<?>> implements TypeIndex<T_ValueType> {
+public abstract class AbstractTypeIndex<T_ValueType extends Comparable<T_ValueType>> implements TypeIndex<T_ValueType> {
 
 	private final Map<Operator, OperatorIndex<T_ValueType>> operatorIndexes;
+	private final Class<T_ValueType> type;
 
-	public AbstractTypeIndex() {
+	public AbstractTypeIndex(Class<T_ValueType> type) {
+		this.type = type;
 		this.operatorIndexes = new EnumMap<>(Operator.class);
 	}
 
 	@Override
-	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
-		List<Constraint<T_ValueType>> constraints = new LinkedList<>();
+	public List<Constraint> getConstraints(Comparable<?> attributeValue) {
+		List<Constraint> constraints = new LinkedList<>();
 
 		for (OperatorIndex<T_ValueType> operatorIndex : this.operatorIndexes.values()) {
 			constraints.addAll(operatorIndex.getConstraints(attributeValue));
@@ -29,7 +31,11 @@ public abstract class AbstractTypeIndex<T_ValueType extends Comparable<?>> imple
 	}
 
 	@Override
-	public boolean addConstraint(Constraint<T_ValueType> constraint) {
+	public boolean addConstraint(Constraint constraint) {
+
+		if (!this.type.equals(constraint.getAttributeValue().getType())) {
+			throw new IllegalArgumentException(String.format("The AttributeValue type should be %s, but it is %s", this.type, constraint.getAttributeValue().getType()));
+		}
 
 		return this.operatorIndexes.get(constraint.getOperator()).addConstraint(constraint);
 	}

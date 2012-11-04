@@ -7,7 +7,7 @@ public class TypeIndexFactory {
 		if (type == String.class) {
 			return new StringIndex();
 		} else if (type == Long.class) {
-			return new StringIndex();
+			return new LongIndex();
 		} else {
 			throw new IllegalArgumentException(String.format("Index for type %s is not supported", type.getClass().getName()));
 		}

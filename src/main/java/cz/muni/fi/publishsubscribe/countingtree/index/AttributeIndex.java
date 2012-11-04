@@ -12,14 +12,14 @@ import java.util.Map;
 
 public class AttributeIndex {
 
-	private final Map<String, TypeIndex<Comparable<?>>> attributes = new HashMap<>(10);
+	private final Map<String, TypeIndex<? extends Comparable<?>>> attributes = new HashMap<>(10);
 
-	public boolean addConstraint(Constraint<Comparable<?>> constraint) {
+	public boolean addConstraint(Constraint constraint) {
 
 		String attributeName = constraint.getAttributeName();
-		AttributeValue<Comparable<?>> attributeValue = constraint.getAttributeValue();
+		AttributeValue attributeValue = constraint.getAttributeValue();
 
-		TypeIndex<Comparable<?>> typeIndex = this.attributes.get(attributeName);
+		TypeIndex<? extends Comparable<?>> typeIndex = this.attributes.get(attributeName);
 
 		if (typeIndex != null) {
 
@@ -27,8 +27,7 @@ public class AttributeIndex {
 
 		} else {
 
-			//noinspection unchecked
-			typeIndex = (TypeIndex<Comparable<?>>) TypeIndexFactory.getTypeIndex(attributeValue.getType());
+			typeIndex = TypeIndexFactory.getTypeIndex(attributeValue.getType());
 
 			typeIndex.addConstraint(constraint);
 			this.attributes.put(attributeName, typeIndex);
@@ -37,9 +36,9 @@ public class AttributeIndex {
 		return true;
 	}
 
-	public List<Constraint<Comparable<?>>> getConstraints(String attributeName, AttributeValue<Comparable<?>> attributeValue) {
+	public List<Constraint> getConstraints(String attributeName, AttributeValue attributeValue) {
 
-		TypeIndex<Comparable<?>> typeIndex =  this.attributes.get(attributeName);
+		TypeIndex<? extends Comparable<?>> typeIndex =  this.attributes.get(attributeName);
 
 		if (typeIndex == null) {
 			return Collections.emptyList();
