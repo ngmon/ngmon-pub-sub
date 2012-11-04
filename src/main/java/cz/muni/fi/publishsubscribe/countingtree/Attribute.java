@@ -1,12 +1,12 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class Attribute {
+public class Attribute<T_ValueType> {
 
 		private String name;
 
-		private AttributeValue value;
+		private AttributeValue<T_ValueType> value;
 
-		public Attribute(String name, AttributeValue value) {
+		public Attribute(String name, AttributeValue<T_ValueType> value) {
 			this.name = name;
 			this.value = value;
 		}
@@ -15,7 +15,7 @@ public class Attribute {
 			return name;
 		}
 
-		public AttributeValue getValue() {
+		public AttributeValue<T_ValueType> getValue() {
 			return value;
 		}
 

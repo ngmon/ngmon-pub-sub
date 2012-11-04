@@ -52,10 +52,12 @@ public class FilterMatcher {
 
 
 	public List<Constraint<?>> getMatchingConstraints(Event event) {
-		List<Constraint<?>> constraints = new ArrayList<Constraint<?>>();
+		List<Constraint<?>> constraints = new ArrayList<>();
 
-		List<Attribute> attributes = event.getAttributes();
+		List<Attribute<?>> attributes = event.getAttributes();
 
+
+		//TODO typesafe solution
 		for (Attribute attribute : attributes) {
 			List<Constraint<?>> foundConstraints = this.attributeIndex.getConstraints(attribute.getName(), attribute.getValue());
 
