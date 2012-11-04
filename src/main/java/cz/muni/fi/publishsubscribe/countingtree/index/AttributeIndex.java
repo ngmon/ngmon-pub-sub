@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class AttributeIndex {
 
-	private final Map<String, TypeIndex<?>> attributes = new HashMap<String, TypeIndex<?>>(10);
+	private final Map<String, TypeIndex<?>> attributes = new HashMap<>(10);
 
 	public <T_ValueType> boolean addConstraint(Constraint<T_ValueType> constraint) {
 
@@ -35,14 +35,14 @@ public class AttributeIndex {
 		return true;
 	}
 
-	public <T_ValueType> List<Constraint<T_ValueType>> getConstraints(String attributeName, AttributeValue<T_ValueType> attributeValue) {
+	public List<Constraint<?>> getConstraints(String attributeName, AttributeValue<?> attributeValue) {
 
-		TypeIndex<T_ValueType> typeIndex = (TypeIndex<T_ValueType>) this.attributes.get(attributeName);
+		TypeIndex typeIndex = this.attributes.get(attributeName);
 
 		if (typeIndex == null) {
 			return Collections.emptyList();
 		}
 
-		return typeIndex.getConstraints(attributeValue.getValue());
+		return typeIndex.getConstraints(attributeValue.getValue()); //TODO typesafe solution
 	}
 }

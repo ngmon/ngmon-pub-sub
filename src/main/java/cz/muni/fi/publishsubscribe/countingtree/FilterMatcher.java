@@ -56,9 +56,7 @@ public class FilterMatcher {
 
 		List<Attribute<?>> attributes = event.getAttributes();
 
-
-		//TODO typesafe solution
-		for (Attribute attribute : attributes) {
+		for (Attribute<?> attribute : attributes) {
 			List<Constraint<?>> foundConstraints = this.attributeIndex.getConstraints(attribute.getName(), attribute.getValue());
 
 			constraints.addAll(foundConstraints);
