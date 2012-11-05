@@ -70,20 +70,17 @@ public class CountingTree {
 		List<Filter> matchingFilters = matcher.getMatchingFilters(event);
 
 		for (Filter filter : matchingFilters) {
-			// TODO - the size of matchedPredicates is always 1 now 
-			List<Predicate> matchedPredicates = matcher.getPredicates(filter);
-			for (Predicate matchedPredicate : matchedPredicates) {
-				if (!matched.contains(matchedPredicate)) {
-					Integer count = counters.get(filter);
-					if (count == null)
-						count = 0;
-					counters.put(filter, ++count);
-					if (count.equals(filter.getConstraints().size())) {
-						predicates.add(matchedPredicate);
-						matched.add(matchedPredicate);
-						if (matched.size() == subscriptionCount)
-							break;
-					}
+			Predicate matchedPredicate = matcher.getPredicate(filter);
+			if (!matched.contains(matchedPredicate)) {
+				Integer count = counters.get(filter);
+				if (count == null)
+					count = 0;
+				counters.put(filter, ++count);
+				if (count.equals(filter.getConstraints().size())) {
+					predicates.add(matchedPredicate);
+					matched.add(matchedPredicate);
+					if (matched.size() == subscriptionCount)
+						break;
 				}
 			}
 		}

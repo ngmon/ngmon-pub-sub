@@ -9,26 +9,20 @@ public class FilterMatcher {
 	private AttributeIndex attributeIndex = new AttributeIndex();
 
 	private Map<Constraint, Set<Filter>> reverseLookup = new HashMap<>();
-	private Map<Filter, Set<Predicate>> filterPredicateLookup = new HashMap<>();
+	private Map<Filter, Predicate> filterPredicateLookup = new HashMap<>();
 
 	public FilterMatcher(List<Predicate> predicates) {
-		Long id = 0L;
-		
+		Long filterId = 0L;
+
 		for (Predicate predicate : predicates) {
 
 			List<Filter> filters = predicate.getFilters();
 
 			for (Filter filter : filters) {
-				
-				filter.setId(id++);
-				
-				if (this.filterPredicateLookup.containsKey(filter)) {
-					this.filterPredicateLookup.get(filter).add(predicate);
-				} else {
-					Set<Predicate> predicateHashSet = new HashSet<>();
-					predicateHashSet.add(predicate);
-					this.filterPredicateLookup.put(filter, predicateHashSet);
-				}
+
+				filter.setId(filterId++);
+
+				this.filterPredicateLookup.put(filter, predicate);
 
 				List<Constraint> constraints = filter.getConstraints();
 				for (Constraint constraint : constraints) {
@@ -50,14 +44,14 @@ public class FilterMatcher {
 		}
 	}
 
-
 	public List<Constraint> getMatchingConstraints(Event event) {
 		List<Constraint> constraints = new ArrayList<>();
 
 		List<Attribute> attributes = event.getAttributes();
 
 		for (Attribute attribute : attributes) {
-			List<Constraint> foundConstraints = this.attributeIndex.getConstraints(attribute.getName(), attribute.getValue());
+			List<Constraint> foundConstraints = this.attributeIndex
+					.getConstraints(attribute.getName(), attribute.getValue());
 
 			constraints.addAll(foundConstraints);
 		}
@@ -80,16 +74,9 @@ public class FilterMatcher {
 
 		return filters;
 	}
-	
-	public List<Predicate> getPredicates(Filter filter) {
-		List<Predicate> predicates = new ArrayList<>();
-		
-		Set<Predicate> foundPredicates = this.filterPredicateLookup.get(filter);
-		
-		if (foundPredicates != null) {
-			predicates.addAll(foundPredicates);
-		}
-		
-		return predicates;
+
+	public Predicate getPredicate(Filter filter) {
+		Predicate foundPredicate = this.filterPredicateLookup.get(filter);
+		return foundPredicate;
 	}
 }
