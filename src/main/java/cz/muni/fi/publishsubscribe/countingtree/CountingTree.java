@@ -36,6 +36,7 @@ public class CountingTree {
 		while (iterator.hasNext()) {
 			Predicate predicate = iterator.next();
 			if (subscriptionId.equals(predicate.getId())) {
+				this.matcher.removePredicate(predicate);
 				iterator.remove();
 				return true;
 			}

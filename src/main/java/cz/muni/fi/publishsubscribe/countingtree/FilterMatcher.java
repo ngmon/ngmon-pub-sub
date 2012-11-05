@@ -10,15 +10,15 @@ public class FilterMatcher {
 
 	private Map<Constraint, Set<Filter>> reverseLookup = new HashMap<>();
 	private Map<Filter, Predicate> filterPredicateLookup = new HashMap<>();
-	
+
 	private Long filterId = 1L;
 
 	public FilterMatcher() {
 	}
-	
+
 	public void addPredicate(Predicate predicate) {
 		List<Filter> filters = predicate.getFilters();
-		
+
 		for (Filter filter : filters) {
 
 			filter.setId(filterId++);
@@ -40,8 +40,33 @@ public class FilterMatcher {
 					this.reverseLookup.put(constraint, filterHashSet);
 				}
 
+				// TODO - remove the Constraint from the index itself
+				// this.attributeIndex.removeConstraint(constraint);
+				// and some counter for the Constraints (in AttributeIndex
+				// probably) needs to be implemented
 			}
 		}
+	}
+
+	public void removePredicate(Predicate predicate) {
+		// remove the relevant items from reverse lookup maps
+		List<Filter> filters = predicate.getFilters();
+		for (Filter filter : filters) {
+			List<Constraint> constraints = filter.getConstraints();
+			for (Constraint constraint : constraints) {
+				Set<Filter> associatedFilters = this.reverseLookup
+						.get(constraint);
+				if (associatedFilters != null) {
+					associatedFilters.remove(filter);
+					if (associatedFilters.isEmpty()) {
+						this.reverseLookup.remove(constraint);
+					}
+				}
+			}
+			this.filterPredicateLookup.remove(predicate);
+		}
+		
+		// TODO - remove the constraints from the indices
 	}
 
 	public List<Constraint> getMatchingConstraints(Event event) {
