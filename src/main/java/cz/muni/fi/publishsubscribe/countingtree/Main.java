@@ -37,7 +37,7 @@ public class Main {
 		/* Long apacheSubscriptionId2 = */countingTree
 				.subscribe(apachePredicate2);
 
-		countingTree.createIndexTable();
+		//countingTree.createIndexTable();
 
 		// create some events
 		Event event1 = new Event();

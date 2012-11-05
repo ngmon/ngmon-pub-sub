@@ -94,7 +94,7 @@ public class ComplexTreeTestCase {
 
 		tree.subscribe(predicate04);
 
-		tree.createIndexTable();
+		//tree.createIndexTable();
 	}
 
 	@Test
