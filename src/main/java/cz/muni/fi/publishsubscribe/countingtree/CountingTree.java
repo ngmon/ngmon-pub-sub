@@ -12,33 +12,24 @@ public class CountingTree {
 
 	private Long subscriptionCounter = 1L;
 	private List<Predicate> predicates = new ArrayList<Predicate>();
-	private FilterMatcher matcher = null;
+	private FilterMatcher matcher = new FilterMatcher();
 
 	public Long subscribe(Predicate predicate) {
 		this.predicates.add(predicate);
-
-		// TODO - fwd table
-
-		/*-
-		List<Filter> filters = predicate.getFilters();
-		for (Filter filter : filters) {
-			List<Constraint> constraints = filter.getConstraints();
-			for (Constraint constraint : constraints) {
-				
-			}
-		}*/
-
 		predicate.setId(subscriptionCounter);
+		
+		matcher.addPredicate(predicate);
+
 		return subscriptionCounter++;
 	}
 
-	public void createIndexTable() {
+	/*-public void createIndexTable() {
 		if (predicates != null && !predicates.isEmpty()) {
 			matcher = new FilterMatcher(predicates);
 		} else {
 			matcher = null;
 		}
-	}
+	}*/
 
 	private boolean unsubscribe(Long subscriptionId) {
 		Iterator<Predicate> iterator = predicates.iterator();

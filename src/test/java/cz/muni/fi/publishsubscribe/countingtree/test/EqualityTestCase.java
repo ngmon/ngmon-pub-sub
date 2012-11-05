@@ -114,7 +114,7 @@ public class EqualityTestCase {
 		
 		tree.subscribe(apacheOrPostgreSqlPredicate);
 
-		tree.createIndexTable();
+		//tree.createIndexTable();
 	}
 
 	@Test

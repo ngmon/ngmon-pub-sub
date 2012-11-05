@@ -10,36 +10,36 @@ public class FilterMatcher {
 
 	private Map<Constraint, Set<Filter>> reverseLookup = new HashMap<>();
 	private Map<Filter, Predicate> filterPredicateLookup = new HashMap<>();
+	
+	private Long filterId = 1L;
 
-	public FilterMatcher(List<Predicate> predicates) {
-		Long filterId = 0L;
+	public FilterMatcher() {
+	}
+	
+	public void addPredicate(Predicate predicate) {
+		List<Filter> filters = predicate.getFilters();
+		
+		for (Filter filter : filters) {
 
-		for (Predicate predicate : predicates) {
+			filter.setId(filterId++);
 
-			List<Filter> filters = predicate.getFilters();
+			this.filterPredicateLookup.put(filter, predicate);
 
-			for (Filter filter : filters) {
+			List<Constraint> constraints = filter.getConstraints();
+			for (Constraint constraint : constraints) {
 
-				filter.setId(filterId++);
+				this.attributeIndex.addConstraint(constraint);
 
-				this.filterPredicateLookup.put(filter, predicate);
+				if (this.reverseLookup.containsKey(constraint)) {
+					this.reverseLookup.get(constraint).add(filter);
+				} else {
 
-				List<Constraint> constraints = filter.getConstraints();
-				for (Constraint constraint : constraints) {
+					Set<Filter> filterHashSet = new HashSet<>();
+					filterHashSet.add(filter);
 
-					this.attributeIndex.addConstraint(constraint);
-
-					if (this.reverseLookup.containsKey(constraint)) {
-						this.reverseLookup.get(constraint).add(filter);
-					} else {
-
-						Set<Filter> filterHashSet = new HashSet<>();
-						filterHashSet.add(filter);
-
-						this.reverseLookup.put(constraint, filterHashSet);
-					}
-
+					this.reverseLookup.put(constraint, filterHashSet);
 				}
+
 			}
 		}
 	}
