@@ -1,19 +1,12 @@
 package cz.muni.fi.publishsubscribe.countingtree.test;
 
-import static org.junit.Assert.*;
+import cz.muni.fi.publishsubscribe.countingtree.*;
+import org.junit.Test;
 
 import java.util.List;
 
-import org.junit.Test;
-
-import cz.muni.fi.publishsubscribe.countingtree.Attribute;
-import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
-import cz.muni.fi.publishsubscribe.countingtree.Constraint;
-import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
-import cz.muni.fi.publishsubscribe.countingtree.Event;
-import cz.muni.fi.publishsubscribe.countingtree.Filter;
-import cz.muni.fi.publishsubscribe.countingtree.Operator;
-import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class VariousTestCase {
 
@@ -22,7 +15,7 @@ public class VariousTestCase {
 		CountingTree tree = new CountingTree();
 
 		Event event = new Event();
-		event.addAttribute(new Attribute("app", new AttributeValue("foo",
+		event.addAttribute(new Attribute<>("app", new AttributeValue<>("foo",
 				String.class)));
 
 		List<Predicate> predicates = tree.match(event);
@@ -33,7 +26,7 @@ public class VariousTestCase {
 	public void testUnsubscribeFromEmptyTree() {
 		CountingTree tree = new CountingTree();
 
-		Constraint applicationFoo = new Constraint("app", new AttributeValue(
+		Constraint<String> applicationFoo = new Constraint<>("app", new AttributeValue<>(
 				"foo", String.class), Operator.EQUALS);
 		Filter fooFilter = new Filter();
 		fooFilter.addConstraint(applicationFoo);

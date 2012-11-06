@@ -9,8 +9,8 @@ public class Filter {
 
 	private List<Constraint<Comparable<?>>> constraints = new ArrayList<>();
 
-	public boolean addConstraint(Constraint<Comparable<?>> constraint) {
-		return this.constraints.add(constraint);
+	public boolean addConstraint(Constraint<? extends Comparable<?>> constraint) {
+		return this.constraints.add((Constraint<Comparable<?>>) constraint);
 	}
 
 	public List<Constraint<Comparable<?>>> getConstraints() {

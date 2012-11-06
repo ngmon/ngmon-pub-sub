@@ -58,22 +58,22 @@ public class AttributeIndex {
 		Integer count = constraintCounter.get(constraint);
 		if (count == null)
 			return false;
-		
+
 		String attributeName = constraint.getAttributeName();
 		TypeIndex<Comparable<?>> typeIndex = this.attributes.get(attributeName);
 		// no index for the attribute
 		if (typeIndex == null)
 			return false;
-		
+
 		count--;
-		
+
 		if (count == 0)
 			typeIndex.removeConstraint(constraint);
 		else
 			constraintCounter.put(constraint, count);
-		
+
 		return true;
-			
+
 	}
 
 	public List<Constraint<Comparable<?>>> getConstraints(String attributeName, AttributeValue<Comparable<?>> attributeValue) {

@@ -7,8 +7,8 @@ public class Event {
 
 	private List<Attribute<Comparable<?>>> attributes = new ArrayList<>();
 
-	public boolean addAttribute(Attribute<Comparable<?>> attribute) {
-		return this.attributes.add(attribute);
+	public boolean addAttribute(Attribute<? extends Comparable<?>> attribute) {
+		return this.attributes.add((Attribute<Comparable<?>>) attribute);
 	}
 
 	public List<Attribute<Comparable<?>>> getAttributes() {
