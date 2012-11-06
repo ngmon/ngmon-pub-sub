@@ -8,7 +8,7 @@ public class FilterMatcher {
 
 	private AttributeIndex attributeIndex = new AttributeIndex();
 
-	private Map<Constraint, Set<Filter>> reverseLookup = new HashMap<>();
+	private Map<Constraint<Comparable<?>>, Set<Filter>> reverseLookup = new HashMap<>();
 	private Map<Filter, Predicate> filterPredicateLookup = new HashMap<>();
 
 	private Long filterId = 1L;
@@ -25,8 +25,8 @@ public class FilterMatcher {
 
 			this.filterPredicateLookup.put(filter, predicate);
 
-			List<Constraint> constraints = filter.getConstraints();
-			for (Constraint constraint : constraints) {
+			List<Constraint<Comparable<?>>> constraints = filter.getConstraints();
+			for (Constraint<Comparable<?>> constraint : constraints) {
 
 				this.attributeIndex.addConstraint(constraint);
 
@@ -52,8 +52,8 @@ public class FilterMatcher {
 		// remove the relevant items from reverse lookup maps
 		List<Filter> filters = predicate.getFilters();
 		for (Filter filter : filters) {
-			List<Constraint> constraints = filter.getConstraints();
-			for (Constraint constraint : constraints) {
+			List<Constraint<Comparable<?>>> constraints = filter.getConstraints();
+			for (Constraint<Comparable<?>> constraint : constraints) {
 				Set<Filter> associatedFilters = this.reverseLookup
 						.get(constraint);
 				if (associatedFilters != null) {
@@ -69,14 +69,13 @@ public class FilterMatcher {
 		// TODO - remove the constraints from the indices
 	}
 
-	public List<Constraint> getMatchingConstraints(Event event) {
-		List<Constraint> constraints = new ArrayList<>();
+	public List<Constraint<Comparable<?>>> getMatchingConstraints(Event event) {
+		List<Constraint<Comparable<?>>> constraints = new ArrayList<>();
 
-		List<Attribute> attributes = event.getAttributes();
+		List<Attribute<Comparable<?>>> attributes = event.getAttributes();
 
-		for (Attribute attribute : attributes) {
-			List<Constraint> foundConstraints = this.attributeIndex
-					.getConstraints(attribute.getName(), attribute.getValue());
+		for (Attribute<Comparable<?>> attribute : attributes) {
+			List<Constraint<Comparable<?>>> foundConstraints = this.attributeIndex.getConstraints(attribute.getName(), attribute.getValue());
 
 			constraints.addAll(foundConstraints);
 		}

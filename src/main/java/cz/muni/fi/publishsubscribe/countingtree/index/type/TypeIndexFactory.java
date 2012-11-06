@@ -2,7 +2,7 @@ package cz.muni.fi.publishsubscribe.countingtree.index.type;
 
 public class TypeIndexFactory {
 
-	public static TypeIndex<? extends Comparable<?>> getTypeIndex(Class<? extends Comparable<?>> type) {
+	public static <T1 extends Comparable<?>> TypeIndex<? extends Comparable<?>> getTypeIndex(Class<T1> type) {
 
 		if (type == String.class) {
 			return new StringIndex();

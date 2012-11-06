@@ -1,12 +1,12 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class Constraint {
+public class Constraint<T1 extends Comparable<?>> {
 
 	private String attributeName;
 	private Operator operator;
-	private AttributeValue attributeValue;
+	private AttributeValue<T1> attributeValue;
 
-	public Constraint(String attributeName, AttributeValue attributeValue,
+	public Constraint(String attributeName, AttributeValue<T1> attributeValue,
 	                  Operator operator) {
 
 		this.attributeName = attributeName;
@@ -22,7 +22,7 @@ public class Constraint {
 		return attributeName;
 	}
 
-	public AttributeValue getAttributeValue() {
+	public AttributeValue<T1> getAttributeValue() {
 		return attributeValue;
 	}
 

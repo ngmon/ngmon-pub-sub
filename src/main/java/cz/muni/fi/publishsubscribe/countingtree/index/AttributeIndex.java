@@ -12,16 +12,15 @@ import java.util.Map;
 
 public class AttributeIndex {
 
-	private final Map<String, TypeIndex<? extends Comparable<?>>> attributes = new HashMap<>(
-			10);
+	private final Map<String, TypeIndex<Comparable<?>>> attributes = new HashMap<>(10);
 	private Map<Constraint, Integer> constraintCounter = new HashMap<>();
 
-	public boolean addConstraint(Constraint constraint) {
+	public boolean addConstraint(Constraint<Comparable<?>> constraint) {
 
 		String attributeName = constraint.getAttributeName();
-		AttributeValue attributeValue = constraint.getAttributeValue();
+		AttributeValue<Comparable<?>> attributeValue = constraint.getAttributeValue();
 
-		TypeIndex<? extends Comparable<?>> typeIndex = this.attributes
+		TypeIndex<Comparable<?>> typeIndex = this.attributes
 				.get(attributeName);
 
 		if (typeIndex != null) {
@@ -30,7 +29,7 @@ public class AttributeIndex {
 
 		} else {
 
-			typeIndex = TypeIndexFactory.getTypeIndex(attributeValue.getType());
+			typeIndex = (TypeIndex<Comparable<?>>) TypeIndexFactory.getTypeIndex(attributeValue.getType());
 
 			typeIndex.addConstraint(constraint);
 			this.attributes.put(attributeName, typeIndex);
@@ -41,7 +40,7 @@ public class AttributeIndex {
 		return true;
 	}
 
-	private void incrementConstraintCounter(Constraint constraint) {
+	private void incrementConstraintCounter(Constraint<Comparable<?>> constraint) {
 		Integer count = constraintCounter.get(constraint);
 		if (count == null)
 			constraintCounter.put(constraint, 1);
@@ -55,13 +54,13 @@ public class AttributeIndex {
 	 * if the associated counter is 1)
 	 * @return true if the Constraint is found, false otherwise
 	 */
-	public boolean removeConstraint(Constraint constraint) {
+	public boolean removeConstraint(Constraint<Comparable<?>> constraint) {
 		Integer count = constraintCounter.get(constraint);
 		if (count == null)
 			return false;
 		
 		String attributeName = constraint.getAttributeName();
-		TypeIndex<? extends Comparable<?>> typeIndex = this.attributes.get(attributeName);
+		TypeIndex<Comparable<?>> typeIndex = this.attributes.get(attributeName);
 		// no index for the attribute
 		if (typeIndex == null)
 			return false;
@@ -77,11 +76,9 @@ public class AttributeIndex {
 			
 	}
 
-	public List<Constraint> getConstraints(String attributeName,
-			AttributeValue attributeValue) {
+	public List<Constraint<Comparable<?>>> getConstraints(String attributeName, AttributeValue<Comparable<?>> attributeValue) {
 
-		TypeIndex<? extends Comparable<?>> typeIndex = this.attributes
-				.get(attributeName);
+		TypeIndex<Comparable<?>> typeIndex = this.attributes.get(attributeName);
 
 		if (typeIndex == null) {
 			return Collections.emptyList();

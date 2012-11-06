@@ -4,10 +4,10 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
 import java.util.List;
 
-public interface Index<T_ValueType extends Comparable<T_ValueType>> {
+public interface Index<T_ValueType extends Comparable<?>> {
 
-	public boolean addConstraint(Constraint constraint);
-	public boolean removeConstraint(Constraint constraint);
-	public List<Constraint> getConstraints(Comparable<?> attributeValue);
+	public boolean addConstraint(Constraint<T_ValueType> constraint);
+	public boolean removeConstraint(Constraint<T_ValueType> constraint);
+	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue);
 
 }

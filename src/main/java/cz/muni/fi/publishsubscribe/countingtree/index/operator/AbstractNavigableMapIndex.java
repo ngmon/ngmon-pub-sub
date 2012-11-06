@@ -7,21 +7,20 @@ import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<T_ValueType>>
-		implements OperatorIndex<T_ValueType> {
+public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<?>> implements OperatorIndex<T_ValueType> {
 
-	protected NavigableMap<Comparable<?>, Constraint> constraints;
+	protected NavigableMap<T_ValueType, Constraint<T_ValueType>> constraints;
 
 	protected AbstractNavigableMapIndex() {
 		this(null);
 	}
 
-	protected AbstractNavigableMapIndex(Comparator<Comparable<?>> comparator) {
+	protected AbstractNavigableMapIndex(Comparator<T_ValueType> comparator) {
 		this.constraints = new TreeMap<>(comparator);
 	}
 
-	public boolean addConstraint(Constraint constraint) {
-		Comparable<?> value = constraint.getAttributeValue().getValue();
+	public boolean addConstraint(Constraint<T_ValueType> constraint) {
+		T_ValueType value = constraint.getAttributeValue().getValue();
 
 		if (this.constraints.containsKey(value)) {
 			return false;
@@ -37,5 +36,5 @@ public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<T
 		throw new RuntimeException("not implemented yet");
 	}
 
-	public abstract List<Constraint> getConstraints(Comparable<?> attributeValue);
+	public abstract List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue);
 }

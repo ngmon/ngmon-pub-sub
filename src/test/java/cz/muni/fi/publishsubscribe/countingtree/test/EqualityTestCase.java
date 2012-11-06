@@ -1,8 +1,6 @@
 package cz.muni.fi.publishsubscribe.countingtree.test;
 
 import cz.muni.fi.publishsubscribe.countingtree.*;
-import cz.muni.fi.publishsubscribe.countingtree.index.type.StringIndex;
-import cz.muni.fi.publishsubscribe.countingtree.index.type.TypeIndex;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -128,14 +126,6 @@ public class EqualityTestCase {
 
 		List<Predicate> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testGenericsIndex() throws Exception {
-		TypeIndex<String> stringIndex = new StringIndex();
-
-		stringIndex.addConstraint(new Constraint("attr", new AttributeValue("aa", String.class), Operator.EQUALS));
-		stringIndex.addConstraint(new Constraint("attr", new AttributeValue(100L, Long.class), Operator.LESS_THAN));
 	}
 
 	@Test

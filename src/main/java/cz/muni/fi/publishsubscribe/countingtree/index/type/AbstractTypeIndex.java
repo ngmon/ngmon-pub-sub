@@ -9,53 +9,38 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractTypeIndex<T_ValueType extends Comparable<T_ValueType>>
-		implements TypeIndex<T_ValueType> {
+public abstract class AbstractTypeIndex<T_ValueType extends Comparable<?>> implements TypeIndex<T_ValueType> {
 
 	private final Map<Operator, OperatorIndex<T_ValueType>> operatorIndexes;
-	private final Class<T_ValueType> type;
 
-	public AbstractTypeIndex(Class<T_ValueType> type) {
-		this.type = type;
+	public AbstractTypeIndex() {
 		this.operatorIndexes = new EnumMap<>(Operator.class);
 	}
 
 	@Override
-	public List<Constraint> getConstraints(Comparable<?> attributeValue) {
-		List<Constraint> constraints = new LinkedList<>();
+	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
+		List<Constraint<T_ValueType>> constraints = new LinkedList<>();
 
-		for (OperatorIndex<T_ValueType> operatorIndex : this.operatorIndexes
-				.values()) {
+		for (OperatorIndex<T_ValueType> operatorIndex : this.operatorIndexes.values()) {
 			constraints.addAll(operatorIndex.getConstraints(attributeValue));
 		}
 
 		return constraints;
 	}
 
-	private void checkType(Constraint constraint) {
-		if (!this.type.equals(constraint.getAttributeValue().getType())) {
-			throw new IllegalArgumentException(String.format(
-					"The AttributeValue type should be %s, but it is %s",
-					this.type, constraint.getAttributeValue().getType()));
-		}
+	@Override
+	public boolean addConstraint(Constraint<T_ValueType> constraint) {
+
+		return this.operatorIndexes.get(constraint.getOperator()).addConstraint(constraint);
 	}
 
 	@Override
-	public boolean addConstraint(Constraint constraint) {
-		checkType(constraint);
-		return this.operatorIndexes.get(constraint.getOperator())
-				.addConstraint(constraint);
+	public boolean removeConstraint(Constraint<T_ValueType> constraint) {
+
+		return this.operatorIndexes.get(constraint.getOperator()).removeConstraint(constraint);
 	}
 
-	@Override
-	public boolean removeConstraint(Constraint constraint) {
-		checkType(constraint);
-		return this.operatorIndexes.get(constraint.getOperator())
-				.removeConstraint(constraint);
-	}
-
-	public final boolean addOperatorIndex(Operator operator,
-			OperatorIndex<T_ValueType> operatorIndex) {
+	public final boolean addOperatorIndex(Operator operator, OperatorIndex<T_ValueType> operatorIndex) {
 
 		if (this.operatorIndexes.containsKey(operator)) {
 			return false;
