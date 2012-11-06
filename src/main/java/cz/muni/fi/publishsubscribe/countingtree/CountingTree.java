@@ -11,13 +11,13 @@ import java.util.Set;
 public class CountingTree {
 
 	private Long subscriptionCounter = 1L;
-	private List<Predicate> predicates = new ArrayList<Predicate>();
+	private Map<Long, Predicate> predicates = new HashMap<>();
 	private FilterMatcher matcher = new FilterMatcher();
 
 	public Long subscribe(Predicate predicate) {
-		this.predicates.add(predicate);
 		predicate.setId(subscriptionCounter);
-		
+		this.predicates.put(subscriptionCounter, predicate);
+
 		matcher.addPredicate(predicate);
 
 		return subscriptionCounter++;
@@ -32,17 +32,7 @@ public class CountingTree {
 	}*/
 
 	private boolean unsubscribe(Long subscriptionId) {
-		Iterator<Predicate> iterator = predicates.iterator();
-		while (iterator.hasNext()) {
-			Predicate predicate = iterator.next();
-			if (subscriptionId.equals(predicate.getId())) {
-				this.matcher.removePredicate(predicate);
-				iterator.remove();
-				return true;
-			}
-		}
-
-		return false;
+		return (this.predicates.remove(subscriptionId) != null);
 	}
 
 	public List<Predicate> match(Event event) {
