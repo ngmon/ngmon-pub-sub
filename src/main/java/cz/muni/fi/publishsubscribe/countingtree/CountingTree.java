@@ -31,8 +31,15 @@ public class CountingTree {
 		}
 	}*/
 
-	private boolean unsubscribe(Long subscriptionId) {
+	public boolean unsubscribe(Long subscriptionId) {
 		return (this.predicates.remove(subscriptionId) != null);
+	}
+	
+	public boolean unsubscribe(Predicate predicate) {
+		Long predicateId = predicate.getId();
+		if (predicateId == null)
+			return false;
+		return unsubscribe(predicateId);
 	}
 
 	public List<Predicate> match(Event event) {
