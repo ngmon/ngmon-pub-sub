@@ -4,7 +4,8 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
 import java.util.*;
 
-public class EqualsIndex<T_ValueType extends Comparable<T_ValueType>> implements OperatorIndex<T_ValueType> {
+public class EqualsIndex<T_ValueType extends Comparable<T_ValueType>>
+		implements OperatorIndex<T_ValueType> {
 
 	protected Map<Comparable<?>, Constraint> constraints = new HashMap<>();
 
@@ -18,6 +19,11 @@ public class EqualsIndex<T_ValueType extends Comparable<T_ValueType>> implements
 		this.constraints.put(value, constraint);
 
 		return true;
+	}
+
+	@Override
+	public boolean removeConstraint(Constraint constraint) {
+		return (constraints.remove(constraint.getAttributeValue().getValue()) != null);
 	}
 
 	// Returning only single Constraint!!
