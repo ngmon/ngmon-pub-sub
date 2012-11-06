@@ -3,13 +3,14 @@ package cz.muni.fi.publishsubscribe.countingtree;
 import java.util.*;
 
 public enum Operator {
-	EQUALS, LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO;
+	EQUALS, LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, PREFIX;
 
 	private static Map<Class, Set<Operator>> operatorMap = new HashMap<>(2);
 
 	static {
 		Set<Operator> stringOperators = new HashSet<>();
 		stringOperators.add(EQUALS);
+		stringOperators.add(PREFIX);
 
 		Set<Operator> longOperators = new HashSet<>();
 		longOperators.add(EQUALS);
