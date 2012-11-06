@@ -32,6 +32,10 @@ public class CountingTree {
 	}*/
 
 	public boolean unsubscribe(Long subscriptionId) {
+		Predicate predicate = this.predicates.get(subscriptionId);
+		if (predicate == null)
+			return false;
+		this.matcher.removePredicate(predicate);
 		return (this.predicates.remove(subscriptionId) != null);
 	}
 	
