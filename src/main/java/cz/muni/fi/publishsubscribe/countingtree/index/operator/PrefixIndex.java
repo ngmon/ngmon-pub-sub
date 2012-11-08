@@ -5,10 +5,9 @@ import java.util.List;
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.ternarysearchtree.TernarySearchTree;
 
-public class PrefixIndex<T_ValueType extends Comparable<T_ValueType>>
-		implements OperatorIndex<T_ValueType> {
+public class PrefixIndex<T_ValueType extends Comparable<?>> implements OperatorIndex<T_ValueType> {
 
-	protected TernarySearchTree<Constraint> tree = new TernarySearchTree<>();
+	protected TernarySearchTree<Constraint<T_ValueType>> tree = new TernarySearchTree<>();
 
 	@Override
 	public boolean addConstraint(Constraint constraint) {
@@ -22,12 +21,12 @@ public class PrefixIndex<T_ValueType extends Comparable<T_ValueType>>
 	}
 
 	@Override
-	public boolean removeConstraint(Constraint constraint) {
+	public boolean removeConstraint(Constraint<T_ValueType> constraint) {
 		return (tree.remove(constraint.getAttributeValue().getValue()) != null);
 	}
 
 	@Override
-	public List<Constraint> getConstraints(Comparable<?> attributeValue) {
+	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
 		/*-return tree.getAllPrefixes(attributeValue);*/
 		
 		// DELETE THIS LATER!

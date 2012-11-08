@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Event {
 
-	private List<Attribute> attributes = new ArrayList<>();
+	private List<Attribute<Comparable<?>>> attributes = new ArrayList<>();
 
-	public boolean addAttribute(Attribute attribute) {
-		return this.attributes.add(attribute);
+	public boolean addAttribute(Attribute<? extends Comparable<?>> attribute) {
+		return this.attributes.add((Attribute<Comparable<?>>) attribute);
 	}
 
-	public List<Attribute> getAttributes() {
+	public List<Attribute<Comparable<?>>> getAttributes() {
 		return attributes;
 	}
 
