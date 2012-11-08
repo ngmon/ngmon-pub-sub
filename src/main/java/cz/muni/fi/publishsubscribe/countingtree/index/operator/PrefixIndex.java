@@ -1,5 +1,6 @@
 package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
+import java.util.Collections;
 import java.util.List;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
@@ -30,7 +31,7 @@ public class PrefixIndex<T_ValueType extends Comparable<?>> implements OperatorI
 		/*-return tree.getAllPrefixes(attributeValue);*/
 		
 		// DELETE THIS LATER!
-		return null;
+		return Collections.emptyList();
 	}
 
 }
