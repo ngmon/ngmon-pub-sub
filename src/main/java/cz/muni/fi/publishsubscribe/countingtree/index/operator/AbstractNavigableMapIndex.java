@@ -32,8 +32,9 @@ public abstract class AbstractNavigableMapIndex<T_ValueType extends Comparable<?
 	}
 
 	@Override
-	public boolean removeConstraint(Constraint constraint) {
-		throw new RuntimeException("not implemented yet");
+	public boolean removeConstraint(Constraint<T_ValueType> constraint) {
+		Comparable<?> value = constraint.getAttributeValue().getValue();
+		return this.constraints.remove(value) != null;
 	}
 
 	public abstract List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue);
