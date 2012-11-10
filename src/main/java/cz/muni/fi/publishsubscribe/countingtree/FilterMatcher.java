@@ -61,8 +61,6 @@ public class FilterMatcher {
 			}
 			this.filterPredicateLookup.remove(predicate);
 		}
-		
-		// TODO - remove the constraints from the indices
 	}
 
 	public List<Constraint<Comparable<?>>> getMatchingConstraints(Event event) {
