@@ -34,7 +34,6 @@ public class PrefixTestCase {
 
 	@Before
 	public void prepareTree() {
-		System.out.println("@Before - prepareTree()");
 		tree.put(COM_PREFIX, COM_PREFIX_VALUE);
 		tree.put(COM_JAVA_PREFIX, COM_JAVA_PREFIX_VALUE);
 		tree.put(COM_JAVA_GLASSFISH_PREFIX, COM_JAVA_GLASSFISH_PREFIX_VALUE);
