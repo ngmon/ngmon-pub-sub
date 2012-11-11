@@ -39,11 +39,6 @@ public class FilterMatcher {
 
 					this.reverseLookup.put(constraint, filterHashSet);
 				}
-
-				// TODO - remove the Constraint from the index itself
-				// this.attributeIndex.removeConstraint(constraint);
-				// and some counter for the Constraints (in AttributeIndex
-				// probably) needs to be implemented
 			}
 		}
 	}
@@ -62,11 +57,10 @@ public class FilterMatcher {
 						this.reverseLookup.remove(constraint);
 					}
 				}
+				this.attributeIndex.removeConstraint(constraint);
 			}
 			this.filterPredicateLookup.remove(predicate);
 		}
-		
-		// TODO - remove the constraints from the indices
 	}
 
 	public List<Constraint<Comparable<?>>> getMatchingConstraints(Event event) {
