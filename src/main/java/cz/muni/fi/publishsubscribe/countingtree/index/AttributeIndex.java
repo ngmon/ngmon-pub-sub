@@ -67,8 +67,10 @@ public class AttributeIndex {
 
 		count--;
 
-		if (count == 0)
+		if (count == 0) {
 			typeIndex.removeConstraint(constraint);
+			constraintCounter.remove(constraint);
+		}
 		else
 			constraintCounter.put(constraint, count);
 
