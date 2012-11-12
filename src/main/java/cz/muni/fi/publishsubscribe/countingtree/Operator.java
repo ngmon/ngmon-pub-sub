@@ -3,7 +3,7 @@ package cz.muni.fi.publishsubscribe.countingtree;
 import java.util.*;
 
 public enum Operator {
-	EQUALS, LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO;
+	EQUALS, LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, RANGE;
 
 	private static Map<Class, Set<Operator>> operatorMap = new HashMap<>(2);
 
@@ -17,6 +17,7 @@ public enum Operator {
 		longOperators.add(LESS_THAN_OR_EQUAL_TO);
 		longOperators.add(GREATER_THAN);
 		longOperators.add(GREATER_THAN_OR_EQUAL_TO);
+                longOperators.add(RANGE);
 
 		operatorMap.put(String.class, stringOperators);
 		operatorMap.put(Long.class, longOperators);
