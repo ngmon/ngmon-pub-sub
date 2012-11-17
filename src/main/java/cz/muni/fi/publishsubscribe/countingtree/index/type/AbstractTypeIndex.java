@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractTypeIndex<T_ValueType extends Comparable<?>> implements TypeIndex<T_ValueType> {
+public abstract class AbstractTypeIndex<T_ValueType extends Comparable<T_ValueType>> implements TypeIndex<T_ValueType> {
 
 	private final Map<Operator, OperatorIndex<T_ValueType>> operatorIndexes;
 

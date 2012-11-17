@@ -7,13 +7,13 @@ public class Filter {
 
 	private long id;
 
-	private List<Constraint<Comparable<?>>> constraints = new ArrayList<>();
+	private List<Constraint<? extends Comparable<?>>> constraints = new ArrayList<>();
 
 	public boolean addConstraint(Constraint<? extends Comparable<?>> constraint) {
-		return this.constraints.add((Constraint<Comparable<?>>) constraint);
+		return this.constraints.add(constraint);
 	}
 
-	public List<Constraint<Comparable<?>>> getConstraints() {
+	public List<Constraint<? extends Comparable<?>>> getConstraints() {
 		return constraints;
 	}
 

@@ -4,12 +4,12 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
 import java.util.*;
 
-public class EqualsIndex<T_ValueType extends Comparable<?>> implements OperatorIndex<T_ValueType> {
+public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> {
 
-	protected Map<T_ValueType, Constraint<T_ValueType>> constraints = new HashMap<>();
+	protected Map<T1, Constraint<T1>> constraints = new HashMap<>();
 
-	public boolean addConstraint(Constraint<T_ValueType> constraint) {
-		T_ValueType value = constraint.getAttributeValue().getValue();
+	public boolean addConstraint(Constraint<T1> constraint) {
+		T1 value = constraint.getAttributeValue().getValue();
 
 		if (this.constraints.containsKey(value)) {
 			return false;
@@ -21,20 +21,20 @@ public class EqualsIndex<T_ValueType extends Comparable<?>> implements OperatorI
 	}
 
 	@Override
-	public boolean removeConstraint(Constraint<T_ValueType> constraint) {
+	public boolean removeConstraint(Constraint<T1> constraint) {
 		return (constraints.remove(constraint.getAttributeValue().getValue()) != null);
 	}
 
 	// Returning only single Constraint!!
-	public List<Constraint<T_ValueType>> getConstraints(T_ValueType attributeValue) {
+	public List<Constraint<T1>> getConstraints(T1 attributeValue) {
 
-		Constraint<T_ValueType> constraint = this.constraints.get(attributeValue);
+		Constraint<T1> constraint = this.constraints.get(attributeValue);
 
 		if (constraint == null) {
 			return Collections.emptyList();
 		}
 
-		List<Constraint<T_ValueType>> constraintList = new ArrayList<>();
+		List<Constraint<T1>> constraintList = new ArrayList<>();
 
 		constraintList.add(constraint);
 

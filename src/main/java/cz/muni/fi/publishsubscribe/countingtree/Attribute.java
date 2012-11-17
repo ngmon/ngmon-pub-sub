@@ -1,6 +1,6 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class Attribute<T1 extends Comparable<?>> {
+public class Attribute<T1 extends Comparable<T1>> {
 
 		private String name;
 
