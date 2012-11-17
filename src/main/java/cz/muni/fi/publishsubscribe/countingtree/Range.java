@@ -1,6 +1,6 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-public class Range<T1 extends Comparable<T1>> implements Comparable<Range<T1>> {
+public class Range<T1 extends Comparable<T1>> {
     private final T1 start;
     private final T1 end;
 
@@ -31,15 +31,6 @@ public class Range<T1 extends Comparable<T1>> implements Comparable<Range<T1>> {
         return false;
     }
 
-    @Override
-    public int compareTo(Range<T1> other) {
-        if (start.compareTo(other.getStart()) != 0) {
-            return start.compareTo(other.getStart());
-        } else {
-            return end.compareTo(other.getEnd());
-        }
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -18,10 +18,15 @@ public enum Operator {
 		longOperators.add(LESS_THAN_OR_EQUAL_TO);
 		longOperators.add(GREATER_THAN);
 		longOperators.add(GREATER_THAN_OR_EQUAL_TO);
-      longOperators.add(RANGE);
 
 		operatorMap.put(String.class, stringOperators);
 		operatorMap.put(Long.class, longOperators);
+
+		Set<Operator> comparableOperators = new HashSet<>();
+		comparableOperators.add(RANGE);
+
+		// Hack
+		operatorMap.put(LongRange.class, comparableOperators);
 
 	}
 
