@@ -28,7 +28,7 @@ public class AttributeIndex {
 
 		} else {
 
-			typeIndex = (TypeIndex<T1>) TypeIndexFactory.getTypeIndex(attributeValue.getType());
+			typeIndex = TypeIndexFactory.getTypeIndex(attributeValue.getType());
 
 			typeIndex.addConstraint(constraint);
 			this.attributes.put(attributeName, typeIndex);

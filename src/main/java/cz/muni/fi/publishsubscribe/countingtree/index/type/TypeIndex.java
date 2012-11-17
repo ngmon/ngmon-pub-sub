@@ -4,7 +4,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.index.Index;
 import cz.muni.fi.publishsubscribe.countingtree.index.operator.OperatorIndex;
 
-public interface TypeIndex<T_ValueType extends Comparable<T_ValueType>> extends Index<T_ValueType> {
+public interface TypeIndex<T1 extends Comparable<T1>> extends Index<T1> {
 
-	public boolean addOperatorIndex(Operator operator, OperatorIndex<T_ValueType> operatorIndex);
+	public boolean addOperatorIndex(Operator operator, OperatorIndex<T1> operatorIndex);
 }
