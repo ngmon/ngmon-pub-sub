@@ -1,9 +1,6 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * The Node class contains the RangeTree information for a single node
@@ -98,6 +95,10 @@ public class RangeNode<T extends Comparable<T>> {
      */
     public Set<Range<T>> getRangesContaining(T value) {
         Set<Range<T>> result = new HashSet<>();
+
+	    if (this.ranges.isEmpty()) {
+		    return Collections.emptySet();
+	    }
 
         for (Range<T> r : ranges) {
             if (r.getStart().compareTo(value) > 0) {
