@@ -13,6 +13,6 @@ public class LongIndex extends AbstractTypeIndex<Long> {
 		this.addOperatorIndex(Operator.LESS_THAN_OR_EQUAL_TO, new LessThanOrEqualToIndex<Long>());
 		this.addOperatorIndex(Operator.GREATER_THAN, new GreaterThanIndex<Long>());
 		this.addOperatorIndex(Operator.GREATER_THAN_OR_EQUAL_TO, new GreaterThanOrEqualToIndex<Long>());
-		this.addOperatorIndex(Operator.RANGE, new RangeIndex<Long>());
+//		this.addOperatorIndex(Operator.RANGE, new RangeIndex<Long>());
 	}
 }

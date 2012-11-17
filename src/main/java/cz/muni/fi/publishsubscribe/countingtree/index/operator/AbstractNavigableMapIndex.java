@@ -32,8 +32,9 @@ public abstract class AbstractNavigableMapIndex<T1 extends Comparable<T1>> imple
 	}
 
 	@Override
-	public boolean removeConstraint(Constraint constraint) {
-		throw new RuntimeException("not implemented yet");
+	public boolean removeConstraint(Constraint<T1> constraint) {
+		T1 value = constraint.getAttributeValue().getValue();
+		return this.constraints.remove(value) != null;
 	}
 
 	public abstract List<Constraint<T1>> getConstraints(T1 attributeValue);
