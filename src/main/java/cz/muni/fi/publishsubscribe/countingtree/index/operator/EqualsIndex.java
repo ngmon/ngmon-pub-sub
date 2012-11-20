@@ -9,6 +9,7 @@ public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1>
 	protected Map<T1, Constraint<T1>> constraints = new HashMap<>();
 
 	public boolean addConstraint(Constraint<T1> constraint) {
+
 		T1 value = constraint.getAttributeValue().getValue();
 
 		if (this.constraints.containsKey(value)) {

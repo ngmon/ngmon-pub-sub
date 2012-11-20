@@ -9,7 +9,7 @@ public class Filter {
 
 	private List<Constraint<? extends Comparable<?>>> constraints = new ArrayList<>();
 
-	public boolean addConstraint(Constraint<? extends Comparable<?>> constraint) {
+	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean addConstraint(T2 constraint) {
 		return this.constraints.add(constraint);
 	}
 
