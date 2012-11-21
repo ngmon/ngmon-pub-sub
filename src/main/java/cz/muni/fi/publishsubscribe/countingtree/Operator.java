@@ -27,6 +27,7 @@ public enum Operator {
 
 		// Hack
 		operatorMap.put(LongRange.class, comparableOperators);
+		operatorMap.put(DateRange.class, comparableOperators);
 
 	}
 

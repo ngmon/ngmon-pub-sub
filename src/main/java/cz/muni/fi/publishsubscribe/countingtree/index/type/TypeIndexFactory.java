@@ -1,6 +1,7 @@
 package cz.muni.fi.publishsubscribe.countingtree.index.type;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
+import cz.muni.fi.publishsubscribe.countingtree.DateRange;
 import cz.muni.fi.publishsubscribe.countingtree.LongRange;
 
 public class TypeIndexFactory {
@@ -13,6 +14,8 @@ public class TypeIndexFactory {
 			return (TypeIndex<T1>) new LongIndex();
 		} else if (type == LongRange.class) {
 			return (TypeIndex<T1>) new LongIndex();
+		} else if (type == DateRange.class) {
+			return (TypeIndex<T1>) new DateIndex();
 		} else {
 			throw new IllegalArgumentException(String.format("Index for type %s is not supported", type.getClass().getName()));
 		}
