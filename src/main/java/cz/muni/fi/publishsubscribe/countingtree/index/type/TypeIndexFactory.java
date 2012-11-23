@@ -1,5 +1,7 @@
 package cz.muni.fi.publishsubscribe.countingtree.index.type;
 
+import java.util.Date;
+
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.DateRange;
 import cz.muni.fi.publishsubscribe.countingtree.LongRange;
@@ -14,6 +16,8 @@ public class TypeIndexFactory {
 			return (TypeIndex<T1>) new LongIndex();
 		} else if (type == LongRange.class) {
 			return (TypeIndex<T1>) new LongIndex();
+		} else if (type == Date.class) {
+			return (TypeIndex<T1>) new DateIndex();
 		} else if (type == DateRange.class) {
 			return (TypeIndex<T1>) new DateIndex();
 		} else {

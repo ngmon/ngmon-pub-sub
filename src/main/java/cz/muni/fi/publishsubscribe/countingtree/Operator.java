@@ -18,9 +18,16 @@ public enum Operator {
 		longOperators.add(LESS_THAN_OR_EQUAL_TO);
 		longOperators.add(GREATER_THAN);
 		longOperators.add(GREATER_THAN_OR_EQUAL_TO);
+		
+		Set<Operator> dateOperators = new HashSet<>();
+		dateOperators.add(LESS_THAN);
+		dateOperators.add(LESS_THAN_OR_EQUAL_TO);
+		dateOperators.add(GREATER_THAN);
+		dateOperators.add(GREATER_THAN_OR_EQUAL_TO);
 
 		operatorMap.put(String.class, stringOperators);
 		operatorMap.put(Long.class, longOperators);
+		operatorMap.put(Date.class, dateOperators);
 
 		Set<Operator> comparableOperators = new HashSet<>();
 		comparableOperators.add(RANGE);
