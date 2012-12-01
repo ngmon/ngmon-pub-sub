@@ -66,37 +66,25 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 
 		// events with values ranging from LESS_THAN_MIN_VALUE
 		// to GREATER_THAN_OR_EQUAL_MAX_VALUE
-		prepareEventsFromLessThanMinValueToLessThanMaxValue();
-		prepareEventsFromLessThanMinValueToMaxValue();
+		eventsFromLessThanMinValueToLessThanMaxValue = prepareEvents(
+				LESS_THAN_MIN_VALUE, LESS_THAN_MAX_VALUE);
+		eventsFromGreaterThanOrEqualMinValueToMaxValue = prepareEvents(
+				GREATER_THAN_OR_EQUAL_MIN_VALUE,
+				GREATER_THAN_OR_EQUAL_MAX_VALUE);
 	}
 
-	private void prepareEventsFromLessThanMinValueToLessThanMaxValue() {
-		eventsFromLessThanMinValueToLessThanMaxValue = new ArrayList<>(
-				EVENT_COUNT);
-		for (long i = 0, value = LESS_THAN_MIN_VALUE; i < EVENT_COUNT; i++) {
+	private List<Event> prepareEvents(long minValue, long maxValue) {
+		List<Event> events = new ArrayList<>(EVENT_COUNT);
+		for (long i = 0, value = minValue; i < EVENT_COUNT; i++) {
 			Event event = new Event();
 			event.addAttribute(new Attribute<Long>(LONG_ATTRIBUTE_NAME,
 					new AttributeValue<Long>(value, Long.class)));
-			eventsFromLessThanMinValueToLessThanMaxValue.add(event);
+			events.add(event);
 
-			value = value >= LESS_THAN_MAX_VALUE ? LESS_THAN_MIN_VALUE
-					: value + 1;
-		}
-	}
-
-	private void prepareEventsFromLessThanMinValueToMaxValue() {
-		eventsFromGreaterThanOrEqualMinValueToMaxValue = new ArrayList<>(
-				EVENT_COUNT);
-		for (long i = 0, value = GREATER_THAN_OR_EQUAL_MIN_VALUE; i < EVENT_COUNT; i++) {
-			Event event = new Event();
-			event.addAttribute(new Attribute<Long>(LONG_ATTRIBUTE_NAME,
-					new AttributeValue<Long>(value, Long.class)));
-			eventsFromGreaterThanOrEqualMinValueToMaxValue.add(event);
-
-			value = value >= GREATER_THAN_OR_EQUAL_MAX_VALUE ? GREATER_THAN_OR_EQUAL_MIN_VALUE
-					: value + 1;
+			value = value >= maxValue ? minValue : value + 1;
 		}
 
+		return events;
 	}
 
 	/**
