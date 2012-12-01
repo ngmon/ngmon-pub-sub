@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.lang3.RandomStringUtils;
+//import org.apache.commons.lang3.RandomStringUtils;
 
 import com.google.caliper.SimpleBenchmark;
 
@@ -17,6 +17,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
 
+@SuppressWarnings(value = { "all" })
 public class TestBenchmark extends SimpleBenchmark {
 
 	private Random generator;
@@ -45,14 +46,14 @@ public class TestBenchmark extends SimpleBenchmark {
 			Thread.sleep(100);
 	}*/
 
-	@Override
+	/*-@Override
 	protected void setUp() throws Exception {
 		this.generator = new Random(0L);
-		this.createTree();
+		//this.createTree();
 		this.events = this.createEvents();
-	}
+	}*/
 
-	private void createTree() {
+	/*-private void createTree() {
 		this.tree = new CountingTree();
 
 		// less than (10000) longs from 0 to VALUES_COUNT - 1
@@ -95,11 +96,11 @@ public class TestBenchmark extends SimpleBenchmark {
 			tree.subscribe(UtilityMethods
 					.createPredicateFromConstraint(constraint));
 		}
-	}
+	}*/
 
-	private String getRandomAttributeName(String prefix) {
+	/*-private String getRandomAttributeName(String prefix) {
 		return prefix + RandomStringUtils.random(ATTRIBUTE_NAME_LENGTH, CHARS);
-	}
+	}*/
 
 	/*-public void timeCreateTree(int reps) {
 		for (int i = 0; i < reps; i++) {
@@ -107,7 +108,7 @@ public class TestBenchmark extends SimpleBenchmark {
 		}
 	}*/
 
-	private Event getRandomEvent(int attributeCount) {
+	/*-private Event getRandomEvent(int attributeCount) {
 		Event event = new Event();
 		// TODO - event might have the same attribute with different values
 		// (but is it really a problem?)
@@ -130,9 +131,9 @@ public class TestBenchmark extends SimpleBenchmark {
 		}
 
 		return event;
-	}
+	}*/
 
-	private List<Event> createEvents() {
+	/*-private List<Event> createEvents() {
 		// 1 million events, each has 3 attributes
 		int eventCount = 1000;
 		int attributeCount = 3;
@@ -142,13 +143,13 @@ public class TestBenchmark extends SimpleBenchmark {
 		}
 
 		return events;
-	}
+	}*/
 
-	public void timeMatchEvents(int reps) {
+	/*-public void timeMatchEvents(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (Event event : events) {
 				this.tree.match(event);
 			}
 		}
-	}
+	}*/
 }
