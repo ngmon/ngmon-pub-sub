@@ -13,6 +13,8 @@ public class EveryEventLessThanOrEqual extends SimpleBenchmark {
 
 	private static final int PREDICATE_COUNT = 500;
 	private static final int EVENT_COUNT = 10000;
+	private static final long LONG_MIN_VALUE = 0L;
+	private static final long LONG_MAX_VALUE = 3L;
 	
 	private CountingTree tree;
 
@@ -23,12 +25,12 @@ public class EveryEventLessThanOrEqual extends SimpleBenchmark {
 		this.tree = new CountingTree();
 
 		// Less than or equal to a number from 0 to 3
-		Long number = 0L;
+		Long number = LONG_MIN_VALUE;
 		for (int i = 0; i < PREDICATE_COUNT; i++) {
 			Constraint<Long> constraint = new Constraint<Long>("longAttribute",
 					new AttributeValue<Long>(number, Long.class),
 					Operator.LESS_THAN_OR_EQUAL_TO);
-			number %= 4;
+			number = number >= LONG_MAX_VALUE ? LONG_MIN_VALUE : number + 1;
 
 			tree.subscribe(UtilityMethods
 					.createPredicateFromConstraint(constraint));
