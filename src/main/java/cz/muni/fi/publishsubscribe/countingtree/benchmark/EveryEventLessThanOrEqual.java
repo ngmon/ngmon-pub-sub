@@ -9,8 +9,15 @@ import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
 import cz.muni.fi.publishsubscribe.countingtree.Event;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 
+/**
+ * The simplest benchmark possible - only one attribute (of type Long),
+ * 4 possible values, Operator.LESS_THAN_OR_EQUAL_TO,
+ * every time... method uses only one Event
+ */
 public class EveryEventLessThanOrEqual extends SimpleBenchmark {
 
+	private static final String LONG_ATTRIBUTE_NAME = "longAttribute";
+	
 	private static final int PREDICATE_COUNT = 500;
 	private static final int EVENT_COUNT = 10000;
 	private static final long LONG_MIN_VALUE = 0L;
@@ -27,7 +34,7 @@ public class EveryEventLessThanOrEqual extends SimpleBenchmark {
 		// Less than or equal to a number from 0 to 3
 		Long number = LONG_MIN_VALUE;
 		for (int i = 0; i < PREDICATE_COUNT; i++) {
-			Constraint<Long> constraint = new Constraint<Long>("longAttribute",
+			Constraint<Long> constraint = new Constraint<Long>(LONG_ATTRIBUTE_NAME,
 					new AttributeValue<Long>(number, Long.class),
 					Operator.LESS_THAN_OR_EQUAL_TO);
 			number = number >= LONG_MAX_VALUE ? LONG_MIN_VALUE : number + 1;
@@ -39,7 +46,7 @@ public class EveryEventLessThanOrEqual extends SimpleBenchmark {
 
 	private void matchEvents(long value) {
 		Event event = new Event();
-		event.addAttribute(new Attribute<Long>("longAttribute",
+		event.addAttribute(new Attribute<Long>(LONG_ATTRIBUTE_NAME,
 				new AttributeValue<Long>(value, Long.class)));
 
 		for (int i = 0; i < EVENT_COUNT; i++) {
