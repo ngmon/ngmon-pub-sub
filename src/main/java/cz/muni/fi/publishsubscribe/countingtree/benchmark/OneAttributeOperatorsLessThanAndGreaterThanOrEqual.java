@@ -24,19 +24,48 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 	private static final int PREDICATE_COUNT = 500;
 	private static final int EVENT_COUNT = 10000;
 
-	private static final long GREATER_THAN_OR_EQUAL_MIN_VALUE = 100L;
-	private static final long GREATER_THAN_OR_EQUAL_MAX_VALUE = 200L;
+	private static final long GREATER_THAN_OR_EQUAL_MIN_VALUE_25 = 100L;
+	private static final long GREATER_THAN_OR_EQUAL_MAX_VALUE_25 = 200L;
 
-	private static final long LESS_THAN_MIN_VALUE = 0L;
-	private static final long LESS_THAN_MAX_VALUE = 99L;
+	private static final long LESS_THAN_MIN_VALUE_25_50_75 = 0L;
+	private static final long LESS_THAN_MAX_VALUE_25_50_75 = 99L;
 
 	private static final long LESS_THAN_ONE_EVENT_MATCH_25_VALUE = 50L;
 	private static final long GREATER_THAN_ONE_EVENT_MATCH_25_VALUE = 150L;
 
-	private CountingTree tree;
+	private static final long GREATER_THAN_OR_EQUAL_MIN_VALUE_50 = 50L;
+	private static final long GREATER_THAN_OR_EQUAL_MAX_VALUE_50 = 150L;
 
-	private List<Event> eventsFromLessThanMinValueToLessThanMaxValue;
-	private List<Event> eventsFromGreaterThanOrEqualMinValueToMaxValue;
+	private static final long GREATER_THAN_OR_EQUAL_MAX_VALUE_EVENTS_50 = 99L;
+
+	private static final long GREATER_THAN_OR_EQUAL_MAX_VALUE_75 = 50L;
+
+	private static final long MIN_VALUE_EVENT_100 = -100L;
+
+	// should match 25 % of the less than predicates (0 - 99)
+	// and 75 % of the greater than or equal to predicates (50 - 150)
+	// => 50 % total
+	private static final long MATCH_50_VALUE = 75;
+
+	// should match 75 % of the less than predicates (0 - 99)
+	// and 75 % of the greater than or equal to predicates (-50 - 50)
+	private static final long MATCH_75_VALUE = 25;
+
+	private static final long MATCH_100_VALUE = -50;
+
+	/** Tree for 25 % match ratio */
+	private CountingTree tree25;
+
+	private CountingTree tree50;
+	private CountingTree tree75;
+	private CountingTree tree100;
+
+	private List<Event> eventsFromLessThanMinValueToLessThanMaxValue25;
+	private List<Event> eventsFromGreaterThanOrEqualMinValueToMaxValue25;
+
+	private List<Event> eventsFor50;
+	private List<Event> eventsFor75;
+	private List<Event> eventsFor100;
 
 	/**
 	 * Half of the constraints/predicates have values between
@@ -48,15 +77,83 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		this.tree = new CountingTree();
+		this.tree25 = setUpCustomTree(LESS_THAN_MIN_VALUE_25_50_75,
+				LESS_THAN_MAX_VALUE_25_50_75,
+				GREATER_THAN_OR_EQUAL_MIN_VALUE_25,
+				GREATER_THAN_OR_EQUAL_MAX_VALUE_25);
 
+		// events with values ranging from LESS_THAN_MIN_VALUE
+		// to GREATER_THAN_OR_EQUAL_MAX_VALUE
+		eventsFromLessThanMinValueToLessThanMaxValue25 = prepareEvents(
+				LESS_THAN_MIN_VALUE_25_50_75, LESS_THAN_MAX_VALUE_25_50_75);
+		eventsFromGreaterThanOrEqualMinValueToMaxValue25 = prepareEvents(
+				GREATER_THAN_OR_EQUAL_MIN_VALUE_25,
+				GREATER_THAN_OR_EQUAL_MAX_VALUE_25);
+
+		this.tree50 = setUpCustomTree(LESS_THAN_MIN_VALUE_25_50_75,
+				LESS_THAN_MAX_VALUE_25_50_75,
+				GREATER_THAN_OR_EQUAL_MIN_VALUE_50,
+				GREATER_THAN_OR_EQUAL_MAX_VALUE_50);
+
+		eventsFor50 = prepareEvents(GREATER_THAN_OR_EQUAL_MIN_VALUE_50,
+				GREATER_THAN_OR_EQUAL_MAX_VALUE_EVENTS_50);
+
+		this.tree75 = new CountingTree();
+		int i = 0;
+		while (i < PREDICATE_COUNT / 2) {
+			long constraintValue = i % (LESS_THAN_MAX_VALUE_25_50_75 + 1);
+			Constraint<Long> constraint = new Constraint<Long>(
+					LONG_ATTRIBUTE_NAME, new AttributeValue<Long>(
+							constraintValue - 50, Long.class),
+					Operator.GREATER_THAN_OR_EQUAL_TO);
+			tree75.subscribe(UtilityMethods
+					.createPredicateFromConstraint(constraint));
+			constraint = new Constraint<Long>(LONG_ATTRIBUTE_NAME,
+					new AttributeValue<Long>(constraintValue, Long.class),
+					Operator.LESS_THAN);
+			tree75.subscribe(UtilityMethods
+					.createPredicateFromConstraint(constraint));
+
+			i++;
+		}
+
+		eventsFor75 = prepareEvents(LESS_THAN_MIN_VALUE_25_50_75,
+				GREATER_THAN_OR_EQUAL_MAX_VALUE_75);
+
+		this.tree100 = new CountingTree();
+		i = 0;
+		while (i < PREDICATE_COUNT / 2) {
+			long constraintValue = i % (LESS_THAN_MAX_VALUE_25_50_75 + 1);
+			Constraint<Long> constraint = new Constraint<Long>(
+					LONG_ATTRIBUTE_NAME, new AttributeValue<Long>(
+							constraintValue - 200, Long.class),
+					Operator.GREATER_THAN_OR_EQUAL_TO);
+			tree100.subscribe(UtilityMethods
+					.createPredicateFromConstraint(constraint));
+			constraint = new Constraint<Long>(LONG_ATTRIBUTE_NAME,
+					new AttributeValue<Long>(constraintValue, Long.class),
+					Operator.LESS_THAN);
+			tree100.subscribe(UtilityMethods
+					.createPredicateFromConstraint(constraint));
+
+			i++;
+		}
+
+		eventsFor100 = prepareEvents(MIN_VALUE_EVENT_100,
+				LESS_THAN_MIN_VALUE_25_50_75);
+	}
+
+	private CountingTree setUpCustomTree(long lessThanMinValue,
+			long lessThanMaxValue, long greaterThanOrEqualMinValue,
+			long greaterThanOrEqualMaxValue) {
+		CountingTree tree = new CountingTree();
 		int i = 0;
 		while (i < PREDICATE_COUNT) {
-			long constraintValue = i % (GREATER_THAN_OR_EQUAL_MAX_VALUE + 1);
+			long constraintValue = i % (greaterThanOrEqualMaxValue + 1);
 			Constraint<Long> constraint = new Constraint<Long>(
 					LONG_ATTRIBUTE_NAME,
 					new AttributeValue<Long>(constraintValue, Long.class),
-					constraintValue > LESS_THAN_MAX_VALUE ? Operator.GREATER_THAN_OR_EQUAL_TO
+					constraintValue > lessThanMaxValue ? Operator.GREATER_THAN_OR_EQUAL_TO
 							: Operator.LESS_THAN);
 			tree.subscribe(UtilityMethods
 					.createPredicateFromConstraint(constraint));
@@ -64,13 +161,7 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 			i++;
 		}
 
-		// events with values ranging from LESS_THAN_MIN_VALUE
-		// to GREATER_THAN_OR_EQUAL_MAX_VALUE
-		eventsFromLessThanMinValueToLessThanMaxValue = prepareEvents(
-				LESS_THAN_MIN_VALUE, LESS_THAN_MAX_VALUE);
-		eventsFromGreaterThanOrEqualMinValueToMaxValue = prepareEvents(
-				GREATER_THAN_OR_EQUAL_MIN_VALUE,
-				GREATER_THAN_OR_EQUAL_MAX_VALUE);
+		return tree;
 	}
 
 	private List<Event> prepareEvents(long minValue, long maxValue) {
@@ -91,7 +182,7 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 	 * Matches less than predicates only, one event (value in the middle between
 	 * LESS_THAN_MIN_VALUE and LESS_THAN_MAX_VALUE
 	 */
-	public void timeMatch25LessThanOneEvent(int reps) {
+	public void timeMatchLessThanOneEvent_25(int reps) {
 		Event event = new Event();
 		event.addAttribute(new Attribute<Long>(LONG_ATTRIBUTE_NAME,
 				new AttributeValue<Long>(LESS_THAN_ONE_EVENT_MATCH_25_VALUE,
@@ -99,7 +190,7 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT; j++) {
-				tree.match(event);
+				tree25.match(event);
 			}
 		}
 	}
@@ -109,7 +200,7 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 	 * middle between GREATER_THAN_OR_EQUAL_MIN_VALUE and
 	 * GREATER_THAN_OR_EQUAL_MAX_VALUE)
 	 */
-	public void timeMatch25GreaterThanOrEqualOneEvent(int reps) {
+	public void timeMatchGreaterThanOrEqualOneEvent_25(int reps) {
 		Event event = new Event();
 		event.addAttribute(new Attribute<Long>(LONG_ATTRIBUTE_NAME,
 				new AttributeValue<Long>(GREATER_THAN_ONE_EVENT_MATCH_25_VALUE,
@@ -117,7 +208,7 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT; j++) {
-				tree.match(event);
+				tree25.match(event);
 			}
 		}
 	}
@@ -126,10 +217,10 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 	 * Matches less than predicates only, events with values ranging from
 	 * LESS_THAN_MIN_VALUE to LESS_THAN_MAX_VALUE
 	 */
-	public void timeMatch25LessThanDifferentEventsLessThan(int reps) {
+	public void timeMatchLessThanDifferentEventsLessThan_25(int reps) {
 		for (int i = 0; i < reps; i++) {
-			for (Event event : eventsFromLessThanMinValueToLessThanMaxValue) {
-				tree.match(event);
+			for (Event event : eventsFromLessThanMinValueToLessThanMaxValue25) {
+				tree25.match(event);
 			}
 		}
 	}
@@ -139,10 +230,71 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 	 * ranging from GREATER_THAN_OR_EQUAL_MIN_VALUE to
 	 * GREATER_THAN_OR_EQUAL_MAX_VALUE
 	 */
-	public void timeMatch25GreaterThanOrEqualDifferentEventsGreaterThan(int reps) {
+	public void timeMatchGreaterThanOrEqualDifferentEventsGreaterThan_25(
+			int reps) {
 		for (int i = 0; i < reps; i++) {
-			for (Event event : eventsFromGreaterThanOrEqualMinValueToMaxValue) {
-				tree.match(event);
+			for (Event event : eventsFromGreaterThanOrEqualMinValueToMaxValue25) {
+				tree25.match(event);
+			}
+		}
+	}
+
+	public void timeMatchOneEvent_50(int reps) {
+		Event event = new Event();
+		event.addAttribute(new Attribute<Long>(LONG_ATTRIBUTE_NAME,
+				new AttributeValue<Long>(MATCH_50_VALUE, Long.class)));
+
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree50.match(event);
+			}
+		}
+	}
+
+	public void timeMatchDifferentEvents_50(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (Event event : eventsFor50) {
+				tree50.match(event);
+			}
+		}
+	}
+
+	public void timeMatchOneEvent_75(int reps) {
+		Event event = new Event();
+		event.addAttribute(new Attribute<Long>(LONG_ATTRIBUTE_NAME,
+				new AttributeValue<Long>(MATCH_75_VALUE, Long.class)));
+
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree75.match(event);
+			}
+		}
+	}
+
+	public void timeMatchDifferentEvents_75(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (Event event : eventsFor75) {
+				tree75.match(event);
+			}
+		}
+	}
+
+	public void timeMatchOneEvent_100(int reps) {
+		Event event = new Event();
+		event.addAttribute(new Attribute<Long>(LONG_ATTRIBUTE_NAME,
+				new AttributeValue<Long>(MATCH_100_VALUE, Long.class)));
+
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree100.match(event);
+			}
+		}
+	}
+
+	public void timeMatchDifferentEvents_100(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (Event event : eventsFor100) {
+				tree100.match(event);
 			}
 		}
 	}
