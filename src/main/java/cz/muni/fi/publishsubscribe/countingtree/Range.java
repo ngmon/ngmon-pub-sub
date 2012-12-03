@@ -1,5 +1,12 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
+/**
+ * Ranges of arbitrary values
+ * A range has two attributes - a start value and an end value
+ * The start value should be less than (or equal to) the end value
+ * 
+ * @param <T1> The type of the values used
+ */
 public class Range<T1 extends Comparable<T1>> {
     private final T1 start;
     private final T1 end;

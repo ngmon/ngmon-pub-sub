@@ -2,6 +2,10 @@ package cz.muni.fi.publishsubscribe.countingtree;
 
 import java.util.*;
 
+/**
+ * Represents all possible operators (used in Constraints)
+ * and stores info about the operators supported by specific classes (like Long)
+ */
 public enum Operator {
 	EQUALS, LESS_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, RANGE, PREFIX;
 

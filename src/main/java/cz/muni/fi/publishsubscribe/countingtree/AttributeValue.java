@@ -1,5 +1,10 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
+/**
+ * Stores a value and its type
+ * 
+ * @param <T1> The type of the stored value
+ */
 public class AttributeValue<T1 extends Comparable<T1>> {
 
 	private final T1 value;

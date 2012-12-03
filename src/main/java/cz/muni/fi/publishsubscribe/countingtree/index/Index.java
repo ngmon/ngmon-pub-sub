@@ -4,6 +4,11 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
 import java.util.List;
 
+/**
+ * An index - supports fast insertions and retrievals (of Constraints)
+ *
+ * @param <T1> The type of the values the index stores
+ */
 public interface Index<T1 extends Comparable<T1>> {
 
 	public boolean addConstraint(Constraint<T1> constraint);

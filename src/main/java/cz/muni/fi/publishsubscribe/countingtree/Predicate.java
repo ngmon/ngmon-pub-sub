@@ -3,6 +3,12 @@ package cz.muni.fi.publishsubscribe.countingtree;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stores one or more Filters
+ * Can be either true of false for a specific event
+ * It's true for an event iff it's true for at least one of the Filters the Predicate contains
+ * (We can also say the Predicate either does or does not satisfy an event)
+ */
 public class Predicate {
 
 	private Long id;

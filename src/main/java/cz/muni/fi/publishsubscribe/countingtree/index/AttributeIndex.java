@@ -10,10 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The front-end class for storing Constraints in indices
+ * Also returns Constraints satisfying a specific attribute object (name + value)
+ */
 public class AttributeIndex {
 
+	/** A map from attribute names to TypeIndex which stores the relevant values */
 	private final Map<String, TypeIndex<? extends Comparable<?>>> attributes = new HashMap<>(10);
-	private Map<Constraint, Integer> constraintCounter = new HashMap<>();
+	private Map<Constraint<?>, Integer> constraintCounter = new HashMap<>();
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean addConstraint(T2 constraint) {
 
@@ -51,6 +56,7 @@ public class AttributeIndex {
 	 * Removes a constraint only if removeConstraint() has been called so many
 	 * times as addConstraint() (for the specific Constraint) (in other words,
 	 * if the associated counter is 1)
+	 * 
 	 * @return true if the Constraint is found, false otherwise
 	 */
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean removeConstraint(T2 constraint) {

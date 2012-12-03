@@ -4,6 +4,11 @@ import cz.muni.fi.publishsubscribe.countingtree.index.AttributeIndex;
 
 import java.util.*;
 
+/**
+ * Stores data for the Counting Tree (stores Constraints inside Predicates
+ * using AttributeIndex), returns all Filters matching a specific Event
+ * (by examining the individual Constraints inside the Filter)
+ */
 public class FilterMatcher {
 
 	private AttributeIndex attributeIndex = new AttributeIndex();

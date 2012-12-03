@@ -1,5 +1,10 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
+/**
+ * An attribute with a name and a value (events will use this)
+ * 
+ * @param <T1> The type of the value that will be stored in this attribute
+ */
 public class Attribute<T1 extends Comparable<T1>> {
 
 		private String name;

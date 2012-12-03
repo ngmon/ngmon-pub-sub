@@ -6,6 +6,11 @@ import cz.muni.fi.publishsubscribe.countingtree.RangeTree;
 
 import java.util.*;
 
+/**
+ * Index for Ranges (RANGE Operator). Uses RangeTree for fast lookups
+ *
+ * @param <T1> The type of the values the index stores
+ */
 public class RangeIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> {
 
 	private RangeTree<T1> rangeTree = new RangeTree<>();

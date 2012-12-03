@@ -5,6 +5,10 @@ import java.util.List;
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.ternarysearchtree.TernarySearchTree;
 
+/**
+ * Index for String prefixes (PREFIX Operator).
+ * Uses TernarySearchTree for fast lookups
+ */
 public class StringPrefixIndex implements OperatorIndex<String> {
 
 	protected TernarySearchTree<Constraint<String>> tree = new TernarySearchTree<>();

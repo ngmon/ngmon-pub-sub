@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+/**
+ * Index using a NavigableMap for storing values
+ *
+ * @param <T1> The type of the values the index stores
+ */
 public abstract class AbstractNavigableMapIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> {
 
 	protected NavigableMap<T1, Constraint<T1>> constraints;

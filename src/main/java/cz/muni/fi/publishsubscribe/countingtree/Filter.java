@@ -3,6 +3,12 @@ package cz.muni.fi.publishsubscribe.countingtree;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stores one or more Constraints
+ * Can be either true of false for a specific event
+ * It's true for an event iff it's true for all the Constraints the Filter contains
+ * (We can also say the Filter either does or does not satisfy an event)
+ */
 public class Filter {
 
 	private long id;

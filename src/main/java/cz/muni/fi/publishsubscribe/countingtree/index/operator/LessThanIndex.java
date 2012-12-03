@@ -5,6 +5,11 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Index for the LESS_THAN Operator
+ *
+ * @param <T1> The type of the values the index stores
+ */
 public class LessThanIndex<T1 extends Comparable<T1>> extends AbstractNavigableMapIndex<T1> {
 
 	@Override

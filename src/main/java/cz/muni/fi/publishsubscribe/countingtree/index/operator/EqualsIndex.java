@@ -4,6 +4,13 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 
 import java.util.*;
 
+/**
+ * Index for the EQUALS Operator
+ * Optimized for fast lookups of a specific value and returning the
+ * associated values (based on HashMap)
+ *
+ * @param <T1> The type of the values the index stores
+ */
 public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> {
 
 	protected Map<T1, Constraint<T1>> constraints = new HashMap<>();

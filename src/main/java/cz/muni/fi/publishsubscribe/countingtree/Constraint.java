@@ -1,5 +1,11 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
+/**
+ * An elementary rule which can be either true or false for a specific event
+ * Example: attributeName is "port", operator is "less than or equal to" and
+ * attributeValue is "1000L"
+ * (We can also say the Constraint either does or does not satisfy an event)
+ */
 public class Constraint<T1 extends Comparable<T1>> {
 
 	private String attributeName;

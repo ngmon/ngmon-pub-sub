@@ -6,6 +6,9 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.DateRange;
 import cz.muni.fi.publishsubscribe.countingtree.LongRange;
 
+/**
+ * Creates a TypeIndex based on a type (class)
+ */
 public class TypeIndexFactory {
 
 	public static <T1 extends Comparable<T1>, T2 extends Constraint<T1>> TypeIndex<T1> getTypeIndex(Class<T1> type) {

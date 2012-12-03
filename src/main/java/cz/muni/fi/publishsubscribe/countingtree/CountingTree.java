@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The main (front-end) class for the algorithm
+ * Usage: Add the required Predicates (subscriptions) first,
+ * then get the Predicates matching the Event(s)
+ */
 public class CountingTree {
 
 	private Long subscriptionCounter = 1L;
