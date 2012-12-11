@@ -1,6 +1,7 @@
 package cz.muni.fi.publishsubscribe.countingtree.test;
 
 import cz.muni.fi.publishsubscribe.countingtree.*;
+import cz.muni.fi.publishsubscribe.countingtree.ac.AccessController;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -214,4 +215,35 @@ public class ComplexTreeTestCase {
 		assertTrue(predicates.contains(predicate03));
 		assertTrue(predicates.contains(predicate04));
 	}
+        
+        @Test
+        public void testACT() {
+            // Apache, processId < 1000
+            Constraint<String> apacheConstraint = new Constraint<>(APPLICATION_ATTR, 
+                    new AttributeValue<>(APACHE_SERVER, String.class), Operator.EQUALS);
+
+            Constraint<Long> pIdLessThan6500 = new Constraint<>(PROCESS_ID_ATTR,
+                    new AttributeValue<>(6500L, Long.class), Operator.LESS_THAN);
+
+            Filter filter01 = new Filter();
+            filter01.addConstraint(apacheConstraint);
+            filter01.addConstraint(pIdLessThan6500);
+
+            Predicate predicate = new Predicate();
+            predicate.addFilter(filter01);
+            
+            AccessController acl = new AccessController();
+            acl.deny(1L, apacheConstraint);
+            acl.subscribe(1L, predicate);
+//            tree.subscribe(predicate);
+            
+            Event event = new Event();
+            event.addAttribute(new Attribute<>(APPLICATION_ATTR,
+                            new AttributeValue<>(APACHE_SERVER, String.class)));
+            event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
+                            new AttributeValue<>(999L, Long.class)));
+
+            List<Predicate> predicates = tree.match(event);
+            assertTrue(!predicates.contains(predicate));
+        }
 }

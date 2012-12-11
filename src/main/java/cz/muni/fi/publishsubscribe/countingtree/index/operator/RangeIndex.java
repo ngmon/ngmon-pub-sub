@@ -3,7 +3,6 @@ package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.Range;
 import cz.muni.fi.publishsubscribe.countingtree.RangeTree;
-
 import java.util.*;
 
 public class RangeIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> {
@@ -43,4 +42,51 @@ public class RangeIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> 
 
 		return constraints;
 	}
+
+        @Override
+        public List<Constraint<T1>> getIntersectingConstraints(Constraint<T1> constraint) {
+            List<Constraint<T1>> conflicts = new ArrayList<>();
+            //TODO skontrolovat, otestovat, vymazat blbe poznamky
+            switch (constraint.getOperator()) {
+                case LESS_THAN:
+                    Set<Range<T1>> rangesIntersecting = this.rangeTree.getRangesIntersecting(null, constraint.getAttributeValue().getValue());
+                    for (Range<T1> r : rangesIntersecting) {
+                        if ((!r.isLeftUnbounded()) && (r.getStart().compareTo(constraint.getAttributeValue().getValue()) < 0)) {
+                            conflicts.add(this.constraintLookup.get(r));
+                        }
+                    }
+                    break;
+                case LESS_THAN_OR_EQUAL_TO:
+                    rangesIntersecting = this.rangeTree.getRangesIntersecting(null, constraint.getAttributeValue().getValue());
+                    for (Range<T1> r : rangesIntersecting) {
+                        conflicts.add(this.constraintLookup.get(r));
+                    }
+                    break;
+                case GREATER_THAN:
+                    rangesIntersecting = this.rangeTree.getRangesIntersecting(constraint.getAttributeValue().getValue(), null);
+                    for (Range<T1> r : rangesIntersecting) {
+                        if ((!r.isRightUnbounded()) && (r.getEnd().compareTo(constraint.getAttributeValue().getValue()) > 0)) {
+                            conflicts.add(this.constraintLookup.get(r));
+                        }
+                    }
+                    break;
+                case GREATER_THAN_OR_EQUAL_TO:
+                    rangesIntersecting = this.rangeTree.getRangesIntersecting(constraint.getAttributeValue().getValue(), null);
+                    for (Range<T1> r : rangesIntersecting) {
+                        conflicts.add(this.constraintLookup.get(r));
+                    }
+                    break;
+                case EQUALS:
+                    conflicts = this.getConstraints(constraint.getAttributeValue().getValue());
+                    break;
+                case RANGE:
+                    rangesIntersecting = this.rangeTree.getRangesIntersecting((Range<T1>)(constraint.getAttributeValue().getValue()));
+                    for (Range<T1> r : rangesIntersecting) {
+                        conflicts.add(this.constraintLookup.get(r));
+                    }
+                    break;
+            }
+            
+            return conflicts;
+        }
 }

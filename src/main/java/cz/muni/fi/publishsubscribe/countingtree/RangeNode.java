@@ -33,8 +33,12 @@ public class RangeNode<T extends Comparable<T>> {
         SortedSet<T> endpoints = new TreeSet<>();
 
         for (Range<T> r : rangeSet) {
-            endpoints.add(r.getStart());
-            endpoints.add(r.getEnd());
+            if (r.getStart() != null) {
+                endpoints.add(r.getStart());
+            }
+            if (r.getEnd() != null) {
+                endpoints.add(r.getEnd());
+            }
         }
 
         T median = getMedian(endpoints);
@@ -44,13 +48,33 @@ public class RangeNode<T extends Comparable<T>> {
         Set<Range<T>> right = new HashSet<>();
 
         for (Range<T> r : rangeSet) {
-            if (r.getEnd().compareTo(median) < 0) {
-                left.add(r);
-            } else {
-                if (r.getStart().compareTo(median) > 0) {
-                    right.add(r);
-                } else {
+            if (r.isLeftUnbounded()) {
+                if (r.isRightUnbounded()) {
                     ranges.add(r);
+                } else {
+                    if (r.getEnd().compareTo(median) < 0) {
+                        left.add(r);
+                    } else {
+                        ranges.add(r);
+                    }
+                }
+            } else {
+                if (r.isRightUnbounded()) {
+                    if (r.getStart().compareTo(median) > 0) {
+                        right.add(r);
+                    } else {
+                        ranges.add(r);
+                    }
+                } else {
+                    if (r.getEnd().compareTo(median) < 0) {
+                        left.add(r);
+                    } else {
+                        if (r.getStart().compareTo(median) > 0) {
+                            right.add(r);
+                        } else {
+                            ranges.add(r);
+                        }
+                    }
                 }
             }
         }
@@ -96,12 +120,12 @@ public class RangeNode<T extends Comparable<T>> {
     public Set<Range<T>> getRangesContaining(T value) {
         Set<Range<T>> result = new HashSet<>();
 
-	    if (this.ranges.isEmpty()) {
-		    return Collections.emptySet();
-	    }
+        if (this.ranges.isEmpty()) {
+                return Collections.emptySet();
+        }
 
         for (Range<T> r : ranges) {
-            if (r.getStart().compareTo(value) > 0) {
+            if ((!r.isLeftUnbounded()) && (r.getStart().compareTo(value) > 0)) {
                 break;
             } else {
                 if (r.contains(value)) {
@@ -109,7 +133,7 @@ public class RangeNode<T extends Comparable<T>> {
                 }
             }
         }
-
+        
         if (value.compareTo(centre) < 0 && leftNode != null) {
             result.addAll(leftNode.getRangesContaining(value));
         } else if (value.compareTo(centre) > 0 && rightNode != null) {
@@ -129,7 +153,7 @@ public class RangeNode<T extends Comparable<T>> {
         Set<Range<T>> result = new HashSet<>();
 
         for (Range<T> r : ranges) {
-            if (r.getStart().compareTo(target.getEnd()) > 0) {
+            if ((!r.isLeftUnbounded()) && (r.getStart().compareTo(target.getEnd()) > 0)) {
                 break;
             } else {
                 if (r.intersects(target)) {

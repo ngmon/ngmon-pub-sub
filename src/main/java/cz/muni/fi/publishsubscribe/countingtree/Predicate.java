@@ -6,7 +6,7 @@ import java.util.List;
 public class Predicate {
 
 	private Long id;
-	private List<Filter> filters = new ArrayList<>();
+        private List<Filter> filters = new ArrayList<>();
 
 	public List<Filter> getFilters() {
 		return filters;
@@ -19,8 +19,8 @@ public class Predicate {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public void addFilter(Filter filter) {
+        
+        public void addFilter(Filter filter) {
 		this.filters.add(filter);
 	}
 

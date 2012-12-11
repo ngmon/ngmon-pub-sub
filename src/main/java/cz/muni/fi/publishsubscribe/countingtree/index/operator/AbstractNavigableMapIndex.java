@@ -1,7 +1,7 @@
 package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
-
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NavigableMap;
@@ -37,5 +37,9 @@ public abstract class AbstractNavigableMapIndex<T1 extends Comparable<T1>> imple
 		return this.constraints.remove(value) != null;
 	}
 
+        @Override
+        public abstract List<Constraint<T1>> getIntersectingConstraints(Constraint<T1> constraint);
+        
+        @Override
 	public abstract List<Constraint<T1>> getConstraints(T1 attributeValue);
 }

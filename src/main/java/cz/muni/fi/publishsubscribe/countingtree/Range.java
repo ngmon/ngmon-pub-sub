@@ -3,10 +3,32 @@ package cz.muni.fi.publishsubscribe.countingtree;
 public class Range<T1 extends Comparable<T1>> {
     private final T1 start;
     private final T1 end;
+    private final boolean leftUnbounded;
+    private final boolean rightUnbounded;
 
     public Range(T1 first, T1 second) {
-        this.start = first;
-        this.end = second;
+        if (first == null) {
+            leftUnbounded = true;
+        } else {
+            leftUnbounded = false;
+        }
+        if (second == null) {
+            rightUnbounded = true;
+        } else {
+            rightUnbounded = false;
+        }
+        if (!leftUnbounded && !rightUnbounded) {
+            if (first.compareTo(second) <= 0) {
+                this.start = first;
+                this.end = second;
+            } else {
+                this.start = second;
+                this.end = first;
+            }
+        } else {
+            this.start = first;
+            this.end = second;
+        }
     }
 
     public T1 getStart() {
@@ -16,19 +38,97 @@ public class Range<T1 extends Comparable<T1>> {
     public T1 getEnd() {
         return end;
     }
-    
+
+    public boolean isLeftUnbounded() {
+        return leftUnbounded;
+    }
+
+    public boolean isRightUnbounded() {
+        return rightUnbounded;
+    }
+
     public boolean contains(T1 value) {
-        if ((start.compareTo(value) <= 0) && (end.compareTo(value) >= 0)) {
-            return true;
+        if (leftUnbounded) {
+            if (rightUnbounded) {
+                return true;
+            } else {
+                if (end.compareTo(value) >= 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            if (rightUnbounded) {
+                if (start.compareTo(value) <= 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if ((start.compareTo(value) <= 0) && (end.compareTo(value) >= 0)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
-        return false;
     }
     
     public boolean intersects(Range<T1> other) {
-        if ((start.compareTo(other.end) <= 0) && (end.compareTo(other.start) >= 0)) {
-            return true;
+        if (leftUnbounded) {
+            if (rightUnbounded) {
+                return true;
+            } else {
+                if (other.leftUnbounded) {
+                    return true;
+                } else {
+                    if (end.compareTo(other.start) >= 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            if (rightUnbounded) {
+                if (other.rightUnbounded) {
+                    return true;
+                } else {
+                    if (start.compareTo(other.end) <= 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                if (other.leftUnbounded) {
+                    if (other.rightUnbounded) {
+                        return true;
+                    } else {
+                        if (start.compareTo(other.end) <= 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    if (other.rightUnbounded) {
+                        if (end.compareTo(other.start) >= 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        if ((start.compareTo(other.end) <= 0) && (end.compareTo(other.start) >= 0)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            }
         }
-        return false;
     }
 
     @Override
@@ -41,21 +141,41 @@ public class Range<T1 extends Comparable<T1>> {
         }
 
         Range other = (Range) o;
-
-        if (!this.start.equals(other.start)) {
-            return false;
+        
+        if ((this.leftUnbounded == other.leftUnbounded) && (this.rightUnbounded == other.rightUnbounded)) {
+            if (leftUnbounded) {
+                if (rightUnbounded) {
+                    return true;
+                } else {
+                    if (this.end.equals(other.end)) {
+                        return true;
+                    }
+                }
+            } else {
+                if (this.start.equals(other.start)) {
+                    if (rightUnbounded) {
+                        return true;
+                    } else {
+                        if (this.end.equals(other.end)) {
+                            return true;
+                        }
+                    }
+                }
+            }
         }
-        if (!this.end.equals(other.end)) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     @Override
     public int hashCode() {
-        int result = start.hashCode();
-        result = 31 * result + end.hashCode();
+        int result = 0;
+        if (start != null) {
+            result = start.hashCode();
+        }
+        result = 31 * result;
+        if (end != null) {
+            result += end.hashCode();
+        }
         return result;
     }
 }

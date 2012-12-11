@@ -1,6 +1,7 @@
 package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
+import cz.muni.fi.publishsubscribe.countingtree.Range;
 
 import java.util.*;
 
@@ -41,4 +42,66 @@ public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1>
 
 		return constraintList;
 	}
+
+        @Override
+        public List<Constraint<T1>> getIntersectingConstraints(Constraint<T1> constraint) {
+            List<Constraint<T1>> conflicts = new ArrayList<>();
+            switch (constraint.getOperator()) {
+                case LESS_THAN:
+                    for (T1 value : constraints.keySet()) {
+                        if (value.compareTo(constraint.getAttributeValue().getValue()) < 0) {
+                            conflicts.add(constraints.get(value));
+                            return conflicts;
+                        }
+                    }
+                    break;
+                case LESS_THAN_OR_EQUAL_TO:
+                    for (T1 value : constraints.keySet()) {
+                        if (value.compareTo(constraint.getAttributeValue().getValue()) <= 0) {
+                            conflicts.add(constraints.get(value));
+                            return conflicts;
+                        }
+                    }
+                    break;
+                case GREATER_THAN:
+                    for (T1 value : constraints.keySet()) {
+                        if (value.compareTo(constraint.getAttributeValue().getValue()) > 0) {
+                            conflicts.add(constraints.get(value));
+                            return conflicts;
+                        }
+                    }
+                    break;
+                case GREATER_THAN_OR_EQUAL_TO:
+                    for (T1 value : constraints.keySet()) {
+                        if (value.compareTo(constraint.getAttributeValue().getValue()) >= 0) {
+                            conflicts.add(constraints.get(value));
+                            return conflicts;
+                        }
+                    }
+                    break;
+                case EQUALS:
+                    return this.getConstraints(constraint.getAttributeValue().getValue());
+                case RANGE:
+                    for (T1 value : constraints.keySet()) {
+                        if (((Range<T1>)(constraint.getAttributeValue().getValue())).contains(value)) {
+                            conflicts.add(constraints.get(value));
+                            return conflicts;
+                        }
+                    }
+                    break;
+                case PREFIX:
+                    String prefix = (String)(constraint.getAttributeValue().getValue());
+                    for (T1 value : constraints.keySet()) {
+                        if (prefix.length() <= ((String)value).length()) {
+                            if (((String)value).startsWith(prefix)) {
+                                conflicts.add(constraints.get(value));
+                                return conflicts;
+                            }
+                        }
+                    }
+                    break;
+            }
+            
+            return conflicts;
+        }
 }

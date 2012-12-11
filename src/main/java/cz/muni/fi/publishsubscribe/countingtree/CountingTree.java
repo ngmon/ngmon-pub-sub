@@ -13,9 +13,9 @@ public class CountingTree {
 	private Long subscriptionCounter = 1L;
 	private Map<Long, Predicate> predicates = new HashMap<>();
 	private FilterMatcher matcher = new FilterMatcher();
-
-	public Long subscribe(Predicate predicate) {
-		predicate.setId(subscriptionCounter);
+        
+        public Long subscribe(Predicate predicate) {
+                predicate.setId(subscriptionCounter);
 		this.predicates.put(subscriptionCounter, predicate);
 
 		matcher.addPredicate(predicate);

@@ -87,4 +87,15 @@ public class AttributeIndex {
 
 		return (List<T2>) typeIndex.getConstraints(attributeValue.getValue());
 	}
+        
+        public <T1 extends Comparable <T1>> List<Constraint<T1>> getIntersectingConstraints(Constraint<T1> constraint) {
+            //TODO potom vracat konfliktny constraint?
+            TypeIndex<T1> typeIndex = (TypeIndex<T1>) this.attributes.get(constraint.getAttributeName());
+
+            if (typeIndex == null) {
+                return Collections.emptyList();
+            }
+
+            return typeIndex.getIntersectingConstraints(constraint);
+        }
 }
