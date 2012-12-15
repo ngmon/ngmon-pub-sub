@@ -43,7 +43,7 @@ public class ComplexTreeTestCase {
 		predicate01 = new Predicate();
 		predicate01.addFilter(filter01);
 
-		tree.subscribe(predicate01);
+		tree.subscribe(predicate01, new Subscription());
 
 		// PostgreSQL, processId >= 1000
 		Constraint<String> postgreSqlConstraint = new Constraint<String>(
@@ -61,7 +61,7 @@ public class ComplexTreeTestCase {
 		predicate02 = new Predicate();
 		predicate02.addFilter(filter02);
 
-		tree.subscribe(predicate02);
+		tree.subscribe(predicate02, new Subscription());
 
 		// processId > 2000
 		Constraint<Long> pIdGreaterThan2000 = new Constraint<>(
@@ -74,7 +74,7 @@ public class ComplexTreeTestCase {
 		predicate03 = new Predicate();
 		predicate03.addFilter(filter03);
 
-		tree.subscribe(predicate03);
+		tree.subscribe(predicate03, new Subscription());
 
 		// Apache OR PostgreSQL, processId >= 2000
 		Filter apacheFilter = new Filter();
@@ -92,7 +92,7 @@ public class ComplexTreeTestCase {
 		predicate04.addFilter(apacheFilter);
 		predicate04.addFilter(filter04);
 
-		tree.subscribe(predicate04);
+		tree.subscribe(predicate04, new Subscription());
 
 		//tree.createIndexTable();
 	}
@@ -103,7 +103,7 @@ public class ComplexTreeTestCase {
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>("foo", String.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
 	}
 
@@ -115,7 +115,7 @@ public class ComplexTreeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(1234L, Long.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicate04));
 	}
@@ -128,7 +128,7 @@ public class ComplexTreeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(1000L, Long.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicate04));
 	}
@@ -141,7 +141,7 @@ public class ComplexTreeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(999L, Long.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
 		assertTrue(predicates.contains(predicate01));
 		assertTrue(predicates.contains(predicate04));
@@ -155,7 +155,7 @@ public class ComplexTreeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(2000L, Long.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
 	}
 
@@ -167,7 +167,7 @@ public class ComplexTreeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(3000L, Long.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicate03));
 	}
@@ -180,7 +180,7 @@ public class ComplexTreeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(3000L, Long.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
 		assertTrue(predicates.contains(predicate02));
 		assertTrue(predicates.contains(predicate03));
@@ -195,7 +195,7 @@ public class ComplexTreeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(1000L, Long.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicate02));
 	}
@@ -209,7 +209,7 @@ public class ComplexTreeTestCase {
 				new AttributeValue<>(3000L, Long.class));
 		event.addAttribute(attribute);
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
 		assertTrue(predicates.contains(predicate03));
 		assertTrue(predicates.contains(predicate04));

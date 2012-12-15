@@ -39,7 +39,7 @@ public class RangeTestCase {
 		Predicate predicate = new Predicate();
 		predicate.addFilter(filter);
 
-		this.tree.subscribe(predicate);
+		this.tree.subscribe(predicate, new Subscription());
 
 	}
 
@@ -49,7 +49,7 @@ public class RangeTestCase {
 		event.addAttribute(STRING_ATTRIBUTE);
 		event.addAttribute(LONG_ATTRIBUTE1);
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 	}
 
@@ -59,7 +59,7 @@ public class RangeTestCase {
 		event.addAttribute(STRING_ATTRIBUTE);
 		event.addAttribute(LONG_ATTRIBUTE2);
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
 	}
 

@@ -42,7 +42,7 @@ public class UnsubscribeTestCase {
 		predicate01 = new Predicate();
 		predicate01.addFilter(filter01);
 
-		tree.subscribe(predicate01);
+		tree.subscribe(predicate01, new Subscription());
 
 		// PostgreSQL, processId >= 1000
 		Constraint<String> postgreSqlConstraint = new Constraint<>(APPLICATION_ATTR,
@@ -59,7 +59,7 @@ public class UnsubscribeTestCase {
 		predicate02 = new Predicate();
 		predicate02.addFilter(filter02);
 
-		tree.subscribe(predicate02);
+		tree.subscribe(predicate02, new Subscription());
 
 		// processId > 2000
 		Constraint<Long> pIdGreaterThan2000 = new Constraint<>(PROCESS_ID_ATTR,
@@ -71,7 +71,7 @@ public class UnsubscribeTestCase {
 		predicate03 = new Predicate();
 		predicate03.addFilter(filter03);
 
-		tree.subscribe(predicate03);
+		tree.subscribe(predicate03, new Subscription());
 
 		// Apache OR PostgreSQL, processId >= 2000
 		Filter apacheFilter = new Filter();
@@ -89,7 +89,7 @@ public class UnsubscribeTestCase {
 		predicate04.addFilter(apacheFilter);
 		predicate04.addFilter(filter04);
 
-		tree.subscribe(predicate04);
+		tree.subscribe(predicate04, new Subscription());
 
 		// tree.createIndexTable();
 	}
@@ -105,7 +105,7 @@ public class UnsubscribeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR, new AttributeValue<>(
 				1234L, Long.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
 	}
 
@@ -138,7 +138,7 @@ public class UnsubscribeTestCase {
 		tree.unsubscribe(predicate02);
 		tree.unsubscribe(predicate04);
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicate03));
 	}

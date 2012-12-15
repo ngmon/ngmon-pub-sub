@@ -16,6 +16,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Event;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 public class StringPrefixTestCase {
 
@@ -61,7 +62,7 @@ public class StringPrefixTestCase {
 		predicateComPidLessThan1000 = new Predicate();
 		predicateComPidLessThan1000.addFilter(filterComPidLessThan1000);
 
-		tree.subscribe(predicateComPidLessThan1000);
+		tree.subscribe(predicateComPidLessThan1000, new Subscription());
 
 		// second predicate - "com.java" prefix
 
@@ -71,7 +72,7 @@ public class StringPrefixTestCase {
 		predicateComJava = new Predicate();
 		predicateComJava.addFilter(filterComJava);
 
-		tree.subscribe(predicateComJava);
+		tree.subscribe(predicateComJava, new Subscription());
 
 		// third predicate - "net" prefix
 
@@ -81,7 +82,7 @@ public class StringPrefixTestCase {
 		predicateNet = new Predicate();
 		predicateNet.addFilter(filterNet);
 
-		tree.subscribe(predicateNet);
+		tree.subscribe(predicateNet, new Subscription());
 	}
 
 	@Test
@@ -90,7 +91,7 @@ public class StringPrefixTestCase {
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"foo", String.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
 	}
 
@@ -100,7 +101,7 @@ public class StringPrefixTestCase {
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"com", String.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
 	}
 
@@ -110,7 +111,7 @@ public class StringPrefixTestCase {
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"com.java", String.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicateComJava));
 	}
@@ -123,7 +124,7 @@ public class StringPrefixTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(500L, Long.class)));
 		
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
 		assertTrue(predicates.contains(predicateComPidLessThan1000));
 		assertTrue(predicates.contains(predicateComJava));
@@ -137,7 +138,7 @@ public class StringPrefixTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(500L, Long.class)));
 		
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicateComPidLessThan1000));
 	}
@@ -148,7 +149,7 @@ public class StringPrefixTestCase {
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"net.foo", String.class)));
 		
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(predicateNet));
 	}

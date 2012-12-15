@@ -19,6 +19,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Event;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 public class DateRangeTestCase {
 
@@ -51,7 +52,7 @@ public class DateRangeTestCase {
 		Predicate predicate = new Predicate();
 		predicate.addFilter(filter);
 
-		this.tree.subscribe(predicate);
+		this.tree.subscribe(predicate, new Subscription());
 	}
 
 	@Test
@@ -63,7 +64,7 @@ public class DateRangeTestCase {
 		event.addAttribute(new Attribute<>(DATE_ATTRIBUTE_NAME,
 				new AttributeValue<>(cal.getTime(), Date.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 	}
 
@@ -76,7 +77,7 @@ public class DateRangeTestCase {
 		event.addAttribute(new Attribute<>(DATE_ATTRIBUTE_NAME,
 				new AttributeValue<>(cal.getTime(), Date.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
 	}
 

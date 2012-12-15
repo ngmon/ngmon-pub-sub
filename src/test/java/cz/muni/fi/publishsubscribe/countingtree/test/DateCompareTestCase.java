@@ -19,6 +19,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Event;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 public class DateCompareTestCase {
 
@@ -52,7 +53,7 @@ public class DateCompareTestCase {
 		lessThan2000_01_01_20_00_00 = new Predicate();
 		lessThan2000_01_01_20_00_00.addFilter(filter01);
 
-		tree.subscribe(lessThan2000_01_01_20_00_00);
+		tree.subscribe(lessThan2000_01_01_20_00_00, new Subscription());
 
 		Constraint<Date> constraint2 = new Constraint<>(
 				ATTRIBUTE_1,
@@ -64,7 +65,7 @@ public class DateCompareTestCase {
 		lessThanOrEqualTo2000_01_01_20_00_00 = new Predicate();
 		lessThanOrEqualTo2000_01_01_20_00_00.addFilter(filter02);
 
-		tree.subscribe(lessThanOrEqualTo2000_01_01_20_00_00);
+		tree.subscribe(lessThanOrEqualTo2000_01_01_20_00_00, new Subscription());
 
 		Constraint<Date> constraint3 = new Constraint<>(
 				ATTRIBUTE_1,
@@ -76,7 +77,7 @@ public class DateCompareTestCase {
 		greaterThan1990_01_01_20_00_00 = new Predicate();
 		greaterThan1990_01_01_20_00_00.addFilter(filter03);
 
-		tree.subscribe(greaterThan1990_01_01_20_00_00);
+		tree.subscribe(greaterThan1990_01_01_20_00_00, new Subscription());
 
 		Constraint<Date> constraint4 = new Constraint<>(
 				ATTRIBUTE_1,
@@ -88,7 +89,7 @@ public class DateCompareTestCase {
 		greaterThanOrEqualTo2010_01_01_20_00_00 = new Predicate();
 		greaterThanOrEqualTo2010_01_01_20_00_00.addFilter(filter04);
 
-		tree.subscribe(greaterThanOrEqualTo2010_01_01_20_00_00);
+		tree.subscribe(greaterThanOrEqualTo2010_01_01_20_00_00, new Subscription());
 	}
 
 	@Test
@@ -97,7 +98,7 @@ public class DateCompareTestCase {
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(2000, 1, 1, 20, 0, 0), Date.class)));
 		
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
 		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00));
 		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00));
@@ -109,7 +110,7 @@ public class DateCompareTestCase {
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(1980, 1, 1, 20, 0, 0), Date.class)));
 		
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
 		assertTrue(predicates.contains(lessThan2000_01_01_20_00_00));
 		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00));
@@ -121,7 +122,7 @@ public class DateCompareTestCase {
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(1995, 1, 1, 20, 0, 0), Date.class)));
 		
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
 		assertTrue(predicates.contains(lessThan2000_01_01_20_00_00));
 		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00));
@@ -134,7 +135,7 @@ public class DateCompareTestCase {
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(2005, 1, 1, 20, 0, 0), Date.class)));
 		
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
 		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00));
 	}
@@ -145,7 +146,7 @@ public class DateCompareTestCase {
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(2015, 1, 1, 20, 0, 0), Date.class)));
 		
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
 		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00));
 		assertTrue(predicates.contains(greaterThanOrEqualTo2010_01_01_20_00_00));

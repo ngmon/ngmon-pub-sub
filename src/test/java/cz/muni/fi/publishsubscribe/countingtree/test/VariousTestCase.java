@@ -17,6 +17,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Event;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 public class VariousTestCase {
 
@@ -37,7 +38,7 @@ public class VariousTestCase {
 		event.addAttribute(new Attribute<>("app", new AttributeValue<>("foo",
 				String.class)));
 
-		List<Predicate> predicates = tree.match(event);
+		List<Subscription> predicates = tree.match(event);
 		assertEquals(0, predicates.size());
 	}
 
@@ -83,7 +84,7 @@ public class VariousTestCase {
 		Predicate predicate = new Predicate();
 		predicate.addFilter(filter);
 
-		long subscriptionId = tree.subscribe(predicate);
+		long subscriptionId = tree.subscribe(predicate, new Subscription());
 		assertTrue(tree.unsubscribe(subscriptionId));
 		assertFalse(tree.unsubscribe(subscriptionId));
 	}
