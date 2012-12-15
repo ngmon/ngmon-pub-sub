@@ -3,29 +3,39 @@ package cz.muni.fi.publishsubscribe.countingtree;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * The main (front-end) class for the algorithm
- * Usage: Add the required Predicates (subscriptions) first,
- * then get the Predicates matching the Event(s)
+ * The main (front-end) class for the algorithm; Usage: Add the required
+ * Predicates (subscriptions) first, then get the Predicates matching the
+ * Event(s)
  */
 public class CountingTree {
 
-	private Long subscriptionCounter = 1L;
-	private Map<Long, Predicate> predicates = new HashMap<>();
+	private Long subscriptionNextId = 1L;
+	// private Long subscriptionCount = 0L;
+	private Map<Predicate, Set<Subscription>> subscriptionLookup = new HashMap<>();
 	private FilterMatcher matcher = new FilterMatcher();
 
-	public Long subscribe(Predicate predicate) {
-		predicate.setId(subscriptionCounter);
-		this.predicates.put(subscriptionCounter, predicate);
+	public Long subscribe(Predicate predicate, Subscription subscription) {
+		subscription.setId(subscriptionNextId);
 
-		matcher.addPredicate(predicate);
+		Set<Subscription> subscriptions = subscriptionLookup.get(predicate);
+		// the same predicate has already been inserted
+		if (subscriptions != null) {
+			subscriptions.add(subscription);
+		} else {
+			Set<Subscription> subscriptionSet = new HashSet<>();
+			subscriptionSet.add(subscription);
+			subscriptionLookup.put(predicate, subscriptionSet);
+			matcher.addPredicate(predicate);
+		}
 
-		return subscriptionCounter++;
+		// subscriptionCount++;
+
+		return subscriptionNextId++;
 	}
 
 	/*-public void createIndexTable() {
@@ -37,29 +47,30 @@ public class CountingTree {
 	}*/
 
 	public boolean unsubscribe(Long subscriptionId) {
-		Predicate predicate = this.predicates.get(subscriptionId);
+		/*-Predicate predicate = this.predicates.get(subscriptionId);
 		if (predicate == null)
 			return false;
 		this.matcher.removePredicate(predicate);
-		return (this.predicates.remove(subscriptionId) != null);
+		return (this.predicates.remove(subscriptionId) != null);*/
+		throw new UnsupportedOperationException("not yet implemented");
 	}
-	
+
 	public boolean unsubscribe(Predicate predicate) {
-		Long predicateId = predicate.getId();
+		/*-Long predicateId = predicate.getId();
 		if (predicateId == null)
 			return false;
-		return unsubscribe(predicateId);
+		return unsubscribe(predicateId);*/
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
-	public List<Predicate> match(Event event) {
+	public List<Subscription> match(Event event) {
 
 		if (matcher == null) {
-			return new ArrayList<Predicate>();
+			return new ArrayList<Subscription>();
 		}
 
-		List<Predicate> predicates = new ArrayList<Predicate>();
-
-		int subscriptionCount = this.predicates.size();
+		List<Subscription> subscriptions = new ArrayList<>();
+		int predicateCount = subscriptionLookup.size();
 
 		Map<Filter, Integer> counters = new HashMap<Filter, Integer>();
 		Set<Predicate> matched = new HashSet<Predicate>();
@@ -68,21 +79,24 @@ public class CountingTree {
 		List<Filter> matchingFilters = matcher.getMatchingFilters(event);
 
 		for (Filter filter : matchingFilters) {
-			Predicate matchedPredicate = matcher.getPredicate(filter);
-			if (!matched.contains(matchedPredicate)) {
-				Integer count = counters.get(filter);
-				if (count == null)
-					count = 0;
-				counters.put(filter, ++count);
-				if (count.equals(filter.getConstraints().size())) {
-					predicates.add(matchedPredicate);
-					matched.add(matchedPredicate);
-					if (matched.size() == subscriptionCount)
-						break;
+			Set<Predicate> matchedPredicates = matcher.getPredicates(filter);
+			for (Predicate matchedPredicate : matchedPredicates) {
+				if (!matched.contains(matchedPredicate)) {
+					Integer count = counters.get(filter);
+					if (count == null)
+						count = 0;
+					counters.put(filter, ++count);
+					if (count.equals(filter.getConstraints().size())) {
+						subscriptions.addAll(subscriptionLookup
+								.get(matchedPredicate));
+						matched.add(matchedPredicate);
+						if (matched.size() == predicateCount)
+							break;
+					}
 				}
 			}
 		}
 
-		return predicates;
+		return subscriptions;
 	}
 }

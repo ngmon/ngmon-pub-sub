@@ -14,7 +14,7 @@ public class FilterMatcher {
 	private AttributeIndex attributeIndex = new AttributeIndex();
 
 	private Map<Constraint<? extends Comparable<?>>, Set<Filter>> reverseLookup = new HashMap<>();
-	private Map<Filter, Predicate> filterPredicateLookup = new HashMap<>();
+	private Map<Filter, Set<Predicate>> filterPredicateLookup = new HashMap<>();
 
 	private Long filterId = 1L;
 
@@ -25,30 +25,39 @@ public class FilterMatcher {
 		List<Filter> filters = predicate.getFilters();
 
 		for (Filter filter : filters) {
+			
+			Set<Predicate> predicateSet = filterPredicateLookup.get(filter);
+			// the filter has already been inserted
+			if (predicateSet != null) {
+				predicateSet.add(predicate);
+			// new filter
+			} else {
+				filter.setId(filterId++);
+				List<Constraint<? extends Comparable<?>>> constraints = filter.getConstraints();
+				for (Constraint<? extends Comparable<?>> constraint : constraints) {
 
-			filter.setId(filterId++);
+					this.attributeIndex.addConstraint(constraint);
 
-			this.filterPredicateLookup.put(filter, predicate);
+					if (this.reverseLookup.containsKey(constraint)) {
+						this.reverseLookup.get(constraint).add(filter);
+					} else {
 
-			List<Constraint<? extends Comparable<?>>> constraints = filter.getConstraints();
-			for (Constraint<? extends Comparable<?>> constraint : constraints) {
+						Set<Filter> filterHashSet = new HashSet<>();
+						filterHashSet.add(filter);
 
-				this.attributeIndex.addConstraint(constraint);
-
-				if (this.reverseLookup.containsKey(constraint)) {
-					this.reverseLookup.get(constraint).add(filter);
-				} else {
-
-					Set<Filter> filterHashSet = new HashSet<>();
-					filterHashSet.add(filter);
-
-					this.reverseLookup.put(constraint, filterHashSet);
+						this.reverseLookup.put(constraint, filterHashSet);
+					}
 				}
+				
+				predicateSet = new HashSet<>();
+				predicateSet.add(predicate);
+				this.filterPredicateLookup.put(filter, predicateSet);
 			}
 		}
 	}
 
 	public void removePredicate(Predicate predicate) {
+		/*-
 		// remove the relevant items from reverse lookup maps
 		List<Filter> filters = predicate.getFilters();
 		for (Filter filter : filters) {
@@ -65,9 +74,9 @@ public class FilterMatcher {
 				this.attributeIndex.removeConstraint(constraint);
 			}
 			this.filterPredicateLookup.remove(predicate);
-		}
+		}*/
 		
-		// TODO - remove the constraints from the indices
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Constraint<? extends Comparable<?>>> getMatchingConstraints(Event event) {
@@ -102,7 +111,7 @@ public class FilterMatcher {
 		return filters;
 	}
 
-	public Predicate getPredicate(Filter filter) {
+	public Set<Predicate> getPredicates(Filter filter) {
 		return this.filterPredicateLookup.get(filter);
 	}
 }
