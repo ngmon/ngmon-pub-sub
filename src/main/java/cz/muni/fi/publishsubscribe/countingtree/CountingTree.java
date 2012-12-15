@@ -79,14 +79,20 @@ public class CountingTree {
 		List<Filter> matchingFilters = matcher.getMatchingFilters(event);
 
 		for (Filter filter : matchingFilters) {
-			Set<Predicate> matchedPredicates = matcher.getPredicates(filter);
-			for (Predicate matchedPredicate : matchedPredicates) {
-				if (!matched.contains(matchedPredicate)) {
-					Integer count = counters.get(filter);
-					if (count == null)
-						count = 0;
-					counters.put(filter, ++count);
-					if (count.equals(filter.getConstraints().size())) {
+
+			// increment counter for the filter
+			Integer count = counters.get(filter);
+			if (count == null)
+				count = 0;
+			counters.put(filter, ++count);
+
+			// filter has matched -> add all subscriptions related to
+			// all the predicates that contain this filter
+			if (count.equals(filter.getConstraints().size())) {
+				Set<Predicate> matchedPredicates = matcher
+						.getPredicates(filter);
+				for (Predicate matchedPredicate : matchedPredicates) {
+					if (!matched.contains(matchedPredicate)) {
 						subscriptions.addAll(subscriptionLookup
 								.get(matchedPredicate));
 						matched.add(matchedPredicate);
