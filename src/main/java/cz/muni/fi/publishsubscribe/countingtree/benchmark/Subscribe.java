@@ -11,18 +11,16 @@ import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 /**
- * Tests the speed of the subscribe() method.
- * The *DifferentPredicate() methods are slow, since each test run
- * adds a lot more subscriptions (the longer the test runs, the more
- * subscriptions there are in the tree).
- * In the *DifferentAttributes() methods the new subscription
- * (predicate) uses different attribute names that those which already
- * are in the tree
- * Every Predicate has one Filter, every Filter has 12 Constraints:
- * 3 Long, less than, 3 Long, greater than or equal to, 3 Long equals
- * and 3 String equals
+ * Tests the speed of the subscribe() method. The *DifferentPredicate() methods
+ * are slow, since each test run adds a lot more subscriptions (the longer the
+ * test runs, the more subscriptions there are in the tree). In the
+ * *DifferentAttributes() methods the new subscription (predicate) uses
+ * different attribute names that those which already are in the tree Every
+ * Predicate has one Filter, every Filter has 12 Constraints: 3 Long, less than,
+ * 3 Long, greater than or equal to, 3 Long equals and 3 String equals
  */
 public class Subscribe extends SimpleBenchmark {
 
@@ -55,23 +53,25 @@ public class Subscribe extends SimpleBenchmark {
 		Filter filter = new Filter();
 		for (int i = 0; i < 3; i++) {
 			Constraint<Long> constraint = new Constraint<>(
-					attributeNames.get(0) + i, new AttributeValue<>((long) (i + 1)
-							* 1000000 + offset, Long.class), Operator.LESS_THAN);
+					attributeNames.get(0) + i, new AttributeValue<>(
+							(long) (i + 1) * 1000000 + offset, Long.class),
+					Operator.LESS_THAN);
 			filter.addConstraint(constraint);
 		}
 
 		for (int i = 0; i < 3; i++) {
 			Constraint<Long> constraint = new Constraint<>(
-					attributeNames.get(1) + i, new AttributeValue<>((long) (i + 1)
-							* 10000000 + offset, Long.class),
+					attributeNames.get(1) + i, new AttributeValue<>(
+							(long) (i + 1) * 10000000 + offset, Long.class),
 					Operator.GREATER_THAN_OR_EQUAL_TO);
 			filter.addConstraint(constraint);
 		}
 
 		for (int i = 0; i < 3; i++) {
 			Constraint<Long> constraint = new Constraint<>(
-					attributeNames.get(2) + i, new AttributeValue<>((long) (i + 1)
-							* 100000000 + offset, Long.class), Operator.EQUALS);
+					attributeNames.get(2) + i, new AttributeValue<>(
+							(long) (i + 1) * 100000000 + offset, Long.class),
+					Operator.EQUALS);
 			filter.addConstraint(constraint);
 		}
 
@@ -100,60 +100,60 @@ public class Subscribe extends SimpleBenchmark {
 
 		smallTree = new CountingTree();
 		for (int i = 0; i < SMALL_TREE_PREDICATE_COUNT; i++) {
-			smallTree.subscribe(createPredicate(i));
+			smallTree.subscribe(createPredicate(i), new Subscription());
 		}
 
 		largeTree = new CountingTree();
 		for (int i = 0; i < LARGE_TREE_PREDICATE_COUNT; i++) {
-			largeTree.subscribe(createPredicate(i));
+			largeTree.subscribe(createPredicate(i), new Subscription());
 		}
 	}
 
 	public void timeSubscribeToEmptyTree(int reps) {
 		for (int i = 0; i < reps; i++) {
-			emptyTree.subscribe(benchmarkPredicate);
+			emptyTree.subscribe(benchmarkPredicate, new Subscription());
 		}
 	}
 
 	public void timeSubscribeToEmptyTreeDifferentPredicate(int reps) {
 		for (int i = 0; i < reps; i++) {
-			emptyTree.subscribe(createPredicate(i, "time"));
+			emptyTree.subscribe(createPredicate(i, "time"), new Subscription());
 		}
 	}
 
 	public void timeSubscribeToSmallTree(int reps) {
 		for (int i = 0; i < reps; i++) {
-			smallTree.subscribe(benchmarkPredicate);
+			smallTree.subscribe(benchmarkPredicate, new Subscription());
 		}
 	}
-	
+
 	public void timeSubscribeToSmallTreeDifferentPredicate(int reps) {
 		for (int i = 0; i < reps; i++) {
-			smallTree.subscribe(createPredicate(i, "time"));
+			smallTree.subscribe(createPredicate(i, "time"), new Subscription());
 		}
 	}
 
 	public void timeSubscribeToSmallTreeDifferentAttributes(int reps) {
 		for (int i = 0; i < reps; i++) {
-			smallTree.subscribe(benchmarkPredicateAlt);
+			smallTree.subscribe(benchmarkPredicateAlt, new Subscription());
 		}
 	}
 
 	public void timeSubscribeToLargeTree(int reps) {
 		for (int i = 0; i < reps; i++) {
-			largeTree.subscribe(benchmarkPredicate);
+			largeTree.subscribe(benchmarkPredicate, new Subscription());
 		}
 	}
 
 	public void timeSubscribeToLargeTreeDifferentAttributes(int reps) {
 		for (int i = 0; i < reps; i++) {
-			largeTree.subscribe(benchmarkPredicateAlt);
+			largeTree.subscribe(benchmarkPredicateAlt, new Subscription());
 		}
 	}
-	
+
 	public void timeSubscribeToLargeTreeDifferentPredicate(int reps) {
 		for (int i = 0; i < reps; i++) {
-			largeTree.subscribe(createPredicate(i, "time"));
+			largeTree.subscribe(createPredicate(i, "time"), new Subscription());
 		}
 	}
 

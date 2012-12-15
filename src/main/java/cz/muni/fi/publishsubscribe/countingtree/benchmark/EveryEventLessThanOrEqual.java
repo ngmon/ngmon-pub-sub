@@ -8,6 +8,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
 import cz.muni.fi.publishsubscribe.countingtree.Event;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 /**
  * The simplest benchmark possible - only one attribute (of type Long),
@@ -40,7 +41,7 @@ public class EveryEventLessThanOrEqual extends SimpleBenchmark {
 			number = number >= LONG_MAX_VALUE ? LONG_MIN_VALUE : number + 1;
 
 			tree.subscribe(UtilityMethods
-					.createPredicateFromConstraint(constraint));
+					.createPredicateFromConstraint(constraint), new Subscription());
 		}
 	}
 

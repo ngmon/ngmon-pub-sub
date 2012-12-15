@@ -11,6 +11,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
 import cz.muni.fi.publishsubscribe.countingtree.Event;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 /**
  * One attribute (of type Long), 25 % predicates matched, constraint operators
@@ -106,13 +107,15 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 					LONG_ATTRIBUTE_NAME, new AttributeValue<Long>(
 							constraintValue - 50, Long.class),
 					Operator.GREATER_THAN_OR_EQUAL_TO);
-			tree75.subscribe(UtilityMethods
-					.createPredicateFromConstraint(constraint));
+			tree75.subscribe(
+					UtilityMethods.createPredicateFromConstraint(constraint),
+					new Subscription());
 			constraint = new Constraint<Long>(LONG_ATTRIBUTE_NAME,
 					new AttributeValue<Long>(constraintValue, Long.class),
 					Operator.LESS_THAN);
-			tree75.subscribe(UtilityMethods
-					.createPredicateFromConstraint(constraint));
+			tree75.subscribe(
+					UtilityMethods.createPredicateFromConstraint(constraint),
+					new Subscription());
 
 			i++;
 		}
@@ -128,13 +131,15 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 					LONG_ATTRIBUTE_NAME, new AttributeValue<Long>(
 							constraintValue - 200, Long.class),
 					Operator.GREATER_THAN_OR_EQUAL_TO);
-			tree100.subscribe(UtilityMethods
-					.createPredicateFromConstraint(constraint));
+			tree100.subscribe(
+					UtilityMethods.createPredicateFromConstraint(constraint),
+					new Subscription());
 			constraint = new Constraint<Long>(LONG_ATTRIBUTE_NAME,
 					new AttributeValue<Long>(constraintValue, Long.class),
 					Operator.LESS_THAN);
-			tree100.subscribe(UtilityMethods
-					.createPredicateFromConstraint(constraint));
+			tree100.subscribe(
+					UtilityMethods.createPredicateFromConstraint(constraint),
+					new Subscription());
 
 			i++;
 		}
@@ -155,8 +160,9 @@ public class OneAttributeOperatorsLessThanAndGreaterThanOrEqual extends
 					new AttributeValue<Long>(constraintValue, Long.class),
 					constraintValue > lessThanMaxValue ? Operator.GREATER_THAN_OR_EQUAL_TO
 							: Operator.LESS_THAN);
-			tree.subscribe(UtilityMethods
-					.createPredicateFromConstraint(constraint));
+			tree.subscribe(
+					UtilityMethods.createPredicateFromConstraint(constraint),
+					new Subscription());
 
 			i++;
 		}

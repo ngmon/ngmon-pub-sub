@@ -10,6 +10,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Event;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 /**
  * 12 Long attributes, operator <
@@ -54,7 +55,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 			Predicate predicate = new Predicate();
 			predicate.addFilter(filter);
 
-			tree.subscribe(predicate);
+			tree.subscribe(predicate, new Subscription());
 
 			val = val >= MAX_VALUE ? MIN_VALUE : val + 1;
 
