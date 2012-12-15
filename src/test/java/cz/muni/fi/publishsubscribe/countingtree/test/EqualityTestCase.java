@@ -62,6 +62,15 @@ public class EqualityTestCase {
 	private Predicate postgreSql3000Predicate;
 	private Predicate postgreSqlPredicate;
 	private Predicate apacheOrPostgreSqlPredicate;
+	
+	private Subscription apache1000Subscription = new Subscription();
+	private Subscription apacheSubscription1  = new Subscription();
+	private Subscription apacheSubscription2 = new Subscription();
+	private Subscription processId1000Subscription = new Subscription();
+	private Subscription processId2000Subscription = new Subscription();
+	private Subscription postgreSql3000Subscription = new Subscription();
+	private Subscription postgreSqlSubscription = new Subscription();
+	private Subscription apacheOrPostgreSqlSubscription = new Subscription();
 
 	@Before
 	public void prepareTree() {
@@ -77,7 +86,7 @@ public class EqualityTestCase {
 		apache1000Predicate = new Predicate();
 		apache1000Predicate.addFilter(apache1000Filter);
 
-		tree.subscribe(apache1000Predicate, new Subscription());
+		tree.subscribe(apache1000Predicate, apache1000Subscription);
 
 		// Apache - two subscriptions
 		Filter apacheFilter = new Filter();
@@ -85,14 +94,14 @@ public class EqualityTestCase {
 		apachePredicate1 = new Predicate();
 		apachePredicate1.addFilter(apacheFilter);
 
-		tree.subscribe(apachePredicate1, new Subscription());
+		tree.subscribe(apachePredicate1, apacheSubscription1);
 
 		Filter apacheFilter2 = new Filter();
 		apacheFilter2.addConstraint(apacheConstraint);
 		apachePredicate2 = new Predicate();
 		apachePredicate2.addFilter(apacheFilter2);
 
-		tree.subscribe(apachePredicate2, new Subscription());
+		tree.subscribe(apachePredicate2, apacheSubscription2);
 
 		// Process ID = 1000
 		Filter processId1000Filter = new Filter();
@@ -100,7 +109,7 @@ public class EqualityTestCase {
 		processId1000Predicate = new Predicate();
 		processId1000Predicate.addFilter(processId1000Filter);
 
-		tree.subscribe(processId1000Predicate, new Subscription());
+		tree.subscribe(processId1000Predicate, processId1000Subscription);
 
 		// Process ID = 2000
 		Constraint<Long> processId2000Constraint = LONG_CONSTRAINT_2000L;
@@ -109,7 +118,7 @@ public class EqualityTestCase {
 		processId2000Predicate = new Predicate();
 		processId2000Predicate.addFilter(processId2000Filter);
 
-		tree.subscribe(processId2000Predicate, new Subscription());
+		tree.subscribe(processId2000Predicate, processId2000Subscription);
 
 		// PostgreSQL, 3000
 		Constraint<String> postgreSqlConstraint = STRING_CONSTRAINT_POSTGRE;
@@ -121,7 +130,7 @@ public class EqualityTestCase {
 		postgreSql3000Predicate = new Predicate();
 		postgreSql3000Predicate.addFilter(postgreSql3000Filter);
 
-		tree.subscribe(postgreSql3000Predicate, new Subscription());
+		tree.subscribe(postgreSql3000Predicate, postgreSql3000Subscription);
 
 		// PostgreSQL
 		Filter postgreSqlFilter = new Filter();
@@ -129,7 +138,7 @@ public class EqualityTestCase {
 		postgreSqlPredicate = new Predicate();
 		postgreSqlPredicate.addFilter(postgreSqlFilter);
 
-		tree.subscribe(postgreSqlPredicate, new Subscription());
+		tree.subscribe(postgreSqlPredicate, postgreSqlSubscription);
 
 		// Apache or PostgreSQL
 		Filter apacheFilter3 = new Filter();
@@ -140,7 +149,7 @@ public class EqualityTestCase {
 		apacheOrPostgreSqlPredicate.addFilter(apacheFilter3);
 		apacheOrPostgreSqlPredicate.addFilter(postgreSqlFilter);
 
-		tree.subscribe(apacheOrPostgreSqlPredicate, new Subscription());
+		tree.subscribe(apacheOrPostgreSqlPredicate, apacheOrPostgreSqlSubscription);
 
 		//tree.createIndexTable();
 	}
@@ -164,9 +173,9 @@ public class EqualityTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
-		assertTrue(predicates.contains(apachePredicate1));
-		assertTrue(predicates.contains(apachePredicate2));
-		assertTrue(predicates.contains(apacheOrPostgreSqlPredicate));
+		assertTrue(predicates.contains(apacheSubscription1));
+		assertTrue(predicates.contains(apacheSubscription2));
+		assertTrue(predicates.contains(apacheOrPostgreSqlSubscription));
 	}
 
 	@Test
@@ -177,11 +186,11 @@ public class EqualityTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(5, predicates.size());
-		assertTrue(predicates.contains(apache1000Predicate));
-		assertTrue(predicates.contains(apachePredicate1));
-		assertTrue(predicates.contains(apachePredicate2));
-		assertTrue(predicates.contains(processId1000Predicate));
-		assertTrue(predicates.contains(apacheOrPostgreSqlPredicate));
+		assertTrue(predicates.contains(apache1000Subscription));
+		assertTrue(predicates.contains(apacheSubscription1));
+		assertTrue(predicates.contains(apacheSubscription2));
+		assertTrue(predicates.contains(processId1000Subscription));
+		assertTrue(predicates.contains(apacheOrPostgreSqlSubscription));
 	}
 
 	@Test
@@ -192,10 +201,10 @@ public class EqualityTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(4, predicates.size());
-		assertTrue(predicates.contains(apachePredicate1));
-		assertTrue(predicates.contains(apachePredicate2));
-		assertTrue(predicates.contains(processId2000Predicate));
-		assertTrue(predicates.contains(apacheOrPostgreSqlPredicate));
+		assertTrue(predicates.contains(apacheSubscription1));
+		assertTrue(predicates.contains(apacheSubscription2));
+		assertTrue(predicates.contains(processId2000Subscription));
+		assertTrue(predicates.contains(apacheOrPostgreSqlSubscription));
 	}
 
 	@Test
@@ -206,9 +215,9 @@ public class EqualityTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
-		assertTrue(predicates.contains(processId2000Predicate));
-		assertTrue(predicates.contains(postgreSqlPredicate));
-		assertTrue(predicates.contains(apacheOrPostgreSqlPredicate));
+		assertTrue(predicates.contains(processId2000Subscription));
+		assertTrue(predicates.contains(postgreSqlSubscription));
+		assertTrue(predicates.contains(apacheOrPostgreSqlSubscription));
 	}
 
 	@Test
@@ -218,7 +227,7 @@ public class EqualityTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(processId1000Predicate));
+		assertTrue(predicates.contains(processId1000Subscription));
 
 	}
 }

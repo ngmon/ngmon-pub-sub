@@ -32,12 +32,15 @@ public class StringPrefixTestCase {
 
 	Filter filterComPidLessThan1000;
 	Predicate predicateComPidLessThan1000;
+	Subscription subscriptionComPidLessThan1000 = new Subscription();
 
 	Filter filterComJava;
 	Predicate predicateComJava;
+	Subscription subscriptionComJava = new Subscription();
 
 	Filter filterNet;
 	Predicate predicateNet;
+	Subscription subscriptionNet = new Subscription();
 
 	@Before
 	public void prepareTree() {
@@ -62,7 +65,7 @@ public class StringPrefixTestCase {
 		predicateComPidLessThan1000 = new Predicate();
 		predicateComPidLessThan1000.addFilter(filterComPidLessThan1000);
 
-		tree.subscribe(predicateComPidLessThan1000, new Subscription());
+		tree.subscribe(predicateComPidLessThan1000, subscriptionComPidLessThan1000);
 
 		// second predicate - "com.java" prefix
 
@@ -72,7 +75,7 @@ public class StringPrefixTestCase {
 		predicateComJava = new Predicate();
 		predicateComJava.addFilter(filterComJava);
 
-		tree.subscribe(predicateComJava, new Subscription());
+		tree.subscribe(predicateComJava, subscriptionComJava);
 
 		// third predicate - "net" prefix
 
@@ -82,7 +85,7 @@ public class StringPrefixTestCase {
 		predicateNet = new Predicate();
 		predicateNet.addFilter(filterNet);
 
-		tree.subscribe(predicateNet, new Subscription());
+		tree.subscribe(predicateNet, subscriptionNet);
 	}
 
 	@Test
@@ -113,7 +116,7 @@ public class StringPrefixTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(predicateComJava));
+		assertTrue(predicates.contains(subscriptionComJava));
 	}
 
 	@Test
@@ -126,8 +129,8 @@ public class StringPrefixTestCase {
 		
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
-		assertTrue(predicates.contains(predicateComPidLessThan1000));
-		assertTrue(predicates.contains(predicateComJava));
+		assertTrue(predicates.contains(subscriptionComPidLessThan1000));
+		assertTrue(predicates.contains(subscriptionComJava));
 	}
 	
 	@Test
@@ -140,7 +143,7 @@ public class StringPrefixTestCase {
 		
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(predicateComPidLessThan1000));
+		assertTrue(predicates.contains(subscriptionComPidLessThan1000));
 	}
 	
 	@Test
@@ -151,7 +154,7 @@ public class StringPrefixTestCase {
 		
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(predicateNet));
+		assertTrue(predicates.contains(subscriptionNet));
 	}
 
 }

@@ -29,6 +29,11 @@ public class DateCompareTestCase {
 	private Predicate lessThanOrEqualTo2000_01_01_20_00_00;
 	private Predicate greaterThan1990_01_01_20_00_00;
 	private Predicate greaterThanOrEqualTo2010_01_01_20_00_00;
+	
+	private Subscription lessThan2000_01_01_20_00_00S = new Subscription();
+	private Subscription lessThanOrEqualTo2000_01_01_20_00_00S = new Subscription();
+	private Subscription greaterThan1990_01_01_20_00_00S = new Subscription();
+	private Subscription greaterThanOrEqualTo2010_01_01_20_00_00S = new Subscription();
 
 	private CountingTree tree;
 
@@ -53,7 +58,7 @@ public class DateCompareTestCase {
 		lessThan2000_01_01_20_00_00 = new Predicate();
 		lessThan2000_01_01_20_00_00.addFilter(filter01);
 
-		tree.subscribe(lessThan2000_01_01_20_00_00, new Subscription());
+		tree.subscribe(lessThan2000_01_01_20_00_00, lessThan2000_01_01_20_00_00S);
 
 		Constraint<Date> constraint2 = new Constraint<>(
 				ATTRIBUTE_1,
@@ -65,7 +70,7 @@ public class DateCompareTestCase {
 		lessThanOrEqualTo2000_01_01_20_00_00 = new Predicate();
 		lessThanOrEqualTo2000_01_01_20_00_00.addFilter(filter02);
 
-		tree.subscribe(lessThanOrEqualTo2000_01_01_20_00_00, new Subscription());
+		tree.subscribe(lessThanOrEqualTo2000_01_01_20_00_00, lessThanOrEqualTo2000_01_01_20_00_00S);
 
 		Constraint<Date> constraint3 = new Constraint<>(
 				ATTRIBUTE_1,
@@ -77,7 +82,7 @@ public class DateCompareTestCase {
 		greaterThan1990_01_01_20_00_00 = new Predicate();
 		greaterThan1990_01_01_20_00_00.addFilter(filter03);
 
-		tree.subscribe(greaterThan1990_01_01_20_00_00, new Subscription());
+		tree.subscribe(greaterThan1990_01_01_20_00_00, greaterThan1990_01_01_20_00_00S);
 
 		Constraint<Date> constraint4 = new Constraint<>(
 				ATTRIBUTE_1,
@@ -89,7 +94,7 @@ public class DateCompareTestCase {
 		greaterThanOrEqualTo2010_01_01_20_00_00 = new Predicate();
 		greaterThanOrEqualTo2010_01_01_20_00_00.addFilter(filter04);
 
-		tree.subscribe(greaterThanOrEqualTo2010_01_01_20_00_00, new Subscription());
+		tree.subscribe(greaterThanOrEqualTo2010_01_01_20_00_00, greaterThanOrEqualTo2010_01_01_20_00_00S);
 	}
 
 	@Test
@@ -100,8 +105,8 @@ public class DateCompareTestCase {
 		
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
-		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00));
-		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00));
+		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00S));
+		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00S));
 	}
 	
 	@Test
@@ -112,8 +117,8 @@ public class DateCompareTestCase {
 		
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
-		assertTrue(predicates.contains(lessThan2000_01_01_20_00_00));
-		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00));
+		assertTrue(predicates.contains(lessThan2000_01_01_20_00_00S));
+		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00S));
 	}
 	
 	@Test
@@ -124,9 +129,9 @@ public class DateCompareTestCase {
 		
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
-		assertTrue(predicates.contains(lessThan2000_01_01_20_00_00));
-		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00));
-		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00));
+		assertTrue(predicates.contains(lessThan2000_01_01_20_00_00S));
+		assertTrue(predicates.contains(lessThanOrEqualTo2000_01_01_20_00_00S));
+		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00S));
 	}
 	
 	@Test
@@ -137,7 +142,7 @@ public class DateCompareTestCase {
 		
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00));
+		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00S));
 	}
 	
 	@Test
@@ -148,8 +153,8 @@ public class DateCompareTestCase {
 		
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
-		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00));
-		assertTrue(predicates.contains(greaterThanOrEqualTo2010_01_01_20_00_00));
+		assertTrue(predicates.contains(greaterThan1990_01_01_20_00_00S));
+		assertTrue(predicates.contains(greaterThanOrEqualTo2010_01_01_20_00_00S));
 	}
 
 }

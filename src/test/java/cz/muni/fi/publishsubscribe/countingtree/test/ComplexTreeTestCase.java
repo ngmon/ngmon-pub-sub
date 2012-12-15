@@ -23,6 +23,11 @@ public class ComplexTreeTestCase {
 	private Predicate predicate02;
 	private Predicate predicate03;
 	private Predicate predicate04;
+	
+	private Subscription subscription01 = new Subscription();
+	private Subscription subscription02 = new Subscription();
+	private Subscription subscription03 = new Subscription();
+	private Subscription subscription04 = new Subscription();
 
 	@Before
 	public void prepareTree() {
@@ -43,7 +48,7 @@ public class ComplexTreeTestCase {
 		predicate01 = new Predicate();
 		predicate01.addFilter(filter01);
 
-		tree.subscribe(predicate01, new Subscription());
+		tree.subscribe(predicate01, subscription01);
 
 		// PostgreSQL, processId >= 1000
 		Constraint<String> postgreSqlConstraint = new Constraint<String>(
@@ -61,7 +66,7 @@ public class ComplexTreeTestCase {
 		predicate02 = new Predicate();
 		predicate02.addFilter(filter02);
 
-		tree.subscribe(predicate02, new Subscription());
+		tree.subscribe(predicate02, subscription02);
 
 		// processId > 2000
 		Constraint<Long> pIdGreaterThan2000 = new Constraint<>(
@@ -74,7 +79,7 @@ public class ComplexTreeTestCase {
 		predicate03 = new Predicate();
 		predicate03.addFilter(filter03);
 
-		tree.subscribe(predicate03, new Subscription());
+		tree.subscribe(predicate03, subscription03);
 
 		// Apache OR PostgreSQL, processId >= 2000
 		Filter apacheFilter = new Filter();
@@ -92,7 +97,7 @@ public class ComplexTreeTestCase {
 		predicate04.addFilter(apacheFilter);
 		predicate04.addFilter(filter04);
 
-		tree.subscribe(predicate04, new Subscription());
+		tree.subscribe(predicate04, subscription04);
 
 		//tree.createIndexTable();
 	}
@@ -117,7 +122,7 @@ public class ComplexTreeTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(predicate04));
+		assertTrue(predicates.contains(subscription04));
 	}
 
 	@Test
@@ -130,7 +135,7 @@ public class ComplexTreeTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(predicate04));
+		assertTrue(predicates.contains(subscription04));
 	}
 
 	@Test
@@ -143,8 +148,8 @@ public class ComplexTreeTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
-		assertTrue(predicates.contains(predicate01));
-		assertTrue(predicates.contains(predicate04));
+		assertTrue(predicates.contains(subscription01));
+		assertTrue(predicates.contains(subscription04));
 	}
 
 	@Test
@@ -169,7 +174,7 @@ public class ComplexTreeTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(predicate03));
+		assertTrue(predicates.contains(subscription03));
 	}
 
 	@Test
@@ -182,9 +187,9 @@ public class ComplexTreeTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(3, predicates.size());
-		assertTrue(predicates.contains(predicate02));
-		assertTrue(predicates.contains(predicate03));
-		assertTrue(predicates.contains(predicate04));
+		assertTrue(predicates.contains(subscription02));
+		assertTrue(predicates.contains(subscription03));
+		assertTrue(predicates.contains(subscription04));
 	}
 
 	@Test
@@ -197,7 +202,7 @@ public class ComplexTreeTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(predicate02));
+		assertTrue(predicates.contains(subscription02));
 	}
 
 	@Test
@@ -211,7 +216,7 @@ public class ComplexTreeTestCase {
 
 		List<Subscription> predicates = tree.match(event);
 		assertEquals(2, predicates.size());
-		assertTrue(predicates.contains(predicate03));
-		assertTrue(predicates.contains(predicate04));
+		assertTrue(predicates.contains(subscription03));
+		assertTrue(predicates.contains(subscription04));
 	}
 }
