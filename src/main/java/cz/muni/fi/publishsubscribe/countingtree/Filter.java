@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class Filter {
 
-	private long id;
-
+	private Long id = null;
 	private List<Constraint<? extends Comparable<?>>> constraints = new ArrayList<>();
+	private Integer cachedHashCode = null;
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean addConstraint(T2 constraint) {
 		return this.constraints.add(constraint);
@@ -31,20 +31,20 @@ public class Filter {
 			return false;
 
 		Filter filter = (Filter) o;
-
-		//if (!constraints.equals(filter.constraints))
-		if (id != filter.id)
-			return false;
-
-		return true;
+		
+		// if both IDs have been set, I can just compare IDs
+		if (id != null && filter.id != null) {
+			return id.equals(filter.id);
+		} else {
+			return constraints.equals(filter.constraints);
+		}
 	}
 
 	@Override
 	public int hashCode() {
-		//int result = constraints.hashCode();
-		//return result;
-		
-		return (int) (id ^ (id >>> 32));
+		if (cachedHashCode == null)
+			cachedHashCode = constraints.hashCode();
+		return cachedHashCode;
 	}
 
 	public Long getId() {

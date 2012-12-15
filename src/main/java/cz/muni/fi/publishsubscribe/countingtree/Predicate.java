@@ -11,8 +11,9 @@ import java.util.List;
  */
 public class Predicate {
 
-	private Long id;
+	private Long id = null;
 	private List<Filter> filters = new ArrayList<>();
+	private Integer cachedHashCode = null;
 
 	public List<Filter> getFilters() {
 		return filters;
@@ -36,14 +37,19 @@ public class Predicate {
 		if (o == null || getClass() != o.getClass()) return false;
 
 		Predicate predicate = (Predicate) o;
-
-		if (id != predicate.id) return false;
-
-		return true;
+		
+		// if both IDs have been set, I can just compare IDs
+		if (id != null && predicate.id != null) {
+			return id.equals(predicate.id);
+		} else {
+			return filters.equals(predicate.filters);
+		}
 	}
 
 	@Override
 	public int hashCode() {
-		return (int) (id ^ (id >>> 32));
+		if (cachedHashCode == null)
+			cachedHashCode = filters.hashCode();
+		return cachedHashCode;
 	}
 }
