@@ -22,6 +22,11 @@ public class UnsubscribeTestCase {
 	private Predicate predicate02;
 	private Predicate predicate03;
 	private Predicate predicate04;
+	
+	private Subscription subscription01 = new Subscription();
+	private Subscription subscription02 = new Subscription();
+	private Subscription subscription03 = new Subscription();
+	private Subscription subscription04 = new Subscription();
 
 	@Before
 	public void prepareTree() {
@@ -42,7 +47,7 @@ public class UnsubscribeTestCase {
 		predicate01 = new Predicate();
 		predicate01.addFilter(filter01);
 
-		tree.subscribe(predicate01, new Subscription());
+		tree.subscribe(predicate01, subscription01);
 
 		// PostgreSQL, processId >= 1000
 		Constraint<String> postgreSqlConstraint = new Constraint<>(APPLICATION_ATTR,
@@ -59,7 +64,7 @@ public class UnsubscribeTestCase {
 		predicate02 = new Predicate();
 		predicate02.addFilter(filter02);
 
-		tree.subscribe(predicate02, new Subscription());
+		tree.subscribe(predicate02, subscription02);
 
 		// processId > 2000
 		Constraint<Long> pIdGreaterThan2000 = new Constraint<>(PROCESS_ID_ATTR,
@@ -71,7 +76,7 @@ public class UnsubscribeTestCase {
 		predicate03 = new Predicate();
 		predicate03.addFilter(filter03);
 
-		tree.subscribe(predicate03, new Subscription());
+		tree.subscribe(predicate03, subscription03);
 
 		// Apache OR PostgreSQL, processId >= 2000
 		Filter apacheFilter = new Filter();
@@ -89,14 +94,14 @@ public class UnsubscribeTestCase {
 		predicate04.addFilter(apacheFilter);
 		predicate04.addFilter(filter04);
 
-		tree.subscribe(predicate04, new Subscription());
+		tree.subscribe(predicate04, subscription04);
 
 		// tree.createIndexTable();
 	}
 
 	@Test
 	public void testSimpleApacheEvent() {
-		boolean wasSubscribed = tree.unsubscribe(predicate04);
+		boolean wasSubscribed = tree.unsubscribe(subscription04);
 		assertTrue(wasSubscribed);
 
 		Event event = new Event();
@@ -110,21 +115,17 @@ public class UnsubscribeTestCase {
 	}
 
 	@Test
-	public void testUnsubscribeNonExistingPredicate() {
-		Constraint<String> applicationFoo = new Constraint<>(APPLICATION_ATTR,
-				new AttributeValue<>("foo", String.class), Operator.EQUALS);
-		Filter fooFilter = new Filter();
-		fooFilter.addConstraint(applicationFoo);
-		Predicate predicateFoo = new Predicate();
-		predicateFoo.addFilter(fooFilter);
+	public void testUnsubscribeNonExistingSubscription() {
+		Subscription subscriptionFoo = new Subscription();
+		subscriptionFoo.setId(1000000L);
 		
-		assertFalse(tree.unsubscribe(predicateFoo));
+		assertFalse(tree.unsubscribe(subscriptionFoo));
 	}
 	
 	@Test
-	public void unsubscribePredicateTwice() {
-		assertTrue(tree.unsubscribe(predicate01));
-		assertFalse(tree.unsubscribe(predicate01));
+	public void unsubscribeSubscriptionTwice() {
+		assertTrue(tree.unsubscribe(subscription01));
+		assertFalse(tree.unsubscribe(subscription01));
 	}
 	
 	@Test
@@ -135,12 +136,12 @@ public class UnsubscribeTestCase {
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
 				new AttributeValue<>(3000L, Long.class)));
 		
-		tree.unsubscribe(predicate02);
-		tree.unsubscribe(predicate04);
+		tree.unsubscribe(subscription02);
+		tree.unsubscribe(subscription04);
 
-		List<Subscription> predicates = tree.match(event);
-		assertEquals(1, predicates.size());
-		assertTrue(predicates.contains(predicate03));
+		List<Subscription> subscriptions = tree.match(event);
+		assertEquals(1, subscriptions.size());
+		assertTrue(subscriptions.contains(subscription03));
 	}
 
 }

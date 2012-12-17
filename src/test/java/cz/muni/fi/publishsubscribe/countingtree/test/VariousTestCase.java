@@ -46,14 +46,10 @@ public class VariousTestCase {
 	public void testUnsubscribeFromEmptyTree() {
 		CountingTree tree = new CountingTree();
 
-		Constraint<String> applicationFoo = new Constraint<>("app",
-				new AttributeValue<>("foo", String.class), Operator.EQUALS);
-		Filter fooFilter = new Filter();
-		fooFilter.addConstraint(applicationFoo);
-		Predicate predicateFoo = new Predicate();
-		predicateFoo.addFilter(fooFilter);
+		Subscription subscriptionFoo = new Subscription();
+		subscriptionFoo.setId(1000000L);
 
-		assertFalse(tree.unsubscribe(predicateFoo));
+		assertFalse(tree.unsubscribe(subscriptionFoo));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -64,13 +60,13 @@ public class VariousTestCase {
 	}
 
 	@Test
-	public void unsubscribePredicateWithNullId() {
+	public void unsubscribeSubscriptionWithNullId() {
 		CountingTree tree = new CountingTree();
 
-		Predicate predicate = new Predicate();
-		predicate.setId(null);
+		Subscription subscription = new Subscription();
+		subscription.setId(null);
 
-		assertFalse(tree.unsubscribe(predicate));
+		assertFalse(tree.unsubscribe(subscription));
 	}
 
 	@Test
