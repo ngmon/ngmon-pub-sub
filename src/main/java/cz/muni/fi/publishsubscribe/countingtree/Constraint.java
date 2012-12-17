@@ -11,6 +11,8 @@ public class Constraint<T1 extends Comparable<T1>> {
 	private String attributeName;
 	private Operator operator;
 	private AttributeValue<T1> attributeValue;
+	
+	private Integer cachedHashCode = null;
 
 	public Constraint(String attributeName, AttributeValue<T1> attributeValue,
 	                  Operator operator) {
@@ -49,12 +51,18 @@ public class Constraint<T1 extends Comparable<T1>> {
 
 		return true;
 	}
-
-	@Override
-	public int hashCode() {
+	
+	public int computeHashCode() {
 		int result = attributeName.hashCode();
 		result = 31 * result + attributeValue.hashCode();
 		result = 31 * result + operator.hashCode();
 		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		if (cachedHashCode == null)
+			cachedHashCode = computeHashCode();
+		return cachedHashCode;
 	}
 }
