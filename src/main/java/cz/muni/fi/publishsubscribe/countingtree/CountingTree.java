@@ -17,6 +17,7 @@ public class CountingTree {
 	private Long subscriptionNextId = 1L;
 	// private Long subscriptionCount = 0L;
 	private Map<Predicate, Set<Subscription>> subscriptionLookup = new HashMap<>();
+	private Map<Subscription, Predicate> predicateLookup = new HashMap<>();
 	private FilterMatcher matcher = new FilterMatcher();
 
 	public Long subscribe(Predicate predicate, Subscription subscription) {
@@ -34,6 +35,8 @@ public class CountingTree {
 		}
 
 		// subscriptionCount++;
+		
+		predicateLookup.put(subscription, predicate);
 
 		return subscriptionNextId++;
 	}
@@ -47,20 +50,29 @@ public class CountingTree {
 	}*/
 
 	public boolean unsubscribe(Long subscriptionId) {
-		/*-Predicate predicate = this.predicates.get(subscriptionId);
-		if (predicate == null)
-			return false;
-		this.matcher.removePredicate(predicate);
-		return (this.predicates.remove(subscriptionId) != null);*/
-		throw new UnsupportedOperationException("not yet implemented");
+		Subscription subscription = new Subscription();
+		subscription.setId(subscriptionId);
+		return unsubscribe(subscription);
 	}
 
-	public boolean unsubscribe(Predicate predicate) {
-		/*-Long predicateId = predicate.getId();
-		if (predicateId == null)
+	public boolean unsubscribe(Subscription subscription) {
+		if (subscription.getId() == null)
 			return false;
-		return unsubscribe(predicateId);*/
-		throw new UnsupportedOperationException("not yet implemented");
+		
+		Predicate predicate = predicateLookup.get(subscription);
+		// this subscription has never been inserted
+		if (predicate == null)
+			return false;
+		
+		Set<Subscription> subscriptionSet = subscriptionLookup.get(predicate);
+		subscriptionSet.remove(subscription);
+		if (subscriptionSet.isEmpty()) {
+			matcher.removePredicate(predicate);
+			subscriptionSet.remove(predicate);
+		}
+		predicateLookup.remove(subscription);
+		
+		return true;
 	}
 
 	public List<Subscription> match(Event event) {

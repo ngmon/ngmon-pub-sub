@@ -57,10 +57,15 @@ public class FilterMatcher {
 	}
 
 	public void removePredicate(Predicate predicate) {
-		/*-
 		// remove the relevant items from reverse lookup maps
 		List<Filter> filters = predicate.getFilters();
 		for (Filter filter : filters) {
+			Set<Predicate> predicateSet = filterPredicateLookup.get(filter);
+			predicateSet.remove(predicate);
+			if (predicateSet.isEmpty()) {
+				filterPredicateLookup.remove(filter);
+			}
+			
 			List<Constraint<? extends Comparable<?>>> constraints = filter.getConstraints();
 			for (Constraint<? extends Comparable<?>> constraint : constraints) {
 				Set<Filter> associatedFilters = this.reverseLookup
@@ -73,10 +78,7 @@ public class FilterMatcher {
 				}
 				this.attributeIndex.removeConstraint(constraint);
 			}
-			this.filterPredicateLookup.remove(predicate);
-		}*/
-		
-		throw new UnsupportedOperationException("not yet implemented");
+		}
 	}
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Constraint<? extends Comparable<?>>> getMatchingConstraints(Event event) {
