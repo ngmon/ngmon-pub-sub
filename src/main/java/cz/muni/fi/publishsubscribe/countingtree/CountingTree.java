@@ -72,7 +72,7 @@ public class CountingTree {
 		List<Subscription> subscriptions = new ArrayList<>();
 		int predicateCount = subscriptionLookup.size();
 
-		Map<Filter, Integer> counters = new HashMap<Filter, Integer>();
+		//Map<Filter, Integer> counters = new HashMap<Filter, Integer>();
 		Set<Predicate> matched = new HashSet<Predicate>();
 
 		// first get the filters associated to the matching constraints
@@ -81,14 +81,15 @@ public class CountingTree {
 		for (Filter filter : matchingFilters) {
 
 			// increment counter for the filter
-			Integer count = counters.get(filter);
+			/*-Integer count = counters.get(filter);
 			if (count == null)
 				count = 0;
 			counters.put(filter, ++count);
 
 			// filter has matched -> add all subscriptions related to
 			// all the predicates that contain this filter
-			if (count.equals(filter.getConstraints().size())) {
+			if (count.equals(filter.getConstraints().size())) {*/
+			if (filter.matchAfterIncrementing()) {
 				Set<Predicate> matchedPredicates = matcher
 						.getPredicates(filter);
 				for (Predicate matchedPredicate : matchedPredicates) {
@@ -101,6 +102,10 @@ public class CountingTree {
 					}
 				}
 			}
+		}
+		
+		for (Filter filter : matchingFilters) {
+			filter.resetMatchedCount();
 		}
 
 		return subscriptions;
