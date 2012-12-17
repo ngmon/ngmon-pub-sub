@@ -13,6 +13,7 @@ public class Filter {
 
 	private Long id = null;
 	private List<Constraint<? extends Comparable<?>>> constraints = new ArrayList<>();
+	private Integer matchedCount = 0;
 	private Integer cachedHashCode = null;
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean addConstraint(T2 constraint) {
@@ -53,6 +54,14 @@ public class Filter {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public boolean matchAfterIncrementing() {
+		return ++matchedCount >= constraints.size();
+	}
+	
+	public void resetMatchedCount() {
+		matchedCount = 0;
 	}
 
 }
