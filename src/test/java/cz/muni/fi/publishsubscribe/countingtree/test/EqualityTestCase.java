@@ -15,7 +15,7 @@ public class EqualityTestCase {
 	private static final String POSTGRE_SQL = "PostgreSQL";
 	private static final String APACHE_SERVER = "Apache Server";
 	private static final String APPLICATION_ATTR = "application";
-
+	
 	public static final Attribute<Long> ATTRIBUTE_1234L = new Attribute<>(PROCESS_ID_ATTR,
 			new AttributeValue<>(1234L, Long.class));
 
@@ -37,20 +37,17 @@ public class EqualityTestCase {
 	public static final Attribute<String> ATTRIBUTE_APACHE_SERVER = new Attribute<>(APPLICATION_ATTR,
 			new AttributeValue<>(APACHE_SERVER, String.class));
 
-	public static final Constraint<String> STRING_CONSTRAINT_POSTGRE = new Constraint<>(APPLICATION_ATTR,
-			new AttributeValue<>(POSTGRE_SQL, String.class), Operator.EQUALS);
+	public Constraint<String> STRING_CONSTRAINT_POSTGRE;
 
-	public static final Constraint<String> STRING_CONSTRAINT_APACHE = new Constraint<>(APPLICATION_ATTR,
-			new AttributeValue<>(APACHE_SERVER, String.class), Operator.EQUALS);
+	public Constraint<String> STRING_CONSTRAINT_APACHE;
+	
+	public Constraint<String> STRING_CONSTRAINT_APACHE_2;
 
-	public static final Constraint<Long> LONG_CONSTRAINT_1000L = new Constraint<>(PROCESS_ID_ATTR,
-			new AttributeValue<>(1000L, Long.class), Operator.EQUALS);
+	public Constraint<Long> LONG_CONSTRAINT_1000L;
 
-	public static final Constraint<Long> LONG_CONSTRAINT3000L = new Constraint<>(PROCESS_ID_ATTR,
-			new AttributeValue<>(3000L, Long.class), Operator.EQUALS);
+	public Constraint<Long> LONG_CONSTRAINT3000L;
 
-	public static final Constraint<Long> LONG_CONSTRAINT_2000L = new Constraint<>(PROCESS_ID_ATTR,
-			new AttributeValue<>(2000L, Long.class), Operator.EQUALS);
+	public Constraint<Long> LONG_CONSTRAINT_2000L;
 
 	private CountingTree tree;
 
@@ -74,10 +71,13 @@ public class EqualityTestCase {
 
 	@Before
 	public void prepareTree() {
+		prepareConstants();
+		
 		tree = new CountingTree();
 
 		// Apache, 1000
 		Constraint<String> apacheConstraint = STRING_CONSTRAINT_APACHE;
+		Constraint<String> apacheConstraint2 = STRING_CONSTRAINT_APACHE_2;
 
 		Constraint<Long> processId1000Constraint = LONG_CONSTRAINT_1000L;
 		Filter apache1000Filter = new Filter();
@@ -90,7 +90,7 @@ public class EqualityTestCase {
 
 		// Apache - two subscriptions
 		Filter apacheFilter = new Filter();
-		apacheFilter.addConstraint(apacheConstraint);
+		apacheFilter.addConstraint(apacheConstraint2);
 		apachePredicate1 = new Predicate();
 		apachePredicate1.addFilter(apacheFilter);
 
@@ -152,6 +152,26 @@ public class EqualityTestCase {
 		tree.subscribe(apacheOrPostgreSqlPredicate, apacheOrPostgreSqlSubscription);
 
 		//tree.createIndexTable();
+	}
+
+	private void prepareConstants() {
+		STRING_CONSTRAINT_POSTGRE = new Constraint<>(APPLICATION_ATTR,
+				new AttributeValue<>(POSTGRE_SQL, String.class), Operator.EQUALS);
+
+		STRING_CONSTRAINT_APACHE = new Constraint<>(APPLICATION_ATTR,
+				new AttributeValue<>(APACHE_SERVER, String.class), Operator.EQUALS);
+		
+		STRING_CONSTRAINT_APACHE_2 = new Constraint<>(APPLICATION_ATTR,
+				new AttributeValue<>(APACHE_SERVER, String.class), Operator.EQUALS);
+
+		LONG_CONSTRAINT_1000L = new Constraint<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(1000L, Long.class), Operator.EQUALS);
+
+		LONG_CONSTRAINT3000L = new Constraint<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(3000L, Long.class), Operator.EQUALS);
+
+		LONG_CONSTRAINT_2000L = new Constraint<>(PROCESS_ID_ATTR,
+				new AttributeValue<>(2000L, Long.class), Operator.EQUALS);
 	}
 
 	@Test

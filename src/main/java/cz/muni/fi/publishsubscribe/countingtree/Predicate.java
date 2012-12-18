@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Stores one or more Filters
- * Can be either true of false for a specific event
- * It's true for an event iff it's true for at least one of the Filters the Predicate contains
- * (We can also say the Predicate either does or does not satisfy an event)
+ * Stores one or more Filters Can be either true of false for a specific event
+ * It's true for an event iff it's true for at least one of the Filters the
+ * Predicate contains (We can also say the Predicate either does or does not
+ * satisfy an event)
  */
 public class Predicate {
 
 	private Long id = null;
 	private List<Filter> filters = new ArrayList<>();
+
+	private List<Subscription> subscriptions = new ArrayList<>();
+	private boolean matched = false;
+
 	private Integer cachedHashCode = null;
 
 	public List<Filter> getFilters() {
@@ -33,11 +37,13 @@ public class Predicate {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
 		Predicate predicate = (Predicate) o;
-		
+
 		// if both IDs have been set, I can just compare IDs
 		if (id != null && predicate.id != null) {
 			return id.equals(predicate.id);
@@ -51,5 +57,28 @@ public class Predicate {
 		if (cachedHashCode == null)
 			cachedHashCode = filters.hashCode();
 		return cachedHashCode;
+	}
+
+	public void addSubscription(Subscription subscription) {
+		subscriptions.add(subscription);
+	}
+
+	public void removeSubscription(Subscription subscription) {
+		subscriptions.remove(subscription);
+	}
+
+	public void addSubscriptionsToList(List<Subscription> matchedSubscriptions,
+			List<Predicate> predicatesToReset) {
+		if (matched)
+			return;
+
+		matchedSubscriptions.addAll(subscriptions);
+		predicatesToReset.add(this);
+
+		matched = true;
+	}
+
+	public void resetMatched() {
+		matched = false;
 	}
 }

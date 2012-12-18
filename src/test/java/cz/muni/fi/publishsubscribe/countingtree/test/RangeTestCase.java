@@ -13,24 +13,23 @@ public class RangeTestCase {
 	private static final String STRING_ATTRIBUTE_NAME = "stringAttribute";
 	private static final String LONG_ATTRIBUTE_NAME = "longAttribute";
 
-	public static final Attribute<String> STRING_ATTRIBUTE = new Attribute<>(STRING_ATTRIBUTE_NAME,
-			new AttributeValue<>("foo", String.class));
+	public static final Attribute<String> STRING_ATTRIBUTE = new Attribute<>(
+			STRING_ATTRIBUTE_NAME, new AttributeValue<>("foo", String.class));
 
-	public static final Attribute<Long> LONG_ATTRIBUTE1 = new Attribute<>(LONG_ATTRIBUTE_NAME,
-			new AttributeValue<>(2000L, Long.class));
+	public static final Attribute<Long> LONG_ATTRIBUTE1 = new Attribute<>(
+			LONG_ATTRIBUTE_NAME, new AttributeValue<>(2000L, Long.class));
 
-	public static final Attribute<Long> LONG_ATTRIBUTE2 = new Attribute<>(LONG_ATTRIBUTE_NAME,
-			new AttributeValue<>(5000L, Long.class));
+	public static final Attribute<Long> LONG_ATTRIBUTE2 = new Attribute<>(
+			LONG_ATTRIBUTE_NAME, new AttributeValue<>(5000L, Long.class));
 
-
-	public static final Constraint<LongRange> RANGE_CONSTRAINT = new Constraint<>(LONG_ATTRIBUTE_NAME,
-			new AttributeValue<>(new LongRange(1000L, 3000L), LongRange.class), Operator.RANGE);
+	public Constraint<LongRange> RANGE_CONSTRAINT;
 
 	private CountingTree tree;
 
-
 	@Before
 	public void prepareTree() {
+		prepareConstants();
+
 		this.tree = new CountingTree();
 
 		Filter filter = new Filter();
@@ -41,6 +40,12 @@ public class RangeTestCase {
 
 		this.tree.subscribe(predicate, new Subscription());
 
+	}
+
+	private void prepareConstants() {
+		RANGE_CONSTRAINT = new Constraint<>(LONG_ATTRIBUTE_NAME,
+				new AttributeValue<>(new LongRange(1000L, 3000L),
+						LongRange.class), Operator.RANGE);
 	}
 
 	@Test
