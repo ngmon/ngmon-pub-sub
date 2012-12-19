@@ -21,6 +21,7 @@ public class CountingTree {
 	// subscriptions)
 	private Map<Predicate, Predicate> predicates = new HashMap<>();
 	private FilterMatcher matcher = new FilterMatcher();
+	private Map<Subscription, Predicate> subscriptionToPredicate = new HashMap<>();
 
 	public Long subscribe(Predicate predicate, Subscription subscription) {
 		subscription.setId(subscriptionNextId);
@@ -29,9 +30,15 @@ public class CountingTree {
 		// the same predicate has already been inserted
 		if (fullPredicate != null) {
 			fullPredicate.addSubscription(subscription);
+			subscriptionToPredicate.put(subscription, fullPredicate);
 		} else {
 			predicate.addSubscription(subscription);
 			predicates.put(predicate, predicate);
+			
+			Set<Predicate> predicateSet = new HashSet<>();
+			predicateSet.add(predicate);
+			subscriptionToPredicate.put(subscription, predicate);
+			
 			matcher.addPredicate(predicate);
 		}
 
@@ -49,18 +56,25 @@ public class CountingTree {
 	}*/
 
 	public boolean unsubscribe(Long subscriptionId) {
-		/*-Subscription subscription = new Subscription();
+		Subscription subscription = new Subscription();
 		subscription.setId(subscriptionId);
-		return unsubscribe(subscription);*/
-
-		throw new UnsupportedOperationException("not yet implemented");
+		return unsubscribe(subscription);
 	}
 
 	public boolean unsubscribe(Subscription subscription) {
-		/*-if (subscription.getId() == null)
+		if (subscription.getId() == null)
 			return false;
 		
-		Predicate predicate = predicateLookup.get(subscription);
+		if (!subscriptionToPredicate.containsKey(subscription))
+			return false;
+		
+		Predicate predicate = subscriptionToPredicate.get(subscription);
+		matcher.removePredicate(predicate);
+		subscriptionToPredicate.remove(subscription);
+		
+		return true;
+
+		/*-Predicate predicate = predicateLookup.get(subscription);
 		// this subscription has never been inserted
 		if (predicate == null)
 			return false;
@@ -74,8 +88,6 @@ public class CountingTree {
 		predicateLookup.remove(subscription);
 		
 		return true;*/
-
-		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	public List<Subscription> match(Event event) {

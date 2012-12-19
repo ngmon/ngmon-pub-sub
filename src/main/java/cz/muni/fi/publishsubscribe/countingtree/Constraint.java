@@ -53,7 +53,7 @@ public class Constraint<T1 extends Comparable<T1>> {
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		Constraint that = (Constraint) o;
+		Constraint<?> that = (Constraint<?>) o;
 
 		if (!attributeName.equals(that.attributeName))
 			return false;
@@ -85,6 +85,10 @@ public class Constraint<T1 extends Comparable<T1>> {
 
 	public void removeFilter(Filter filter) {
 		filters.remove(filter);
+	}
+	
+	public boolean noFilters() {
+		return filters.isEmpty();
 	}
 
 	public void incrementFiltersCounters(List<Subscription> subscriptions,

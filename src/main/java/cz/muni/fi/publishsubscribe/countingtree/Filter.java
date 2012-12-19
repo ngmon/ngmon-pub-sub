@@ -86,5 +86,9 @@ public class Filter {
 	public void removePredicate(Predicate predicate) {
 		predicates.remove(predicate);
 	}
+	
+	public boolean noPredicates() {
+		return predicates.isEmpty();
+	}
 
 }

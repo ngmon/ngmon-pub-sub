@@ -19,7 +19,7 @@ public class FilterMatcher {
 	// HashMap<>();
 
 	private Map<Filter, Filter> filters = new HashMap<>();
-	private Map<Constraint, Constraint> constraints = new HashMap<>();
+	private Map<Constraint<?>, Constraint<?>> constraints = new HashMap<>();
 
 	private Long filterId = 1L;
 
@@ -84,8 +84,20 @@ public class FilterMatcher {
 				this.attributeIndex.removeConstraint(constraint);
 			}
 		}*/
-
-		throw new UnsupportedOperationException("not yet implemented");
+		
+		for (Filter filter : predicate.getFilters()) {
+			filter.removePredicate(predicate);
+			if (filter.noPredicates())
+				filters.remove(filter);
+			
+			for (Constraint<?> constraint : filter.getConstraints()) {
+				constraint.removeFilter(filter);
+				if (constraint.noFilters())
+					constraints.remove(constraint);
+				
+				attributeIndex.removeConstraint(constraint);
+			}
+		}
 	}
 
 	/*-public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Constraint<? extends Comparable<?>>> getMatchingConstraints(Event event) {
