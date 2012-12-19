@@ -46,39 +46,43 @@ public class RangeNode<T extends Comparable<T>> {
 
         Set<Range<T>> left = new HashSet<>();
         Set<Range<T>> right = new HashSet<>();
-
-        for (Range<T> r : rangeSet) {
-            if (r.isLeftUnbounded()) {
-                if (r.isRightUnbounded()) {
-                    ranges.add(r);
-                } else {
-                    if (r.getEnd().compareTo(median) < 0) {
-                        left.add(r);
-                    } else {
+        
+        if (median != null) {
+            for (Range<T> r : rangeSet) {
+                if (r.isLeftUnbounded()) {
+                    if (r.isRightUnbounded()) {
                         ranges.add(r);
-                    }
-                }
-            } else {
-                if (r.isRightUnbounded()) {
-                    if (r.getStart().compareTo(median) > 0) {
-                        right.add(r);
                     } else {
-                        ranges.add(r);
+                        if (r.getEnd().compareTo(median) < 0) {
+                            left.add(r);
+                        } else {
+                            ranges.add(r);
+                        }
                     }
                 } else {
-                    if (r.getEnd().compareTo(median) < 0) {
-                        left.add(r);
-                    } else {
+                    if (r.isRightUnbounded()) {
                         if (r.getStart().compareTo(median) > 0) {
                             right.add(r);
                         } else {
                             ranges.add(r);
                         }
+                    } else {
+                        if (r.getEnd().compareTo(median) < 0) {
+                            left.add(r);
+                        } else {
+                            if (r.getStart().compareTo(median) > 0) {
+                                right.add(r);
+                            } else {
+                                ranges.add(r);
+                            }
+                        }
                     }
                 }
             }
+        } else {
+            ranges.addAll(rangeSet);
         }
-
+        
         if (left.size() > 0) {
             leftNode = new RangeNode<>(left);
         }
@@ -125,18 +129,14 @@ public class RangeNode<T extends Comparable<T>> {
         }
 
         for (Range<T> r : ranges) {
-            if ((!r.isLeftUnbounded()) && (r.getStart().compareTo(value) > 0)) {
-                break;
-            } else {
-                if (r.contains(value)) {
-                    result.add(r);
-                }
+            if (r.contains(value)) {
+                result.add(r);
             }
         }
         
-        if (value.compareTo(centre) < 0 && leftNode != null) {
+        if (leftNode != null && centre != null && value.compareTo(centre) < 0) {
             result.addAll(leftNode.getRangesContaining(value));
-        } else if (value.compareTo(centre) > 0 && rightNode != null) {
+        } else if (rightNode != null && centre != null && value.compareTo(centre) > 0) {
             result.addAll(rightNode.getRangesContaining(value));
         }
 
@@ -153,19 +153,15 @@ public class RangeNode<T extends Comparable<T>> {
         Set<Range<T>> result = new HashSet<>();
 
         for (Range<T> r : ranges) {
-            if ((!r.isLeftUnbounded()) && (r.getStart().compareTo(target.getEnd()) > 0)) {
-                break;
-            } else {
-                if (r.intersects(target)) {
-                    result.add(r);
-                }
+            if (r.intersects(target)) {
+                result.add(r);
             }
         }
 
-        if (target.getStart().compareTo(centre) < 0 && leftNode != null) {
+        if (leftNode != null && centre != null && target.getStart().compareTo(centre) < 0) {
             result.addAll(leftNode.getRangesIntersecting(target));
         }
-        if (target.getEnd().compareTo(centre) > 0 && rightNode != null) {
+        if (rightNode != null && centre != null && target.getEnd().compareTo(centre) > 0) {
             result.addAll(rightNode.getRangesIntersecting(target));
         }
 

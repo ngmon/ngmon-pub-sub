@@ -124,10 +124,9 @@ public class RangeTestCase {
             assertTrue(rngTree.getRangesContaining(150L).size() == 2);
             assertTrue(rngTree.getRangesContaining(0L).size() == 3);
             
-            //TODO preco dokelu pre vsetko mensie ako -5 uz nezapocita (null,null)? nakreslit. opravit. tieto tri maju prejst
-//            assertTrue(rngTree.getRangesContaining(-150L).contains(new LongRange(null, null)));
-//            assertTrue(rngTree.getRangesContaining(-10L).size() == 3);
-//            assertTrue(rngTree.getRangesContaining(-15L).size() == 2);
+            assertTrue(rngTree.getRangesContaining(-150L).size() == 2);
+            assertTrue(rngTree.getRangesContaining(-10L).size() == 3);
+            assertTrue(rngTree.getRangesContaining(-15L).size() == 2);
         }
 
         @Test
@@ -146,7 +145,6 @@ public class RangeTestCase {
             assertTrue(rngTree.getRangesIntersecting(new LongRange(-1L,1L)).size() == 3);
             assertTrue(rngTree.getRangesIntersecting(new LongRange(-5L,0L)).size() == 3);
             assertTrue(rngTree.getRangesIntersecting(new LongRange(-6L,9L)).size() == 4);
-            //TODO tiez strajkuje pri hodnotach mensich ako -5...
-//            assertTrue(rngTree.getRangesIntersecting(new LongRange(-9L,-8L)).size() == 2);
+            assertTrue(rngTree.getRangesIntersecting(new LongRange(-9L,-8L)).size() == 2);
         }
 }
