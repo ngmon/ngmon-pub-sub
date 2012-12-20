@@ -29,12 +29,11 @@ public abstract class AbstractTypeIndex<T1 extends Comparable<T1>> implements Ty
 	}
         
         @Override
-	public List<Constraint<T1>> getIntersectingConstraints(Constraint<T1> constraint) {
+	public List<Constraint<T1>> getConflictingConstraints(Constraint<T1> constraint) {
 		List<Constraint<T1>> constraints = new LinkedList<>();
 
 		for (OperatorIndex<T1> operatorIndex : this.operatorIndexes.values()) {
-                        constraints = operatorIndex.getIntersectingConstraints(constraint);
-			if (!constraints.isEmpty()) {
+                        if (constraints.addAll(operatorIndex.getConflictingConstraints(constraint))) {
                             return constraints;
                         }
 		}

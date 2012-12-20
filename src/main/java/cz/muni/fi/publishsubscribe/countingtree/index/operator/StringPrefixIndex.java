@@ -1,11 +1,9 @@
 package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
-import java.util.List;
-
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
-import cz.muni.fi.publishsubscribe.countingtree.Range;
 import cz.muni.fi.publishsubscribe.countingtree.ternarysearchtree.TernarySearchTree;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StringPrefixIndex implements OperatorIndex<String> {
 
@@ -28,17 +26,26 @@ public class StringPrefixIndex implements OperatorIndex<String> {
 	}
         
         @Override
-        public List<Constraint<String>> getIntersectingConstraints(Constraint<String> constraint) {
+        public List<Constraint<String>> getConflictingConstraints(Constraint<String> constraint) {
+            List<Constraint<String>> conflicts = new ArrayList<>();
             switch (constraint.getOperator()) {
                 case EQUALS:
                     return this.getConstraints(constraint.getAttributeValue().getValue());
                 case PREFIX:
-                    //TODO ...
-                    //skontrolovat jednak vsetky prefixy daneho attributeValue, a jednak vsetko, coho prefixom je tato attributeValue
-                    
+                    String prefix = constraint.getAttributeValue().getValue();
+                    if (conflicts.addAll(this.getConstraints(prefix))) {
+                        return conflicts;
+                    } else {
+                        for (CharSequence p : tree.keySet()) {
+                            if ((prefix.length() < p.length()) && (p.toString().startsWith(prefix))) {
+                                conflicts.addAll(this.getConstraints(p.toString()));
+                                return conflicts;
+                            }
+                        }
+                    }
             }
             
             
-            return new ArrayList<>();
+            return conflicts;
         }
 }

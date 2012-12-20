@@ -11,13 +11,6 @@ import java.util.Set;
  */
 public class RangeTree<T extends Comparable<T>> {
     
-    //TODO testy!
-
-    /* TODO Spytat sa:
-       1. "build() if out of sync" bolo v originali - ak to nechceme, premazat vsetko, co sa toho tyka
-       2. mam dopisat removeRange()? alebo to budeme riesit prestavanim stromu? alebo nebude povolene mazanie? :)
-    */
-    
     private RangeNode<T> root;
     private Set<Range<T>> rangeSet;
     private boolean inSync;

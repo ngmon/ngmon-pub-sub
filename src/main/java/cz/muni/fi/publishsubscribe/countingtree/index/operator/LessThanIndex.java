@@ -15,7 +15,7 @@ public class LessThanIndex<T1 extends Comparable<T1>> extends AbstractNavigableM
 	}
 
         @Override
-        public List<Constraint<T1>> getIntersectingConstraints(Constraint<T1> constraint) {
+        public List<Constraint<T1>> getConflictingConstraints(Constraint<T1> constraint) {
             switch (constraint.getOperator()) {
                 case LESS_THAN:
                 case LESS_THAN_OR_EQUAL_TO:
@@ -27,7 +27,7 @@ public class LessThanIndex<T1 extends Comparable<T1>> extends AbstractNavigableM
                 case RANGE:
                     Range<T1> rng = (Range<T1>)(constraint.getAttributeValue().getValue());
                     if (rng.isLeftUnbounded()) {
-                        return new ArrayList<>();
+                        return new ArrayList<>(constraints.values()); //koliduju urcite uplne vsetky
                     } else {
                         return this.getConstraints(rng.getStart());
                     }

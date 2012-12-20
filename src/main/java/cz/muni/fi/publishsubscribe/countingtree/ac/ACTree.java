@@ -18,10 +18,10 @@ public class ACTree {
         this.userId = userId;
     }
 
-    public boolean isAllowed(Predicate predicate) {
+    public <T extends Comparable<?>> boolean isAllowed(Predicate predicate) { //TODO generics?
         for (Filter filter : predicate.getFilters()) {
-            for (Constraint constraint : filter.getConstraints()) {
-                if (!attributeIndex.getIntersectingConstraints(constraint).isEmpty()) {
+            for (Constraint<?> constraint : filter.getConstraints()) {
+                if (!attributeIndex.getConflictingConstraints(constraint).isEmpty()) {
                     return false;
                 }
             }
@@ -30,7 +30,7 @@ public class ACTree {
         return true;
     }
 
-    public void add(Constraint constraint) {
+    public <T extends Comparable<T>> void add(Constraint<T> constraint) {
         this.attributeIndex.addConstraint(constraint);
     }
     

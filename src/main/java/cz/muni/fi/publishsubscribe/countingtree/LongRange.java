@@ -8,7 +8,6 @@ public class LongRange extends Range<Long> implements Comparable<LongRange> {
 
 	@Override
 	public int compareTo(LongRange other) {
-            //TODO skontrolovat a skraslit, lebo je to pomerne dost odflaknute
             if (super.isLeftUnbounded()) {
                 if (super.isRightUnbounded()) {
                     if (other.isLeftUnbounded() || other.isRightUnbounded()) {

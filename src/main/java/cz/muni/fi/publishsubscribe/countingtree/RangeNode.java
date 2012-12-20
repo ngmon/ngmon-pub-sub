@@ -5,17 +5,10 @@ import java.util.*;
 /**
  * The Node class contains the RangeTree information for a single node
  *
- * @author ???
+ * @author Kevin Dolan (http://www.thekevindolan.com/2010/02/interval-tree/index.html), adapted
  */
 public class RangeNode<T extends Comparable<T>> {
 
-    /* TODO Spytat sa:
-     1. Give credit where credit is due - ale ako presne? totiz, to bolo tak:
-     * okopirovala som to z http://www.thekevindolan.com/2010/02/interval-tree/index.html (autor Kevin Dolan)
-     * potom som to upravila pre genericke typy, opravila dokumentaciu a nazvy metod/premennych, ak sa mi nepacili, atd.
-     * a getRanges* metody som odpisala zase odtialto: https://github.com/mbuchetics/RangeTree
-     */
-    
     private T centre;
     private SortedSet<Range<T>> ranges; //all ranges overlapping the centre
     private RangeNode<T> leftNode;

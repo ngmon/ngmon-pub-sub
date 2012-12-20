@@ -2,13 +2,13 @@ package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.Range;
-
 import java.util.*;
 
 public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> {
 
 	protected Map<T1, Constraint<T1>> constraints = new HashMap<>();
 
+        @Override
 	public boolean addConstraint(Constraint<T1> constraint) {
 
 		T1 value = constraint.getAttributeValue().getValue();
@@ -28,6 +28,7 @@ public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1>
 	}
 
 	// Returning only single Constraint!!
+        @Override
 	public List<Constraint<T1>> getConstraints(T1 attributeValue) {
 
 		Constraint<T1> constraint = this.constraints.get(attributeValue);
@@ -44,7 +45,7 @@ public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1>
 	}
 
         @Override
-        public List<Constraint<T1>> getIntersectingConstraints(Constraint<T1> constraint) {
+        public List<Constraint<T1>> getConflictingConstraints(Constraint<T1> constraint) {
             List<Constraint<T1>> conflicts = new ArrayList<>();
             switch (constraint.getOperator()) {
                 case LESS_THAN:

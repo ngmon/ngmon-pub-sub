@@ -15,7 +15,7 @@ public class GreaterThanOrEqualToIndex<T1 extends Comparable<T1>> extends Abstra
 	}
 
         @Override
-        public List<Constraint<T1>> getIntersectingConstraints(Constraint<T1> constraint) {
+        public List<Constraint<T1>> getConflictingConstraints(Constraint<T1> constraint) {
             switch (constraint.getOperator()) {
                 case LESS_THAN:
                     //ak budem zase chciet toto mazat "lebo to je to iste ako LESS_THAN_OR_EQUAL_TO", tak si odkazujem: NIE JE.
@@ -30,7 +30,7 @@ public class GreaterThanOrEqualToIndex<T1 extends Comparable<T1>> extends Abstra
                 case RANGE:
                     Range<T1> rng = (Range<T1>)(constraint.getAttributeValue().getValue());
                     if (rng.isRightUnbounded()) {
-                        return new ArrayList<>();
+                        return new ArrayList<>(constraints.values()); //koliduju urcite uplne vsetky
                     } else {
                         return this.getConstraints(rng.getEnd());
                     }

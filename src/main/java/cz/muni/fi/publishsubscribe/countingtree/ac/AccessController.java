@@ -8,7 +8,7 @@ import java.util.Map;
 public class AccessController {
     private Map<Long, ACTree> acl = new HashMap<>();
         
-    public void deny(Long userId, Constraint constraint) {
+    public <T extends Comparable<T>> void deny(Long userId, Constraint<T> constraint) {
         ACTree acTree = this.acl.get(userId);
         if (acTree == null) {
             acTree = new ACTree();

@@ -7,16 +7,8 @@ public class Range<T1 extends Comparable<T1>> {
     private final boolean rightUnbounded;
 
     public Range(T1 first, T1 second) {
-        if (first == null) {
-            leftUnbounded = true;
-        } else {
-            leftUnbounded = false;
-        }
-        if (second == null) {
-            rightUnbounded = true;
-        } else {
-            rightUnbounded = false;
-        }
+        leftUnbounded = (first == null);
+        rightUnbounded = (second == null);
         if (!leftUnbounded && !rightUnbounded) {
             if (first.compareTo(second) <= 0) {
                 this.start = first;
