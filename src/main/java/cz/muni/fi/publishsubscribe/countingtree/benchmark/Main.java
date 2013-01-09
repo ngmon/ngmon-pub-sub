@@ -7,7 +7,7 @@ public class Main {
 		
 		//com.google.caliper.Runner.main(new String[] { "cz.muni.fi.publishsubscribe.countingtree.benchmark.EveryEventLessThanOrEqual" });
 		//com.google.caliper.Runner.main(new String[] { "cz.muni.fi.publishsubscribe.countingtree.benchmark.OneAttributeOperatorsLessThanAndGreaterThanOrEqual" });
-		//com.google.caliper.Runner.main(new String[] { "cz.muni.fi.publishsubscribe.countingtree.benchmark.TwelveLongAttributesInequality" });
+		//com.google.caliper.Runner.main(new String[] { "cz.muni.fi.publishsubscribe.countingtree.benchmark.TwelveLongAttributesLessThan" });
 		com.google.caliper.Runner.main(new String[] { "cz.muni.fi.publishsubscribe.countingtree.benchmark.Subscribe" });
 
 		/*-for (int i = 0; i < 100; i++) {
