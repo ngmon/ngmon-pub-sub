@@ -23,9 +23,9 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 	private static final String LONG_ATTRIBUTE_NAME_PREFIX = "longAttribute";
 	private static final int ATTRIBUTE_COUNT = 12;
 	private static final long MIN_VALUE = 1000L;
-	private static final long MAX_VALUE = 2000L;
+	private static final long MAX_VALUE = 5000L;
 	private static final long ALWAYS_MATCHING_VALUE = 0L;
-	private static final long NEVER_MATCHING_VALUE = 1000000L;
+	private static final long NEVER_MATCHING_VALUE = 100000000L;
 
 	private static final int PREDICATE_COUNT = 50;
 	private static final int EVENT_COUNT = 1000;
