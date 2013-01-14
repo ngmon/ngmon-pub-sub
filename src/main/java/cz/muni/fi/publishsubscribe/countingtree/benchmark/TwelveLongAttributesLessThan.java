@@ -79,7 +79,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 
 		notMatchingEvent2 = new Event();
 		for (int j = 0; j < ATTRIBUTE_COUNT; j++) {
-			matchingEvent.addAttribute(new Attribute<>(
+			notMatchingEvent2.addAttribute(new Attribute<>(
 					LONG_ATTRIBUTE_NAME_PREFIX + j, new AttributeValue<Long>(
 							NEVER_MATCHING_VALUE, Long.class)));
 		}
