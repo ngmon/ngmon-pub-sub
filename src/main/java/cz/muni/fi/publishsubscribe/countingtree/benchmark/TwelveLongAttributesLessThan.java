@@ -119,7 +119,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch_25(int reps) {
+	public void timeMatchAverage_25(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT / 4; j++) {
 				tree.match(matchingEvent);
@@ -130,7 +130,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch2_25(int reps) {
+	public void timeMatchAverage2_25(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT / 4; j++) {
 				tree.match(matchingEvent);
@@ -141,7 +141,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch_50(int reps) {
+	public void timeMatchAverage_50(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT / 4; j++) {
 				tree.match(matchingEvent);
@@ -152,7 +152,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch2_50(int reps) {
+	public void timeMatchAverage2_50(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT / 4; j++) {
 				tree.match(matchingEvent);
@@ -163,7 +163,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch_75(int reps) {
+	public void timeMatchAverage_75(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT / 4; j++) {
 				tree.match(matchingEvent);
@@ -174,7 +174,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch2_75(int reps) {
+	public void timeMatchAverage2_75(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT / 4; j++) {
 				tree.match(matchingEvent);
@@ -193,7 +193,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch_25_real(int reps) {
+	public void timeMatch_25(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT; j++) {
 				tree.match(matchingEvent25);
@@ -201,7 +201,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch_50_real(int reps) {
+	public void timeMatch_50(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT; j++) {
 				tree.match(matchingEvent50);
@@ -209,7 +209,7 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		}
 	}
 
-	public void timeMatch_75_real(int reps) {
+	public void timeMatch_75(int reps) {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT; j++) {
 				tree.match(matchingEvent75);
