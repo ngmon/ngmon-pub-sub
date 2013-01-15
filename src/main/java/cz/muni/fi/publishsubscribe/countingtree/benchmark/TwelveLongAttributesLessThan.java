@@ -12,13 +12,13 @@ import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
 
 /**
- * 12 Long attributes, operator <
- * every event has all of the 12 attributes, "notMatchingEvent1" matches
- * all attributes (Constraints) except one, "notMatchingEvent2" matches
- * no attribute (Constraint)
+ * 12 Long attributes, operator < every event has all of the 12 attributes,
+ * "notMatchingEvent1" matches all attributes (Constraints) except one,
+ * "notMatchingEvent2" matches no attribute (Constraint)
  */
 public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 
+	private static final int ATTRIBUTE_VALUES_COUNT = 10000;
 	private static final String LONG_ATTRIBUTE_NAME_PREFIX = "longAttribute";
 	private static final int ATTRIBUTE_COUNT = 12;
 	private static final long MIN_VALUE = 1000L;
@@ -26,13 +26,20 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 	private static final long ALWAYS_MATCHING_VALUE = 0L;
 	private static final long NEVER_MATCHING_VALUE = 100000000L;
 
-	private static final int PREDICATE_COUNT = 50;
-	private static final int EVENT_COUNT = 1000;
+	// must be smaller (or much bigger) than MAX_VALUE - MIN_VALUE, otherwise
+	// timeMatch_*_real() benchmarks might not match the required ratio of the
+	// Predicates
+	private static final int PREDICATE_COUNT = 1000;
+	private static final int EVENT_COUNT = 100;
 
 	private CountingTree tree;
 	private Event matchingEvent;
 	private Event notMatchingEvent1;
 	private Event notMatchingEvent2;
+
+	private Event matchingEvent25;
+	private Event matchingEvent50;
+	private Event matchingEvent75;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -82,6 +89,33 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 			notMatchingEvent2.addAttribute(new Attribute<>(
 					LONG_ATTRIBUTE_NAME_PREFIX + j, new AttributeValue<Long>(
 							NEVER_MATCHING_VALUE, Long.class)));
+		}
+
+		long valueFor25 = ((long) (PREDICATE_COUNT * 0.75)) + MIN_VALUE;
+		matchingEvent25 = new Event();
+		for (int j = 0; j < ATTRIBUTE_COUNT; j++) {
+			matchingEvent25
+					.addAttribute(new Attribute<>(LONG_ATTRIBUTE_NAME_PREFIX
+							+ j, new AttributeValue<Long>(j
+							* ATTRIBUTE_VALUES_COUNT + valueFor25, Long.class)));
+		}
+
+		long valueFor50 = ((long) (PREDICATE_COUNT * 0.5)) + MIN_VALUE;
+		matchingEvent50 = new Event();
+		for (int j = 0; j < ATTRIBUTE_COUNT; j++) {
+			matchingEvent50
+					.addAttribute(new Attribute<>(LONG_ATTRIBUTE_NAME_PREFIX
+							+ j, new AttributeValue<Long>(j
+							* ATTRIBUTE_VALUES_COUNT + valueFor50, Long.class)));
+		}
+
+		long valueFor75 = ((long) (PREDICATE_COUNT * 0.25)) + MIN_VALUE;
+		matchingEvent75 = new Event();
+		for (int j = 0; j < ATTRIBUTE_COUNT; j++) {
+			matchingEvent75
+					.addAttribute(new Attribute<>(LONG_ATTRIBUTE_NAME_PREFIX
+							+ j, new AttributeValue<Long>(j
+							* ATTRIBUTE_VALUES_COUNT + valueFor75, Long.class)));
 		}
 	}
 
@@ -155,6 +189,30 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT; j++) {
 				tree.match(matchingEvent);
+			}
+		}
+	}
+
+	public void timeMatch_25_real(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree.match(matchingEvent25);
+			}
+		}
+	}
+
+	public void timeMatch_50_real(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree.match(matchingEvent50);
+			}
+		}
+	}
+
+	public void timeMatch_75_real(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree.match(matchingEvent75);
 			}
 		}
 	}
