@@ -41,6 +41,12 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 	private Event matchingEvent50;
 	private Event matchingEvent75;
 
+	// these events would match all predicates if only
+	// one of the attributes would be different
+	private Event matchingEvent25_2;
+	private Event matchingEvent50_2;
+	private Event matchingEvent75_2;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -116,6 +122,25 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 					.addAttribute(new Attribute<>(LONG_ATTRIBUTE_NAME_PREFIX
 							+ j, new AttributeValue<Long>(j
 							* ATTRIBUTE_VALUES_COUNT + valueFor75, Long.class)));
+		}
+
+		matchingEvent25_2 = new Event();
+		matchingEvent50_2 = new Event();
+		matchingEvent75_2 = new Event();
+		for (int j = 0; j < ATTRIBUTE_COUNT; j++) {
+			boolean half = (j == ATTRIBUTE_COUNT / 2);
+			matchingEvent25_2.addAttribute(new Attribute<>(
+					LONG_ATTRIBUTE_NAME_PREFIX + j, new AttributeValue<Long>(
+							half ? j * ATTRIBUTE_VALUES_COUNT + valueFor25
+									: ALWAYS_MATCHING_VALUE, Long.class)));
+			matchingEvent50_2.addAttribute(new Attribute<>(
+					LONG_ATTRIBUTE_NAME_PREFIX + j, new AttributeValue<Long>(
+							half ? j * ATTRIBUTE_VALUES_COUNT + valueFor50
+									: ALWAYS_MATCHING_VALUE, Long.class)));
+			matchingEvent75_2.addAttribute(new Attribute<>(
+					LONG_ATTRIBUTE_NAME_PREFIX + j, new AttributeValue<Long>(
+							half ? j * ATTRIBUTE_VALUES_COUNT + valueFor75
+									: ALWAYS_MATCHING_VALUE, Long.class)));
 		}
 	}
 
@@ -213,6 +238,30 @@ public class TwelveLongAttributesLessThan extends SimpleBenchmark {
 		for (int i = 0; i < reps; i++) {
 			for (int j = 0; j < EVENT_COUNT; j++) {
 				tree.match(matchingEvent75);
+			}
+		}
+	}
+
+	public void timeMatch2_25(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree.match(matchingEvent25_2);
+			}
+		}
+	}
+
+	public void timeMatch2_50(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree.match(matchingEvent50_2);
+			}
+		}
+	}
+
+	public void timeMatch2_75(int reps) {
+		for (int i = 0; i < reps; i++) {
+			for (int j = 0; j < EVENT_COUNT; j++) {
+				tree.match(matchingEvent75_2);
 			}
 		}
 	}
