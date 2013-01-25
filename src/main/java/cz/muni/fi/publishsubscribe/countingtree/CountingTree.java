@@ -46,6 +46,14 @@ public class CountingTree {
 
 		return subscriptionNextId++;
 	}
+	
+	/**
+	 * Only for compatibility reasons, not intended for common use
+	 */
+	@Deprecated
+	public Long subscribe(Predicate predicate) {
+		return subscribe(predicate, new Subscription());
+	}
 
 	/*-public void createIndexTable() {
 		if (predicates != null && !predicates.isEmpty()) {
