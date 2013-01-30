@@ -18,6 +18,8 @@ public class Filter {
 	private List<Predicate> predicates = new ArrayList<>();
 
 	private Integer cachedHashCode = null;
+	
+	private boolean addedToReset = false;
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean addConstraint(
 			T2 constraint) {
@@ -66,19 +68,24 @@ public class Filter {
 
 	public void resetMatchedCount() {
 		matchedCount = 0;
+		addedToReset = false;
 	}
 
 	public void incrementAddToListIfMatched(List<Subscription> subscriptions,
 			List<Filter> filtersToReset, List<Predicate> predicatesToReset) {
 		if (matchAfterIncrementing()) {
 			for (Predicate predicate : predicates) {
-				predicate.addSubscriptionsToList(subscriptions, predicatesToReset);
+				predicate.addSubscriptionsToList(subscriptions,
+						predicatesToReset);
 			}
 		}
-		
-		filtersToReset.add(this);
+
+		if (!addedToReset) {
+			addedToReset = true;
+			filtersToReset.add(this);
+		}
 	}
-	
+
 	public void addPredicate(Predicate predicate) {
 		predicates.add(predicate);
 	}
@@ -86,7 +93,7 @@ public class Filter {
 	public void removePredicate(Predicate predicate) {
 		predicates.remove(predicate);
 	}
-	
+
 	public boolean noPredicates() {
 		return predicates.isEmpty();
 	}
