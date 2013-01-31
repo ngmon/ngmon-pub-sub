@@ -34,7 +34,7 @@ public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1>
 	}
 
 	// Returning only single Constraint!!
-	public List<Constraint<T1>> getConstraints(T1 attributeValue) {
+	public List<Collection<Constraint<T1>>> getConstraints(T1 attributeValue) {
 
 		Constraint<T1> constraint = this.constraints.get(attributeValue);
 
@@ -45,7 +45,10 @@ public class EqualsIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1>
 		List<Constraint<T1>> constraintList = new ArrayList<>();
 
 		constraintList.add(constraint);
+		
+		List<Collection<Constraint<T1>>> list = new ArrayList<>();
+		list.add(constraintList);
 
-		return constraintList;
+		return list;
 	}
 }

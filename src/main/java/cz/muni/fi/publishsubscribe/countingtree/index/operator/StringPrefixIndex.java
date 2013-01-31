@@ -1,5 +1,7 @@
 package cz.muni.fi.publishsubscribe.countingtree.index.operator;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
@@ -25,8 +27,12 @@ public class StringPrefixIndex implements OperatorIndex<String> {
 	}
 
 	@Override
-	public List<Constraint<String>> getConstraints(String attributeValue) {
-		return tree.getAllPrefixes(attributeValue);
+	public List<Collection<Constraint<String>>> getConstraints(String attributeValue) {
+		List<Constraint<String>> allPrefixes = tree.getAllPrefixes(attributeValue);
+		List<Collection<Constraint<String>>> list = new ArrayList<>();
+		list.add(allPrefixes);
+		
+		return list;
 	}
 
 }
