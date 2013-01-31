@@ -84,17 +84,17 @@ public class FilterMatcher {
 				this.attributeIndex.removeConstraint(constraint);
 			}
 		}*/
-		
+
 		for (Filter filter : predicate.getFilters()) {
 			filter.removePredicate(predicate);
 			if (filter.noPredicates())
 				filters.remove(filter);
-			
+
 			for (Constraint<?> constraint : filter.getConstraints()) {
 				constraint.removeFilter(filter);
 				if (constraint.noFilters())
 					constraints.remove(constraint);
-				
+
 				attributeIndex.removeConstraint(constraint);
 			}
 		}
@@ -125,11 +125,13 @@ public class FilterMatcher {
 		for (Attribute<? extends Comparable<?>> uncastAttribute : attributes) {
 			Attribute<T1> attribute = (Attribute<T1>) uncastAttribute;
 
-			List<T2> foundConstraints = this.attributeIndex.getConstraints(
-					attribute.getName(), attribute.getValue());
-			for (T2 constraint : foundConstraints) {
-				constraint.incrementFiltersCounters(subscriptions,
-						filtersToReset, predicatesToReset);
+			List<Collection<Constraint<T1>>> foundConstraintLists = this.attributeIndex
+					.getConstraints(attribute.getName(), attribute.getValue());
+			for (Collection<Constraint<T1>> foundConstraints : foundConstraintLists) {
+				for (Constraint<T1> constraint : foundConstraints) {
+					constraint.incrementFiltersCounters(subscriptions,
+							filtersToReset, predicatesToReset);
+				}
 			}
 		}
 	}
