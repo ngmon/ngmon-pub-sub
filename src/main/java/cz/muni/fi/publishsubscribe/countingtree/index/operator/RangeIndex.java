@@ -32,7 +32,7 @@ public class RangeIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> 
 	}
 
 	@Override
-	public List<Constraint<T1>> getConstraints(T1 attributeValue) {
+	public List<Collection<Constraint<T1>>> getConstraints(T1 attributeValue) {
 
 		Set<Range<T1>> ranges = this.rangeTree.getRangesContaining(attributeValue);
 
@@ -45,7 +45,10 @@ public class RangeIndex<T1 extends Comparable<T1>> implements OperatorIndex<T1> 
 		for (Range<T1> range : ranges) {
 			constraints.add(this.constraintLookup.get(range));
 		}
+		
+		List<Collection<Constraint<T1>>> list = new ArrayList<>();
+		list.add(constraints);
 
-		return constraints;
+		return list;
 	}
 }
