@@ -118,7 +118,9 @@ public class FilterMatcher {
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> void iterateThroughMatchedConstraints(
 			Event event, List<Subscription> subscriptions,
-			List<Filter> filtersToReset, List<Predicate> predicatesToReset) {
+			Set<Predicate> matchedPredicates) {
+		Map<Filter, Integer> counters = new HashMap<>();
+
 		List<Attribute<? extends Comparable<?>>> attributes = event
 				.getAttributes();
 
@@ -129,13 +131,30 @@ public class FilterMatcher {
 					.getConstraints(attribute.getName(), attribute.getValue());
 			for (Collection<Constraint<T1>> foundConstraints : foundConstraintLists) {
 				for (Constraint<T1> constraint : foundConstraints) {
-					constraint.incrementFiltersCounters(subscriptions,
-							filtersToReset, predicatesToReset);
+					for (Filter filter : constraint.getFilters()) {
+						Integer counter = counters.get(filter);
+						int filterConstraintsSize = filter.getConstraints()
+								.size();
+						boolean matched = (counter != null && (counter >= filterConstraintsSize));
+						if (!matched) {
+							if (counter == null)
+								counter = 0;
+							counters.put(filter, ++counter);
+							matched = (counter >= filterConstraintsSize);
+						}
+						if (matched) {
+							for (Predicate predicate : filter.getPredicates()) {
+								if (!(matchedPredicates.contains(predicate))) {
+									subscriptions.addAll(predicate.getSubscriptions());
+									matchedPredicates.add(predicate);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
 	}
-
 	/*-public List<Filter> getMatchingFilters(Event event) {
 		List<Filter> filters = new ArrayList<>();
 

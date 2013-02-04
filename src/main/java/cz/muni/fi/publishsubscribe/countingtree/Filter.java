@@ -2,6 +2,8 @@ package cz.muni.fi.publishsubscribe.countingtree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Stores one or more Constraints Can be either true of false for a specific
@@ -14,12 +16,9 @@ public class Filter {
 	private Long id = null;
 	private List<Constraint<? extends Comparable<?>>> constraints = new ArrayList<>();
 
-	private Integer matchedCount = 0;
 	private List<Predicate> predicates = new ArrayList<>();
 
 	private Integer cachedHashCode = null;
-	
-	private boolean addedToReset = false;
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean addConstraint(
 			T2 constraint) {
@@ -62,28 +61,14 @@ public class Filter {
 		this.id = id;
 	}
 
-	public boolean matchAfterIncrementing() {
-		return ++matchedCount >= constraints.size();
-	}
-
-	public void resetMatchedCount() {
-		matchedCount = 0;
-		addedToReset = false;
-	}
-
-	public void incrementAddToListIfMatched(List<Subscription> subscriptions,
-			List<Filter> filtersToReset, List<Predicate> predicatesToReset) {
-		if (matchAfterIncrementing()) {
-			for (Predicate predicate : predicates) {
-				predicate.addSubscriptionsToList(subscriptions,
-						predicatesToReset);
-			}
-		}
-
-		if (!addedToReset) {
-			addedToReset = true;
-			filtersToReset.add(this);
-		}
+	public boolean matchAfterIncrementing(Map<Filter, Long> counters) {
+		Long counter = counters.get(this);
+		if (counter != null && counter >= constraints.size())
+			return true;
+		if (counter == null)
+			counter = 0L;
+		counters.put(this, ++counter);
+		return counter >= constraints.size();
 	}
 
 	public void addPredicate(Predicate predicate) {
@@ -96,6 +81,10 @@ public class Filter {
 
 	public boolean noPredicates() {
 		return predicates.isEmpty();
+	}
+
+	public List<Predicate> getPredicates() {
+		return predicates;
 	}
 
 }

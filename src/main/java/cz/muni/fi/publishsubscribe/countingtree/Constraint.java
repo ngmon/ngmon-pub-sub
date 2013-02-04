@@ -2,6 +2,8 @@ package cz.muni.fi.publishsubscribe.countingtree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * An elementary rule which can be either true or false for a specific event
@@ -86,16 +88,13 @@ public class Constraint<T1 extends Comparable<T1>> {
 	public void removeFilter(Filter filter) {
 		filters.remove(filter);
 	}
-	
+
 	public boolean noFilters() {
 		return filters.isEmpty();
 	}
 
-	public void incrementFiltersCounters(List<Subscription> subscriptions,
-			List<Filter> filtersToReset, List<Predicate> predicatesToReset) {
-		for (Filter filter : filters) {
-			filter.incrementAddToListIfMatched(subscriptions, filtersToReset,
-					predicatesToReset);
-		}
+	public List<Filter> getFilters() {
+		return filters;
 	}
+
 }

@@ -2,6 +2,7 @@ package cz.muni.fi.publishsubscribe.countingtree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Stores one or more Filters Can be either true of false for a specific event
@@ -15,7 +16,6 @@ public class Predicate {
 	private List<Filter> filters = new ArrayList<>();
 
 	private List<Subscription> subscriptions = new ArrayList<>();
-	private boolean matched = false;
 
 	private Integer cachedHashCode = null;
 
@@ -67,18 +67,8 @@ public class Predicate {
 		subscriptions.remove(subscription);
 	}
 
-	public void addSubscriptionsToList(List<Subscription> matchedSubscriptions,
-			List<Predicate> predicatesToReset) {
-		if (matched)
-			return;
-
-		matchedSubscriptions.addAll(subscriptions);
-		predicatesToReset.add(this);
-
-		matched = true;
+	public List<Subscription> getSubscriptions() {
+		return subscriptions;
 	}
 
-	public void resetMatched() {
-		matched = false;
-	}
 }

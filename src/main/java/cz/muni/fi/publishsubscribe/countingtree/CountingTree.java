@@ -34,11 +34,11 @@ public class CountingTree {
 		} else {
 			predicate.addSubscription(subscription);
 			predicates.put(predicate, predicate);
-			
+
 			Set<Predicate> predicateSet = new HashSet<>();
 			predicateSet.add(predicate);
 			subscriptionToPredicate.put(subscription, predicate);
-			
+
 			matcher.addPredicate(predicate);
 		}
 
@@ -46,7 +46,7 @@ public class CountingTree {
 
 		return subscriptionNextId++;
 	}
-	
+
 	/**
 	 * Only for compatibility reasons, not intended for common use
 	 */
@@ -72,14 +72,14 @@ public class CountingTree {
 	public boolean unsubscribe(Subscription subscription) {
 		if (subscription.getId() == null)
 			return false;
-		
+
 		if (!subscriptionToPredicate.containsKey(subscription))
 			return false;
-		
+
 		Predicate predicate = subscriptionToPredicate.get(subscription);
 		matcher.removePredicate(predicate);
 		subscriptionToPredicate.remove(subscription);
-		
+
 		return true;
 
 		/*-Predicate predicate = predicateLookup.get(subscription);
@@ -105,10 +105,9 @@ public class CountingTree {
 		}
 
 		List<Subscription> subscriptions = new ArrayList<>();
-		List<Filter> filtersToReset = new ArrayList<>();
-		List<Predicate> predicatesToReset = new ArrayList<>();
+		Set<Predicate> matchedPredicates = new HashSet<>();
 		matcher.iterateThroughMatchedConstraints(event, subscriptions,
-				filtersToReset, predicatesToReset);
+				matchedPredicates);
 
 		// int predicateCount = subscriptionLookup.size();
 		//
@@ -147,14 +146,6 @@ public class CountingTree {
 		// for (Filter filter : matchingFilters) {
 		// filter.resetMatchedCount();
 		// }
-
-		for (Filter filter : filtersToReset) {
-			filter.resetMatchedCount();
-		}
-
-		for (Predicate predicate : predicatesToReset) {
-			predicate.resetMatched();
-		}
 
 		return subscriptions;
 	}
