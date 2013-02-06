@@ -19,6 +19,9 @@ public class Filter {
 	private List<Predicate> predicates = new ArrayList<>();
 
 	private Integer cachedHashCode = null;
+	
+	public Integer counter = 0;
+	public boolean addedToReset = false;
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean addConstraint(
 			T2 constraint) {

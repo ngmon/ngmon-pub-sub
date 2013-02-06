@@ -104,19 +104,16 @@ public class CountingTree {
 		return true;*/
 	}
 
-	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Subscription> match(
-			Event event) {
-
+	private <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Subscription> matchSubscriptions(
+			Event event, List<Filter> filtersToReset,
+			List<Predicate> predicatesToReset) {
 		if (matcher == null) {
 			return new ArrayList<Subscription>();
 		}
-		
+
 		int allSubcriptionsSize = subscriptionToPredicate.size();
 
 		List<Subscription> subscriptions = new ArrayList<>();
-		Set<Predicate> matchedPredicates = new HashSet<>();
-
-		Map<Filter, Integer> counters = new HashMap<>();
 
 		List<Attribute<? extends Comparable<?>>> attributes = event
 				.getAttributes();
@@ -129,22 +126,24 @@ public class CountingTree {
 			for (Collection<Constraint<T1>> foundConstraints : foundConstraintLists) {
 				for (Constraint<T1> constraint : foundConstraints) {
 					for (Filter filter : constraint.getFilters()) {
-						Integer counter = counters.get(filter);
+						if (!filter.addedToReset) {
+							filtersToReset.add(filter);
+							filter.addedToReset = true;
+						}
+						Integer counter = filter.counter;
 						int filterConstraintsSize = filter.getConstraints()
 								.size();
-						boolean matched = (counter != null && (counter >= filterConstraintsSize));
+						boolean matched = (counter >= filterConstraintsSize);
 						if (!matched) {
-							if (counter == null)
-								counter = 0;
-							counters.put(filter, ++counter);
-							matched = (counter >= filterConstraintsSize);
+							filter.counter++;
+							matched = (filter.counter >= filterConstraintsSize);
 						}
 						if (matched) {
 							for (Predicate predicate : filter.getPredicates()) {
-								if (!(matchedPredicates.contains(predicate))) {
+								if (!predicate.addedToReset) {
 									subscriptions.addAll(predicate
 											.getSubscriptions());
-									matchedPredicates.add(predicate);
+									predicate.addedToReset = true;
 									if (subscriptions.size() >= allSubcriptionsSize)
 										return subscriptions;
 								}
@@ -153,6 +152,27 @@ public class CountingTree {
 					}
 				}
 			}
+		}
+
+		return subscriptions;
+	}
+
+	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Subscription> match(
+			Event event) {
+
+		List<Filter> filtersToReset = new ArrayList<>();
+		List<Predicate> predicatesToReset = new ArrayList<>();
+
+		List<Subscription> subscriptions = matchSubscriptions(event,
+				filtersToReset, predicatesToReset);
+
+		for (Filter filter : filtersToReset) {
+			filter.addedToReset = false;
+			filter.counter = 0;
+		}
+
+		for (Predicate predicate : predicatesToReset) {
+			predicate.addedToReset = false;
 		}
 
 		// int predicateCount = subscriptionLookup.size();

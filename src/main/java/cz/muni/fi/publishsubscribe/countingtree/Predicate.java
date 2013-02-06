@@ -18,6 +18,8 @@ public class Predicate {
 	private List<Subscription> subscriptions = new ArrayList<>();
 
 	private Integer cachedHashCode = null;
+	
+	public boolean addedToReset = false;
 
 	public List<Filter> getFilters() {
 		return filters;
