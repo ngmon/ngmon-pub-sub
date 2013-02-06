@@ -130,7 +130,6 @@ public class CountingTree {
 							filtersToReset.add(filter);
 							filter.addedToReset = true;
 						}
-						Integer counter = filter.counter;
 						int filterConstraintsSize = filter.getConstraints()
 								.size();
 						boolean matched = (++filter.counter >= filterConstraintsSize);
