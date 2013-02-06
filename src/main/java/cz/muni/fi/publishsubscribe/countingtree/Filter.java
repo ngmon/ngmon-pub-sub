@@ -46,10 +46,14 @@ public class Filter {
 		}
 	}
 
+	public void computeHashCode() {
+		cachedHashCode = constraints.hashCode();
+	}
+
 	@Override
 	public int hashCode() {
 		if (cachedHashCode == null)
-			cachedHashCode = constraints.hashCode();
+			computeHashCode();
 		return cachedHashCode;
 	}
 

@@ -51,11 +51,15 @@ public class Predicate {
 			return filters.equals(predicate.filters);
 		}
 	}
+	
+	public void computeHashCode() {
+		cachedHashCode = filters.hashCode();
+	}
 
 	@Override
 	public int hashCode() {
 		if (cachedHashCode == null)
-			cachedHashCode = filters.hashCode();
+			computeHashCode();
 		return cachedHashCode;
 	}
 
