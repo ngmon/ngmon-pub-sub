@@ -68,16 +68,6 @@ public class Filter {
 		this.id = id;
 	}
 
-	public boolean matchAfterIncrementing(Map<Filter, Long> counters) {
-		Long counter = counters.get(this);
-		if (counter != null && counter >= constraints.size())
-			return true;
-		if (counter == null)
-			counter = 0L;
-		counters.put(this, ++counter);
-		return counter >= constraints.size();
-	}
-
 	public void addPredicate(Predicate predicate) {
 		predicates.add(predicate);
 	}
