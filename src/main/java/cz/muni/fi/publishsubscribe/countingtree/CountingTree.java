@@ -130,10 +130,7 @@ public class CountingTree {
 							filtersToReset.add(filter);
 							filter.addedToReset = true;
 						}
-						int filterConstraintsSize = filter.getConstraints()
-								.size();
-						boolean matched = (++filter.counter >= filterConstraintsSize);
-						if (matched) {
+						if (++filter.counter >= filter.getConstraints().size()) {
 							for (Predicate predicate : filter.getPredicates()) {
 								if (!predicate.addedToReset) {
 									subscriptions.addAll(predicate
@@ -170,44 +167,6 @@ public class CountingTree {
 		for (Predicate predicate : predicatesToReset) {
 			predicate.addedToReset = false;
 		}
-
-		// int predicateCount = subscriptionLookup.size();
-		//
-		// //Map<Filter, Integer> counters = new HashMap<Filter, Integer>();
-		// Set<Predicate> matched = new HashSet<Predicate>();
-		//
-		// // first get the filters associated to the matching constraints
-		// List<Filter> matchingFilters = matcher.getMatchingFilters(event);
-		//
-		// for (Filter filter : matchingFilters) {
-		//
-		// // increment counter for the filter
-		// /*-Integer count = counters.get(filter);
-		// if (count == null)
-		// count = 0;
-		// counters.put(filter, ++count);
-		//
-		// // filter has matched -> add all subscriptions related to
-		// // all the predicates that contain this filter
-		// if (count.equals(filter.getConstraints().size())) {*/
-		// if (filter.matchAfterIncrementing()) {
-		// Set<Predicate> matchedPredicates = matcher
-		// .getPredicates(filter);
-		// for (Predicate matchedPredicate : matchedPredicates) {
-		// if (!matched.contains(matchedPredicate)) {
-		// subscriptions.addAll(subscriptionLookup
-		// .get(matchedPredicate));
-		// matched.add(matchedPredicate);
-		// if (matched.size() == predicateCount)
-		// break;
-		// }
-		// }
-		// }
-		// }
-		//
-		// for (Filter filter : matchingFilters) {
-		// filter.resetMatchedCount();
-		// }
 
 		return subscriptions;
 	}
