@@ -133,17 +133,14 @@ public class CountingTree {
 						Integer counter = filter.counter;
 						int filterConstraintsSize = filter.getConstraints()
 								.size();
-						boolean matched = (counter >= filterConstraintsSize);
-						if (!matched) {
-							filter.counter++;
-							matched = (filter.counter >= filterConstraintsSize);
-						}
+						boolean matched = (++filter.counter >= filterConstraintsSize);
 						if (matched) {
 							for (Predicate predicate : filter.getPredicates()) {
 								if (!predicate.addedToReset) {
 									subscriptions.addAll(predicate
 											.getSubscriptions());
 									predicate.addedToReset = true;
+									predicatesToReset.add(predicate);
 									if (subscriptions.size() >= allSubcriptionsSize)
 										return subscriptions;
 								}
