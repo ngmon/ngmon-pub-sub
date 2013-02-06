@@ -116,45 +116,12 @@ public class FilterMatcher {
 		return constraints;
 	}*/
 
-	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> void iterateThroughMatchedConstraints(
-			Event event, List<Subscription> subscriptions,
-			Set<Predicate> matchedPredicates) {
-		Map<Filter, Integer> counters = new HashMap<>();
-
-		List<Attribute<? extends Comparable<?>>> attributes = event
-				.getAttributes();
-
-		for (Attribute<? extends Comparable<?>> uncastAttribute : attributes) {
-			Attribute<T1> attribute = (Attribute<T1>) uncastAttribute;
-
-			List<Collection<Constraint<T1>>> foundConstraintLists = this.attributeIndex
-					.getConstraints(attribute.getName(), attribute.getValue());
-			for (Collection<Constraint<T1>> foundConstraints : foundConstraintLists) {
-				for (Constraint<T1> constraint : foundConstraints) {
-					for (Filter filter : constraint.getFilters()) {
-						Integer counter = counters.get(filter);
-						int filterConstraintsSize = filter.getConstraints()
-								.size();
-						boolean matched = (counter != null && (counter >= filterConstraintsSize));
-						if (!matched) {
-							if (counter == null)
-								counter = 0;
-							counters.put(filter, ++counter);
-							matched = (counter >= filterConstraintsSize);
-						}
-						if (matched) {
-							for (Predicate predicate : filter.getPredicates()) {
-								if (!(matchedPredicates.contains(predicate))) {
-									subscriptions.addAll(predicate.getSubscriptions());
-									matchedPredicates.add(predicate);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Collection<Constraint<T1>>> getConstraintLists(
+			Attribute<T1> attribute) {
+		return this.attributeIndex.getConstraints(attribute.getName(),
+				attribute.getValue());
 	}
+
 	/*-public List<Filter> getMatchingFilters(Event event) {
 		List<Filter> filters = new ArrayList<>();
 
