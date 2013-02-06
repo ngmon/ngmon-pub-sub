@@ -25,6 +25,11 @@ public class CountingTree {
 
 	public Long subscribe(Predicate predicate, Subscription subscription) {
 		subscription.setId(subscriptionNextId);
+		
+		// compute hash codes now to slightly improve match() performance
+		predicate.computeHashCode();
+		for (Filter filter : predicate.getFilters())
+			filter.computeHashCode();
 
 		Predicate fullPredicate = predicates.get(predicate);
 		// the same predicate has already been inserted
