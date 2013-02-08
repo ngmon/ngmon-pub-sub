@@ -116,7 +116,7 @@ public class CountingTree {
 		List<Subscription> subscriptions = new ArrayList<>();
 		Set<Predicate> matchedPredicates = new HashSet<>();
 
-		Map<Filter, Integer> counters = new HashMap<>();
+		Map<Long, Integer> counters = new HashMap<>();
 
 		List<Attribute<? extends Comparable<?>>> attributes = event
 				.getAttributes();
@@ -129,14 +129,14 @@ public class CountingTree {
 			for (Collection<Constraint<T1>> foundConstraints : foundConstraintLists) {
 				for (Constraint<T1> constraint : foundConstraints) {
 					for (Filter filter : constraint.getFilters()) {
-						Integer counter = counters.get(filter);
+						Integer counter = counters.get(filter.getId());
 						int filterConstraintsSize = filter.getConstraints()
 								.size();
 						boolean matched = (counter != null && (counter >= filterConstraintsSize));
 						if (!matched) {
 							if (counter == null)
 								counter = 0;
-							counters.put(filter, ++counter);
+							counters.put(filter.getId(), ++counter);
 							matched = (counter >= filterConstraintsSize);
 						}
 						if (matched) {
