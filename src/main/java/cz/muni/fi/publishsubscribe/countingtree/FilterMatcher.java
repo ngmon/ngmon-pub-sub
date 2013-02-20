@@ -13,11 +13,6 @@ public class FilterMatcher {
 
 	private AttributeIndex attributeIndex = new AttributeIndex();
 
-	// private Map<Constraint<? extends Comparable<?>>, Set<Filter>>
-	// reverseLookup = new HashMap<>();
-	// private Map<Filter, Set<Predicate>> filterPredicateLookup = new
-	// HashMap<>();
-
 	private Map<Filter, Filter> filters = new HashMap<>();
 	private Map<Constraint<?>, Constraint<?>> constraints = new HashMap<>();
 
@@ -31,7 +26,6 @@ public class FilterMatcher {
 
 		for (Filter filter : predicateFilters) {
 
-			// Set<Predicate> predicateSet = filterPredicateLookup.get(filter);
 			Filter fullFilter = filters.get(filter);
 			// the filter has already been inserted
 			if (fullFilter != null) {
@@ -61,30 +55,6 @@ public class FilterMatcher {
 	}
 
 	public void removePredicate(Predicate predicate) {
-		// remove the relevant items from reverse lookup maps
-		/*-List<Filter> filters = predicate.getFilters();
-		for (Filter filter : filters) {
-			Set<Predicate> predicateSet = filterPredicateLookup.get(filter);
-			predicateSet.remove(predicate);
-			if (predicateSet.isEmpty()) {
-				filterPredicateLookup.remove(filter);
-			}
-
-			List<Constraint<? extends Comparable<?>>> constraints = filter
-					.getConstraints();
-			for (Constraint<? extends Comparable<?>> constraint : constraints) {
-				Set<Filter> associatedFilters = this.reverseLookup
-						.get(constraint);
-				if (associatedFilters != null) {
-					associatedFilters.remove(filter);
-					if (associatedFilters.isEmpty()) {
-						this.reverseLookup.remove(constraint);
-					}
-				}
-				this.attributeIndex.removeConstraint(constraint);
-			}
-		}*/
-
 		for (Filter filter : predicate.getFilters()) {
 			filter.removePredicate(predicate);
 			if (filter.noPredicates())
@@ -100,45 +70,10 @@ public class FilterMatcher {
 		}
 	}
 
-	/*-public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Constraint<? extends Comparable<?>>> getMatchingConstraints(Event event) {
-		List<Constraint<? extends Comparable<?>>> constraints = new ArrayList<>();
-
-		List<Attribute<? extends Comparable<?>>> attributes = event.getAttributes();
-
-		for (Attribute<? extends Comparable<?>> uncastAttribute :  attributes) {
-			Attribute<T1> attribute = (Attribute<T1>) uncastAttribute;
-
-			List<T2> foundConstraints = this.attributeIndex.getConstraints(attribute.getName(), attribute.getValue());
-
-			constraints.addAll(foundConstraints);
-		}
-
-		return constraints;
-	}*/
-
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Collection<Constraint<T1>>> getConstraintLists(
 			Attribute<T1> attribute) {
 		return this.attributeIndex.getConstraints(attribute.getName(),
 				attribute.getValue());
 	}
 
-	/*-public List<Filter> getMatchingFilters(Event event) {
-		List<Filter> filters = new ArrayList<>();
-
-		for (Constraint c : this.getMatchingConstraints(event)) {
-
-			Set<Filter> foundFilters = this.reverseLookup.get(c);
-
-			if (foundFilters != null) {
-				filters.addAll(foundFilters);
-			}
-
-		}
-
-		return filters;
-	}*/
-
-	/*-public Set<Predicate> getPredicates(Filter filter) {
-		return this.filterPredicateLookup.get(filter);
-	}*/
 }

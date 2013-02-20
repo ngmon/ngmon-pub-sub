@@ -16,7 +16,6 @@ import java.util.Set;
 public class CountingTree {
 
 	private Long subscriptionNextId = 1L;
-	// private Long subscriptionCount = 0L;
 
 	// I need to be able to get the Predicate with all the data (list of
 	// subscriptions)
@@ -48,8 +47,6 @@ public class CountingTree {
 			matcher.addPredicate(predicate);
 		}
 
-		// subscriptionCount++;
-
 		return subscriptionNextId++;
 	}
 
@@ -60,14 +57,6 @@ public class CountingTree {
 	public Long subscribe(Predicate predicate) {
 		return subscribe(predicate, new Subscription());
 	}
-
-	/*-public void createIndexTable() {
-		if (predicates != null && !predicates.isEmpty()) {
-			matcher = new FilterMatcher(predicates);
-		} else {
-			matcher = null;
-		}
-	}*/
 
 	public boolean unsubscribe(Long subscriptionId) {
 		Subscription subscription = new Subscription();
@@ -87,21 +76,6 @@ public class CountingTree {
 		subscriptionToPredicate.remove(subscription);
 
 		return true;
-
-		/*-Predicate predicate = predicateLookup.get(subscription);
-		// this subscription has never been inserted
-		if (predicate == null)
-			return false;
-		
-		Set<Subscription> subscriptionSet = subscriptionLookup.get(predicate);
-		subscriptionSet.remove(subscription);
-		if (subscriptionSet.isEmpty()) {
-			matcher.removePredicate(predicate);
-			subscriptionSet.remove(predicate);
-		}
-		predicateLookup.remove(subscription);
-		
-		return true;*/
 	}
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Subscription> match(
@@ -154,44 +128,6 @@ public class CountingTree {
 				}
 			}
 		}
-
-		// int predicateCount = subscriptionLookup.size();
-		//
-		// //Map<Filter, Integer> counters = new HashMap<Filter, Integer>();
-		// Set<Predicate> matched = new HashSet<Predicate>();
-		//
-		// // first get the filters associated to the matching constraints
-		// List<Filter> matchingFilters = matcher.getMatchingFilters(event);
-		//
-		// for (Filter filter : matchingFilters) {
-		//
-		// // increment counter for the filter
-		// /*-Integer count = counters.get(filter);
-		// if (count == null)
-		// count = 0;
-		// counters.put(filter, ++count);
-		//
-		// // filter has matched -> add all subscriptions related to
-		// // all the predicates that contain this filter
-		// if (count.equals(filter.getConstraints().size())) {*/
-		// if (filter.matchAfterIncrementing()) {
-		// Set<Predicate> matchedPredicates = matcher
-		// .getPredicates(filter);
-		// for (Predicate matchedPredicate : matchedPredicates) {
-		// if (!matched.contains(matchedPredicate)) {
-		// subscriptions.addAll(subscriptionLookup
-		// .get(matchedPredicate));
-		// matched.add(matchedPredicate);
-		// if (matched.size() == predicateCount)
-		// break;
-		// }
-		// }
-		// }
-		// }
-		//
-		// for (Filter filter : matchingFilters) {
-		// filter.resetMatchedCount();
-		// }
 
 		return subscriptions;
 	}
