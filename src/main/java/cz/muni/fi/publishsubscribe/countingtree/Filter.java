@@ -19,9 +19,9 @@ public class Filter {
 	private List<Predicate> predicates = new ArrayList<>();
 
 	private Integer cachedHashCode = null;
-	
-	public Integer counter = 0;
-	public boolean addedToReset = false;
+
+	private Integer counter = 0;
+	private boolean addedToReset = false;
 
 	public <T1 extends Comparable<T1>, T2 extends Constraint<T1>> boolean addConstraint(
 			T2 constraint) {
@@ -82,6 +82,26 @@ public class Filter {
 
 	public List<Predicate> getPredicates() {
 		return predicates;
+	}
+
+	public boolean isAddedToReset() {
+		return addedToReset;
+	}
+
+	public void setAddedToReset() {
+		this.addedToReset = true;
+	}
+	
+	public void clearAddedToReset() {
+		this.addedToReset = false;
+	}
+	
+	public Integer incrementAndGetCounter() {
+		return ++counter;
+	}
+	
+	public void resetCounter() {
+		this.counter = 0;
 	}
 
 }

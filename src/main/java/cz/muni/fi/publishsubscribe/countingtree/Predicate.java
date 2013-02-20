@@ -18,8 +18,8 @@ public class Predicate {
 	private List<Subscription> subscriptions = new ArrayList<>();
 
 	private Integer cachedHashCode = null;
-	
-	public boolean addedToReset = false;
+
+	private boolean addedToReset = false;
 
 	public List<Filter> getFilters() {
 		return filters;
@@ -53,7 +53,7 @@ public class Predicate {
 			return filters.equals(predicate.filters);
 		}
 	}
-	
+
 	public void computeHashCode() {
 		cachedHashCode = filters.hashCode();
 	}
@@ -75,6 +75,18 @@ public class Predicate {
 
 	public List<Subscription> getSubscriptions() {
 		return subscriptions;
+	}
+
+	public boolean isAddedToReset() {
+		return addedToReset;
+	}
+
+	public void setAddedToReset() {
+		this.addedToReset = true;
+	}
+	
+	public void clearAddedToReset() {
+		this.addedToReset = false;
 	}
 
 }

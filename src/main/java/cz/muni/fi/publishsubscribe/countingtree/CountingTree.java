@@ -100,16 +100,16 @@ public class CountingTree {
 			for (Collection<Constraint<T1>> foundConstraints : foundConstraintLists) {
 				for (Constraint<T1> constraint : foundConstraints) {
 					for (Filter filter : constraint.getFilters()) {
-						if (!filter.addedToReset) {
+						if (!filter.isAddedToReset()) {
 							filtersToReset.add(filter);
-							filter.addedToReset = true;
+							filter.setAddedToReset();
 						}
-						if (++filter.counter >= filter.getConstraints().size()) {
+						if (filter.incrementAndGetCounter() >= filter.getConstraints().size()) {
 							for (Predicate predicate : filter.getPredicates()) {
-								if (!predicate.addedToReset) {
+								if (!predicate.isAddedToReset()) {
 									subscriptions.addAll(predicate
 											.getSubscriptions());
-									predicate.addedToReset = true;
+									predicate.setAddedToReset();
 									predicatesToReset.add(predicate);
 									if (subscriptions.size() >= allSubcriptionsSize)
 										return subscriptions;
@@ -134,12 +134,12 @@ public class CountingTree {
 				filtersToReset, predicatesToReset);
 
 		for (Filter filter : filtersToReset) {
-			filter.addedToReset = false;
-			filter.counter = 0;
+			filter.clearAddedToReset();
+			filter.resetCounter();
 		}
 
 		for (Predicate predicate : predicatesToReset) {
-			predicate.addedToReset = false;
+			predicate.clearAddedToReset();
 		}
 
 		return subscriptions;
