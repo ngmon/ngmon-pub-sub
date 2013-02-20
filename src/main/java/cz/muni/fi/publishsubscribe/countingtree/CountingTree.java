@@ -16,7 +16,6 @@ import java.util.Set;
 public class CountingTree {
 
 	private Long subscriptionNextId = 1L;
-	// private Long subscriptionCount = 0L;
 
 	// I need to be able to get the Predicate with all the data (list of
 	// subscriptions)
@@ -48,8 +47,6 @@ public class CountingTree {
 			matcher.addPredicate(predicate);
 		}
 
-		// subscriptionCount++;
-
 		return subscriptionNextId++;
 	}
 
@@ -60,14 +57,6 @@ public class CountingTree {
 	public Long subscribe(Predicate predicate) {
 		return subscribe(predicate, new Subscription());
 	}
-
-	/*-public void createIndexTable() {
-		if (predicates != null && !predicates.isEmpty()) {
-			matcher = new FilterMatcher(predicates);
-		} else {
-			matcher = null;
-		}
-	}*/
 
 	public boolean unsubscribe(Long subscriptionId) {
 		Subscription subscription = new Subscription();
@@ -87,21 +76,6 @@ public class CountingTree {
 		subscriptionToPredicate.remove(subscription);
 
 		return true;
-
-		/*-Predicate predicate = predicateLookup.get(subscription);
-		// this subscription has never been inserted
-		if (predicate == null)
-			return false;
-		
-		Set<Subscription> subscriptionSet = subscriptionLookup.get(predicate);
-		subscriptionSet.remove(subscription);
-		if (subscriptionSet.isEmpty()) {
-			matcher.removePredicate(predicate);
-			subscriptionSet.remove(predicate);
-		}
-		predicateLookup.remove(subscription);
-		
-		return true;*/
 	}
 
 	private <T1 extends Comparable<T1>, T2 extends Constraint<T1>> List<Subscription> matchSubscriptions(
