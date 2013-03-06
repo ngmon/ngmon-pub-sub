@@ -5,6 +5,7 @@
 	<artifactId>counting-tree</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Counting tree</name>
+	<packaging>pom</packaging>
 
 	<dependencies>
 		<dependency>
@@ -21,6 +22,10 @@
 		</dependency>
 
 	</dependencies>
+	
+	<modules>
+		<module>LangParser</module>
+	</modules>
 
 	<build>
 		<plugins>
