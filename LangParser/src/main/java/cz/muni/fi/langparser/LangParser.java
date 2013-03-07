@@ -18,11 +18,18 @@ public class LangParser {
     private String alreadyRead = "";
 
     public LangParser(String attributeName, String input) {
+    	if (attributeName == null)
+    		throw new IllegalArgumentException("attributeName can\'t be null");
+    	if (input == null)
+    		throw new IllegalArgumentException("input can\'t be null");
         this.attributeName = attributeName;
         this.input = input;
     }
 
     public Constraint<?> parse() throws ParseException, IndexOutOfBoundsException {
+    	if (this.attributeName.isEmpty() || this.input.isEmpty())
+    		throw new ParseException("Attribute name or value is empty", 0);
+    	
         AttributeValue<?> av = null;
         Operator operator = null;
 
