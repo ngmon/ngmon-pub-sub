@@ -103,7 +103,11 @@ public class LangParser {
             }
 
             if (current == ':') { //expect time (h:m:s)
-                hour = getInteger(alreadyRead.substring(dateEndsAt));
+            	try {
+            		hour = getInteger(alreadyRead.substring(dateEndsAt));
+            	} catch (IndexOutOfBoundsException e) {
+            		throw new ParseException("IndexOutOfBoundsException", currentPos);
+            	}
                 min = readIntegerUntil(':');
                 alreadyRead += current;
                 String seconds = readString();
