@@ -229,22 +229,30 @@ public class LangParser {
         throw new ParseException(av1.getType() + " not supported", currentPos);
     }
 
-    private char readChar() {
-        char next = input.charAt(currentPos);
-        currentPos++;
-        return next;
-    }
+	private char readChar() throws ParseException {
+		try {
+			char next = input.charAt(currentPos);
+			currentPos++;
+			return next;
+		} catch (IndexOutOfBoundsException e) {
+			throw new ParseException("IndexOutOfBoundsException", currentPos);
+		}
+	}
 
-    private boolean readCharIfNotSpace() {
-        if (input.charAt(currentPos) == ' ') {
-            return false;
-        } else {
-            current = readChar();
-            return true;
-        }
-    }
+	private boolean readCharIfNotSpace() throws ParseException {
+		try {
+			if (input.charAt(currentPos) == ' ') {
+				return false;
+			} else {
+				current = readChar();
+				return true;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			throw new ParseException("IndexOutOfBoundsException", currentPos);
+		}
+	}
     
-    private String readString() {
+    private String readString() throws ParseException {
         String s = "";
         while ((!isLastArg()) && (readCharIfNotSpace())) {
             s += current;
@@ -264,16 +272,21 @@ public class LangParser {
         }
     }
 
-    private boolean accept(char c) {
-        if (input.charAt(currentPos) == c) {
-            currentPos++;
-            return true;
-        } else {
-            return false;
-        }
-    }
+	private boolean accept(char c) throws ParseException {
+		try {
+			if (input.charAt(currentPos) == c) {
+				currentPos++;
+				return true;
+			} else {
+				return false;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			throw new ParseException("IndexOutOfBoundsException", currentPos);
+		}
+	}
 
-    private boolean acceptSpace() { //exactly one space
+	private boolean acceptSpace() throws ParseException { //exactly one space
+    	try {
         if (accept(' ')) {
             if (!isLastArg()) {
                 if (input.charAt(currentPos) == ' ') {
@@ -287,6 +300,9 @@ public class LangParser {
         } else {
             return false;
         }
+    	} catch (IndexOutOfBoundsException e) {
+    		throw new ParseException("IndexOutOfBoundsException", currentPos);
+    	}
     }
 
     private AttributeValue<?> createNumericAttributeValue() throws ParseException {
