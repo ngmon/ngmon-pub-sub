@@ -39,37 +39,37 @@ public class LangParserTestCase { //TODO test the rest
     }
     
     @Test(expected = ParseException.class)
-    public void testFailNotNumberLT() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailNotNumberLT() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#lt -42a");
         parser.parse();
     }
     
     @Test(expected = ParseException.class)
-    public void testFailTooManyArgsLT() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailTooManyArgsLT() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#lt 10 20");
         parser.parse();
     }
     
     @Test(expected = ParseException.class)
-    public void testFailStringArgLT() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailStringArgLT() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#lt blabla");
         parser.parse();
     }
     
     @Test(expected = ParseException.class)
-    public void testFailNoSpaceLT() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailNoSpaceLT() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#lt_5");
         parser.parse();
     }
     
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testFailNoArgsLT() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    @Test(expected = ParseException.class)
+    public void testFailNoArgsLT() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#lt ");
         parser.parse();
     }
     
     @Test(expected = ParseException.class)
-    public void testFailSpaceAtTheEndLT() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailSpaceAtTheEndLT() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#lt 0 ");
         parser.parse();
     }
@@ -102,7 +102,7 @@ public class LangParserTestCase { //TODO test the rest
     }
     
     @Test(expected = ParseException.class)
-    public void testFailNotNumberGT() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailNotNumberGT() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#gt -42a");
         parser.parse();
     }
@@ -159,13 +159,13 @@ public class LangParserTestCase { //TODO test the rest
     }
     
     @Test(expected = ParseException.class)
-    public void testFailNoArgsButSpaceEQ() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailNoArgsButSpaceEQ() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#eq  ");
         parser.parse();
     }
     
     @Test(expected = ParseException.class)
-    public void testFailNoClosingQuoteEQ() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailNoClosingQuoteEQ() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#eq 'no closing quote");
         parser.parse();
     }
@@ -187,19 +187,19 @@ public class LangParserTestCase { //TODO test the rest
     }
     
     @Test(expected = ParseException.class)
-    public void testFailSpaceAtTheEndPref() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailSpaceAtTheEndPref() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#pref space ");
         parser.parse();
     }
     
     @Test(expected = ParseException.class)
-    public void testFailNoClosingQuotePref() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailNoClosingQuotePref() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#pref 'no closing quote");
         parser.parse();
     }
     
     @Test(expected = ParseException.class)
-    public void testFailOpMisspelledPREF() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailOpMisspelledPREF() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#pre abc");
         parser.parse();
     }
@@ -217,14 +217,20 @@ public class LangParserTestCase { //TODO test the rest
     }
     
     @Test(expected = ParseException.class)
-    public void testFailTypeMismatchRNG() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailTypeMismatchRNG() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#rng 10 dvanast");
         parser.parse();
     }
     
     @Test(expected = ParseException.class)
-    public void testFailUnexpSpaceRNG() throws IndexOutOfBoundsException, UnsupportedOperationException, ParseException {
+    public void testFailUnexpSpaceRNG() throws UnsupportedOperationException, ParseException {
         LangParser parser = new LangParser(ATTRIBUTE_NAME, "#rng 10  30");
         parser.parse();
+    }
+    
+    @Test(expected = ParseException.class)
+    public void testFailOnlyAttributeValueMissing() throws ParseException {
+    	LangParser parser = new LangParser(ATTRIBUTE_NAME, "#eq");
+    	parser.parse();
     }
 }
