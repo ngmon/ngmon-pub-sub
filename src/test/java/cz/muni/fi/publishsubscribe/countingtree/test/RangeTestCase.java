@@ -1,12 +1,22 @@
 package cz.muni.fi.publishsubscribe.countingtree.test;
 
-import cz.muni.fi.publishsubscribe.countingtree.*;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+
+import cz.muni.fi.publishsubscribe.countingtree.Attribute;
+import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
+import cz.muni.fi.publishsubscribe.countingtree.Constraint;
+import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
+import cz.muni.fi.publishsubscribe.countingtree.EventImpl;
+import cz.muni.fi.publishsubscribe.countingtree.Filter;
+import cz.muni.fi.publishsubscribe.countingtree.LongRange;
+import cz.muni.fi.publishsubscribe.countingtree.Operator;
+import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 public class RangeTestCase {
 
@@ -50,7 +60,7 @@ public class RangeTestCase {
 
 	@Test
 	public void testMatchRange() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(STRING_ATTRIBUTE);
 		event.addAttribute(LONG_ATTRIBUTE1);
 
@@ -60,7 +70,7 @@ public class RangeTestCase {
 
 	@Test
 	public void testNoMatchRange() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(STRING_ATTRIBUTE);
 		event.addAttribute(LONG_ATTRIBUTE2);
 

@@ -104,7 +104,7 @@ public class UnsubscribeTestCase {
 		boolean wasSubscribed = tree.unsubscribe(subscription04);
 		assertTrue(wasSubscribed);
 
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR, new AttributeValue<>(
 				APACHE_SERVER, String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR, new AttributeValue<>(
@@ -130,7 +130,7 @@ public class UnsubscribeTestCase {
 	
 	@Test
 	public void postgreSql3000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>(POSTGRE_SQL, String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,

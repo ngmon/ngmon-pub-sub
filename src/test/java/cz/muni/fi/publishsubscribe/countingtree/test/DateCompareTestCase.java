@@ -15,7 +15,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Attribute;
 import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
-import cz.muni.fi.publishsubscribe.countingtree.Event;
+import cz.muni.fi.publishsubscribe.countingtree.EventImpl;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
@@ -99,7 +99,7 @@ public class DateCompareTestCase {
 
 	@Test
 	public void test2000_01_01_20_00_00() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(2000, 1, 1, 20, 0, 0), Date.class)));
 		
@@ -111,7 +111,7 @@ public class DateCompareTestCase {
 	
 	@Test
 	public void test1980_01_01_20_00_00() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(1980, 1, 1, 20, 0, 0), Date.class)));
 		
@@ -123,7 +123,7 @@ public class DateCompareTestCase {
 	
 	@Test
 	public void test1995_01_01_20_00_00() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(1995, 1, 1, 20, 0, 0), Date.class)));
 		
@@ -136,7 +136,7 @@ public class DateCompareTestCase {
 	
 	@Test
 	public void test2005_01_01_20_00_00() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(2005, 1, 1, 20, 0, 0), Date.class)));
 		
@@ -147,7 +147,7 @@ public class DateCompareTestCase {
 	
 	@Test
 	public void test2015_01_01_20_00_00() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(ATTRIBUTE_1, new AttributeValue<>(
 				getDate(2015, 1, 1, 20, 0, 0), Date.class)));
 		

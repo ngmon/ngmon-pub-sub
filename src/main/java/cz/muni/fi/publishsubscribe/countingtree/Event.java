@@ -1,18 +1,9 @@
 package cz.muni.fi.publishsubscribe.countingtree;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Event {
+public interface Event {
 
-	private List<Attribute<? extends Comparable<?>>> attributes = new ArrayList<>();
-
-	public boolean addAttribute(Attribute<? extends Comparable<?>> attribute) {
-		return this.attributes.add(attribute);
-	}
-
-	public List<Attribute<? extends Comparable<?>>> getAttributes() {
-		return attributes;
-	}
+	public List<Attribute<? extends Comparable<?>>> getAttributes();
 
 }
