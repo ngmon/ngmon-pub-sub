@@ -1,13 +1,22 @@
 package cz.muni.fi.publishsubscribe.countingtree.test;
 
-import cz.muni.fi.publishsubscribe.countingtree.*;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
+
+import cz.muni.fi.publishsubscribe.countingtree.Attribute;
+import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
+import cz.muni.fi.publishsubscribe.countingtree.Constraint;
+import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
+import cz.muni.fi.publishsubscribe.countingtree.EventImpl;
+import cz.muni.fi.publishsubscribe.countingtree.Filter;
+import cz.muni.fi.publishsubscribe.countingtree.Operator;
+import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 public class ComplexTreeTestCase {
 
@@ -104,7 +113,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void testNoMatchingSubscribers() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>("foo", String.class)));
 
@@ -114,7 +123,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void testApacheEvent() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>(APACHE_SERVER, String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -127,7 +136,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void testApache1000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>(APACHE_SERVER, String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -140,7 +149,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void testApache999Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>(APACHE_SERVER, String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -154,7 +163,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void testFoo2000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>("foo", String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -166,7 +175,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void testFoo3000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>("foo", String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -179,7 +188,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void postgreSql3000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>(POSTGRE_SQL, String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -194,7 +203,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void postgreSql1000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>(POSTGRE_SQL, String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -207,7 +216,7 @@ public class ComplexTreeTestCase {
 
 	@Test
 	public void testApache3000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(APPLICATION_ATTR,
 				new AttributeValue<>(APACHE_SERVER, String.class)));
 		Attribute<Long> attribute = new Attribute<>(PROCESS_ID_ATTR,

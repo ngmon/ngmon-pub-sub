@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
@@ -13,7 +12,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Attribute;
 import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
-import cz.muni.fi.publishsubscribe.countingtree.Event;
+import cz.muni.fi.publishsubscribe.countingtree.EventImpl;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
@@ -34,7 +33,7 @@ public class VariousTestCase {
 	public void testEmptyTree() {
 		CountingTree tree = new CountingTree();
 
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>("app", new AttributeValue<>("foo",
 				String.class)));
 

@@ -12,7 +12,7 @@ import cz.muni.fi.publishsubscribe.countingtree.Attribute;
 import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
-import cz.muni.fi.publishsubscribe.countingtree.Event;
+import cz.muni.fi.publishsubscribe.countingtree.EventImpl;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
@@ -90,7 +90,7 @@ public class StringPrefixTestCase {
 
 	@Test
 	public void testNoMatchingSubscribers() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"foo", String.class)));
 
@@ -100,7 +100,7 @@ public class StringPrefixTestCase {
 
 	@Test
 	public void testNoMatchingSubscribers2() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"com", String.class)));
 
@@ -110,7 +110,7 @@ public class StringPrefixTestCase {
 
 	@Test
 	public void testComJavaPrefix() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"com.java", String.class)));
 
@@ -121,7 +121,7 @@ public class StringPrefixTestCase {
 
 	@Test
 	public void testComJavaGlassfishPid500() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"com.java.glassfish", String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -135,7 +135,7 @@ public class StringPrefixTestCase {
 	
 	@Test
 	public void testComPid500() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"com", String.class)));
 		event.addAttribute(new Attribute<>(PROCESS_ID_ATTR,
@@ -148,7 +148,7 @@ public class StringPrefixTestCase {
 	
 	@Test
 	public void testNetPrefix() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(new Attribute<>(PACKAGE_ATTR, new AttributeValue<>(
 				"net.foo", String.class)));
 		

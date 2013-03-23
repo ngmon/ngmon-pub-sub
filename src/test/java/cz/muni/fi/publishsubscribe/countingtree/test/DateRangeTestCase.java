@@ -15,7 +15,7 @@ import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
 import cz.muni.fi.publishsubscribe.countingtree.Constraint;
 import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
 import cz.muni.fi.publishsubscribe.countingtree.DateRange;
-import cz.muni.fi.publishsubscribe.countingtree.Event;
+import cz.muni.fi.publishsubscribe.countingtree.EventImpl;
 import cz.muni.fi.publishsubscribe.countingtree.Filter;
 import cz.muni.fi.publishsubscribe.countingtree.Operator;
 import cz.muni.fi.publishsubscribe.countingtree.Predicate;
@@ -57,7 +57,7 @@ public class DateRangeTestCase {
 
 	@Test
 	public void testMatchRange() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(STRING_ATTRIBUTE);
 		Calendar cal = new GregorianCalendar();
 		cal.set(2001, 4, 1, 1, 2, 3);
@@ -70,7 +70,7 @@ public class DateRangeTestCase {
 
 	@Test
 	public void testNoMatchRange() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(STRING_ATTRIBUTE);
 		Calendar cal = new GregorianCalendar();
 		cal.set(2001, 5, 5, 18, 20, 1);

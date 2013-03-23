@@ -1,13 +1,22 @@
 package cz.muni.fi.publishsubscribe.countingtree.test;
 
-import cz.muni.fi.publishsubscribe.countingtree.*;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
+
+import cz.muni.fi.publishsubscribe.countingtree.Attribute;
+import cz.muni.fi.publishsubscribe.countingtree.AttributeValue;
+import cz.muni.fi.publishsubscribe.countingtree.Constraint;
+import cz.muni.fi.publishsubscribe.countingtree.CountingTree;
+import cz.muni.fi.publishsubscribe.countingtree.EventImpl;
+import cz.muni.fi.publishsubscribe.countingtree.Filter;
+import cz.muni.fi.publishsubscribe.countingtree.Operator;
+import cz.muni.fi.publishsubscribe.countingtree.Predicate;
+import cz.muni.fi.publishsubscribe.countingtree.Subscription;
 
 public class EqualityTestCase {
 
@@ -176,7 +185,7 @@ public class EqualityTestCase {
 
 	@Test
 	public void testNoMatchingSubscribers() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(STRING_ATTRIBUTE_FOO);
 		event.addAttribute(ATTRIBUTE_1234L);
 		event.addAttribute(LONG_ATTRIBUTE_SEVERITY);
@@ -187,7 +196,7 @@ public class EqualityTestCase {
 
 	@Test
 	public void testApacheEvent() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(ATTRIBUTE_APACHE_SERVER);
 		event.addAttribute(ATTRIBUTE_1234L);
 
@@ -200,7 +209,7 @@ public class EqualityTestCase {
 
 	@Test
 	public void testApache1000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(ATTRIBUTE_APACHE_SERVER);
 		event.addAttribute(ATTRIBUTE1000L);
 
@@ -215,7 +224,7 @@ public class EqualityTestCase {
 
 	@Test
 	public void testApache2000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(ATTRIBUTE_APACHE_SERVER);
 		event.addAttribute(ATTRIBUTE_2000L);
 
@@ -229,7 +238,7 @@ public class EqualityTestCase {
 
 	@Test
 	public void testPostgreSqlEvent() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(ATTRIBUTE_POSTGRE_SQL);
 		event.addAttribute(ATTRIBUTE_2000L);
 
@@ -242,7 +251,7 @@ public class EqualityTestCase {
 
 	@Test
 	public void testProcessId1000Event() {
-		Event event = new Event();
+		EventImpl event = new EventImpl();
 		event.addAttribute(ATTRIBUTE1000L);
 
 		List<Subscription> predicates = tree.match(event);
