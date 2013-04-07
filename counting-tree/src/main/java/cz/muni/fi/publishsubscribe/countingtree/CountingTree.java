@@ -72,8 +72,14 @@ public class CountingTree {
 			return false;
 
 		Predicate predicate = subscriptionToPredicate.get(subscription);
-		matcher.removePredicate(predicate);
 		subscriptionToPredicate.remove(subscription);
+		
+		predicate.removeSubscription(subscription);
+		// no subscriptions using this predicate -> remove it
+		if (predicate.getSubscriptions().isEmpty()) {
+			matcher.removePredicate(predicate);
+			predicates.remove(predicate);
+		}
 
 		return true;
 	}

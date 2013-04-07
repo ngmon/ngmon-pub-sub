@@ -54,8 +54,8 @@ public class VariousTestCase {
 	@Test(expected = IllegalArgumentException.class)
 	public void testUnsupportedOperator() {
 		@SuppressWarnings("unused")
-		Constraint<String> illegalConstraint = new Constraint<>("foo",
-				new AttributeValue<>("foo", String.class), Operator.RANGE);
+		Constraint<String> illegalConstraint = new Constraint<>("foo", new AttributeValue<>("foo", String.class),
+				Operator.RANGE);
 	}
 
 	@Test
@@ -72,8 +72,8 @@ public class VariousTestCase {
 	public void removeConstraintFromEqualsIndexTwice() {
 		CountingTree tree = new CountingTree();
 
-		Constraint<String> constraint = new Constraint<>("foo",
-				new AttributeValue<>("foo", String.class), Operator.EQUALS);
+		Constraint<String> constraint = new Constraint<>("foo", new AttributeValue<>("foo", String.class),
+				Operator.EQUALS);
 		Filter filter = new Filter();
 		filter.addConstraint(constraint);
 		Predicate predicate = new Predicate();
@@ -82,6 +82,30 @@ public class VariousTestCase {
 		long subscriptionId = tree.subscribe(predicate, new Subscription());
 		assertTrue(tree.unsubscribe(subscriptionId));
 		assertFalse(tree.unsubscribe(subscriptionId));
+	}
+
+	@Test
+	public void subscribeUnsubscribeSubscribe() {
+		CountingTree tree = new CountingTree();
+
+		Constraint<String> constraint = new Constraint<>("foo", new AttributeValue<>("foo", String.class),
+				Operator.EQUALS);
+		Filter filter = new Filter();
+		filter.addConstraint(constraint);
+		Predicate predicate = new Predicate();
+		predicate.addFilter(filter);
+
+		long subscriptionId = tree.subscribe(predicate, new Subscription());
+
+		EventImpl event = new EventImpl();
+		event.addAttribute(new Attribute<>("foo", new AttributeValue<>("foo", String.class)));
+		assertEquals(1, tree.match(event).size());
+		
+		assertTrue(tree.unsubscribe(subscriptionId));
+		assertEquals(0, tree.match(event).size());
+		
+		subscriptionId = tree.subscribe(predicate, new Subscription());
+		assertEquals(1, tree.match(event).size());
 	}
 
 }
