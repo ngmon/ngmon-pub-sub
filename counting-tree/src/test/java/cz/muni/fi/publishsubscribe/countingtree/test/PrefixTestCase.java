@@ -20,8 +20,10 @@ public class PrefixTestCase {
 	private static final int CZ_MUNI_PREFIX_VALUE = 6;
 	private static final int CZ_MUNI_FI_PREFIX_VALUE = 7;
 	private static final int CZ_MUNI_PED_PREFIX_VALUE = 8;
+	private static final int CON_PREFIX_VALUE = 9;
 
 	private static final String COM_PREFIX = "com";
+	private static final String CON_PREFIX = "con";
 	private static final String COM_JAVA_PREFIX = "com.java";
 	private static final String COM_JAVA_GLASSFISH_PREFIX = "com.java.glassfish";
 	private static final String NET_PREFIX = "net";
@@ -42,6 +44,7 @@ public class PrefixTestCase {
 		tree.put(CZ_MUNI_PREFIX, CZ_MUNI_PREFIX_VALUE);
 		tree.put(CZ_MUNI_FI_PREFIX, CZ_MUNI_FI_PREFIX_VALUE);
 		tree.put(CZ_MUNI_PED_PREFIX, CZ_MUNI_PED_PREFIX_VALUE);
+		tree.put(CON_PREFIX, CON_PREFIX_VALUE);
 	}
 
 	@Test
@@ -104,6 +107,20 @@ public class PrefixTestCase {
 		assertEquals(2, integers.size());
 		assertTrue(integers.contains(CZ_PREFIX_VALUE));
 		assertTrue(integers.contains(CZ_MUNI_PREFIX_VALUE));
+	}
+	
+	@Test
+	public void testCom() {
+		List<Integer> integers = tree.getAllPrefixes(COM_PREFIX);
+		assertEquals(1, integers.size());
+		assertTrue(integers.contains(COM_PREFIX_VALUE));
+	}
+	
+	@Test
+	public void testCon() {
+		List<Integer> integers = tree.getAllPrefixes(CON_PREFIX);
+		assertEquals(1, integers.size());
+		assertTrue(integers.contains(CON_PREFIX_VALUE));
 	}
 
 }

@@ -1013,8 +1013,10 @@ public final class TernarySearchTree<V extends Object>
     	int child = LEFT;
     	
     	while (node != null && index < length) {
-    		if (node.isKey())
-    			values.add(node.value());
+    		if (node.isKey()) {
+    			if (node._key.charAt(index) == key.charAt(index))
+    				values.add(node.value());
+    		}
     		child = node.split(key.charAt(index));
     		node = node.child(child + 1);
     		index += ((Math.abs(child) * -1) + 1);
