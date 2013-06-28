@@ -24,7 +24,7 @@
 	</dependencies>
 	
 	<modules>
-		<module>langparser</module>
+		<module>lang-parser</module>
 		<module>counting-tree</module>
 	</modules>
 
