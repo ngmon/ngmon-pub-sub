@@ -6,8 +6,9 @@
 		<artifactId>subscription-tree</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>LangParser</artifactId>
-	<name>LangParser</name>
+	<artifactId>langparser</artifactId>
+
+	<name>PubSub - Lang Parser</name>
 	<build>
 		<plugins>
 			<plugin>
